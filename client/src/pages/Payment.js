@@ -113,7 +113,7 @@ const Payment = () => {
         nonce,
         cart, 
         address
-      });
+      }); 
       console.log(data)
       setLoading(false);
       localStorage.removeItem("cart");
@@ -121,7 +121,12 @@ const Payment = () => {
       navigate( `/dashboard/user/order/${data.order._id}` );
       toast.success("Pago completado correctamente, gracias por su compra");
     } catch (error) {
-      toast.danger(error);
+
+      if(error.message === "No payment method is available."){
+        toast.error("No ha seleccionado un metodo de pago");
+      }else{
+        toast.error("Error al realizar el pago")
+      } 
       console.log(error);
       setLoading(false);
     }
@@ -191,27 +196,27 @@ const Payment = () => {
                     <h4>
                       <strong>Dirección de entrega</strong>
                     </h4>
-                    <h5>
+                    <p>
                       <strong>Estado:</strong> {address.estado}
-                    </h5>
-                    <h5>
+                    </p>
+                    <p>
                       <strong>Municipio:</strong> {address.municipio}
-                    </h5>
-                    <h5>
+                    </p>
+                    <p>
                       <strong>Parroquia:</strong> {address.parroquia}
-                    </h5>
-                    <h5>
+                    </p>
+                    <p>
                       <strong>Zona:</strong> {address.zona}
-                    </h5>
-                    <h5>
+                    </p>
+                    <p>
                       <strong>Código Postal:</strong> {address.codigoPostal}
-                    </h5>
-                    <h5>
+                    </p>
+                    <p>
                       <strong>Servicio de Entrega:</strong> {address.servicioEntrega}
-                    </h5>
-                    <h5>
+                    </p>
+                    <p>
                       <strong>Contacto:</strong> {address.telefono}
-                    </h5>
+                    </p>
                     <button
                       className="btn btn-outline-warning"
                       onClick={() => navigate("/checkout")}

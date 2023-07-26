@@ -323,6 +323,11 @@ body{
     flex: 0 0 auto;
     width: 24.666667%;
 }
+
+.col-md-7 {
+  flex: 0 0 auto;
+  width: 54.333333% !important;
+}
     
   }
 
@@ -438,6 +443,20 @@ body{
 
 .ant-table-wrapper{
   overflow: scroll;
+}
+
+.braintree-options-list {
+  margin: 0 auto;
+  padding-bottom: 5px;
+  width: 92%;
+}
+
+.botonPago button {
+  color: #ffff;
+  border: 1px solid #059669;
+  background: #059669;
+  background: linear-gradient( to right, #0e7490, #037953 );
+  width: 100%;
 }
 
 .fixed-cart-icon{

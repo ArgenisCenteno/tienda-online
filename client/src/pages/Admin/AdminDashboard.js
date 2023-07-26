@@ -14,10 +14,14 @@ const AdminDashboard = () => {
             <AdminMenu />
           </div>
           <div className="col-md-9">
-            <div className="card w-75 p-3">
-              <h3> Administrador : {auth?.user?.name}</h3>
-              <h3> Email : {auth?.user?.email}</h3>
-              <h3> Telefono : {auth?.user?.phone}</h3>
+            <div className="card w-100 p-3">
+              <h5> Administrador : <br/> </h5>
+              <p>{auth?.user?.name} </p> 
+              <h5> Email : <br/>  </h5>
+               <p>{auth?.user?.email} </p> 
+              <h5> Telefono : <br/></h5> 
+              <p> {auth?.user?.phone} </p>
+             
             </div>
           </div>
         </div>
