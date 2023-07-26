@@ -178,7 +178,7 @@ const Register = () => {
                     <label style={{ fontSize: "12px", marginBottom: "6px" }}>
                       <strong>Clave</strong>
                     </label>
-                    <div className="col-9">
+                    <div className="col-9" style={{ position: "relative" }}>
                       <input
                         onChange={(e) => setPassword(e.target.value)}
                         type={shown ? "text" : "password"}
@@ -188,18 +188,19 @@ const Register = () => {
                         placeholder="Ingresa tu clave"
                         required
                       />
-                    </div>
-                    <div className="col-3">
                       <button
                         type="button"
                         style={{
-                          backgroundColor: "white",
-                          padding: "4px",
+                          backgroundColor: "transparent",
+                          
                           border: "none",
                           color: "#059669",
-                          marginBottom: "4px",
+                          marginRight: "8px",
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
                         }}
-                        className="mb-3 "
                         onClick={() => setShown(!shown)}
                       >
                         {shown ? <FaEye /> : <FaEyeSlash />}
@@ -218,7 +219,7 @@ const Register = () => {
                     <label style={{ fontSize: "12px", marginBottom: "6px", marginTop: "6px" }}>
                       <strong>Confirmar Clave</strong>
                     </label>
-                    <div className="col-9">
+                    <div className="col-9" style={{ position: "relative" }}>
                       <input
                         onChange={(e) => setConfirmedPassword(e.target.value)}
                         type={confirmedShown ? "text" : "password"}
@@ -228,18 +229,19 @@ const Register = () => {
                         placeholder="Confirmar clave"
                         required
                       />
-                    </div>
-                    <div className="col-3">
                       <button
                         type="button"
                         style={{
-                          backgroundColor: "white",
-                          padding: "4px",
+                          backgroundColor: "transparent",
+                         
                           border: "none",
                           color: "#059669",
-                          marginBottom: "4px",
+                          marginRight: "8px",
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
                         }}
-                        className="mb-3 "
                         onClick={() => setConfirmedShown(!confirmedShown)}
                       >
                         {confirmedShown ? <FaEye /> : <FaEyeSlash />}

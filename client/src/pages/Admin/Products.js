@@ -77,13 +77,13 @@ const Products = () => {
 
   return (
     <Layout>
-      <div className="row container-fluid m-3 p-3 dashboard">
+      <div className="row container-fluid   p-3 dashboard">
         <div className="col-md-3">
           <AdminMenu />
         </div>
 
         <div className="col-md-8">
-          <h1>Todos los productos</h1>
+          <h1 className='mt-4 mb-4'>Todos los productos</h1>
           <Table
             columns={columns}
             rowKey={(record) => record._id}

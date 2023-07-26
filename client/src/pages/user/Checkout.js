@@ -93,7 +93,7 @@ const Checkout = () => {
   return (
     <Layout>
       <div className="container mt-5">
-        <div className="row">
+        <div className="row justify-content-center form-address">
           <div className="col-10 col-md-6">
             <h1 style={{ color: "#047450" }}>Datos de entrega</h1>
             <a href="https://wa.link/ticqhf" target="_blank">
@@ -143,7 +143,7 @@ const Checkout = () => {
                 <input type="checkbox" className="form-check-input" onChange={handleCheckboxChange} />
                 <strong><label className="form-check-label">Soy de Achaguas</label></strong>
               </div>
-              <button type="submit" className="btn btn-primary mt-3" disabled={!isFormComplete}>
+              <button type="submit" className="btn btn-success mt-3" disabled={!isFormComplete}>
                 Continuar
               </button>
             </form>
@@ -156,7 +156,7 @@ const Checkout = () => {
             </div>
             <div className="row justify-content-center">
               <div className="col-10 col-md-10 text-left mb-3">
-                <h2>Tenemos delivery en Achaguas, para envíos nacionales contacte con Atención al Cliente</h2>
+                <h2>Tenemos delivery en Achaguas, para envíos nacionales contacte con Atención al Cliente presionando el icono de WhatsApp</h2>
               </div>
             </div>
           </div>

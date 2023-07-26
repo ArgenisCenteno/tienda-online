@@ -85,42 +85,41 @@ const Login = () => {
                     )}
                   </div>
                   <div className="mb-0 row">
-                    <label
-                      style={{ fontSize: "12px", marginBottom: "6px" }}
-                    >
-                      <strong>Clave</strong>
-                    </label>
+  <label style={{ fontSize: "12px", marginBottom: "6px" }}>
+    <strong>Clave</strong>
+  </label>
 
-                    <div className="col-9">
-                      <input
-                        onChange={onChange}
-                        type={shown ? "text" : "password"}
-                        value={password}
-                        className="form-control"
-                        id="exampleInputPassword1"
-                        placeholder="Ingresa tu clave"
-                        required
-                      />
-                    </div>
-                    <div className="col-3">
-                      <button
-                        type="button"
-                        style={{
-                          backgroundColor: "white",
-                          padding: "4px",
-                          border: "none",
-                          color: "#059669",
-                          marginBottom: "4px",
-                        }}
-                        className=" mb-3 "
-                        onClick={switchShown}
-                      >
-                        {shown ? <FaEye /> : <FaEyeSlash />}
-                      </button>
-                    </div>
-                  </div>
+  <div className="col-9">
+    <div style={{ position: "relative" }}>
+      <input
+        onChange={onChange}
+        type={shown ? "text" : "password"}
+        value={password}
+        className="form-control"
+        id="exampleInputPassword1"
+        placeholder="Ingresa tu clave"
+        required
+      />
+      <button
+        type="button"
+        style={{
+          position: "absolute",
+          right: "10px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          backgroundColor: "transparent",
+          border: "none",
+          color: "#059669",
+        }}
+        onClick={switchShown}
+      >
+        {shown ? <FaEye /> : <FaEyeSlash />}
+      </button>
+    </div>
+  </div>
+</div>
 
-                  <button type="submit" className="btn btn-primary ingresar">
+                  <button type="submit" className="btn btn-primary ingresar mt-4">
                     Ingresar
                   </button>
                   <p className="mt-4">¿No estas registrado? pulsa <Link to="/register">aquí</Link> </p>

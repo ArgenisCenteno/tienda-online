@@ -61,13 +61,13 @@ const Orders = () => {
 
   return (
     <Layout title={"Historial de órdenes"}>
-      <div className="container-fluid p-3 m-3 dashboard">
+      <div className="container-fluid p-3 dashboard">
         <div className="row">
           <div className="col-md-3">
             <UserMenu />
           </div>
           <div className="col-md-9">
-            <h1 className="text-center">Historial de órdenes</h1>
+            <h1 className="text-center mt-4 mb-4">Historial de órdenes</h1>
             {orders?.map((o, i) => (
               <div key={o?._id} className="border shadow mb-4">
                 <div className="table-responsive">

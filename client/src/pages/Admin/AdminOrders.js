@@ -139,16 +139,23 @@ const AdminOrders = () => {
         </Select>
       ), // Renderizar un select para cambiar el estado de la orden
     },
+    {
+      title: 'Detalles',
+      key: 'orderDetails',
+      render: (text, record) => (
+        <a href={ `/dashboard/admin/order/${record?._id} `}>Aqui</a>
+      ),  
+    },
   ];
 
   return (
     <Layout>
-      <div className="row container-fluid m-3 p-3 dashboard">
+      <div className="row container-fluid  p-3 dashboard">
         <div className="col-md-3">
           <AdminMenu />
         </div>
         <div className="col-md-9">
-          <h1>Todas las órdenes</h1>
+          <h1 className='mt-4 mb-4'>Todas las órdenes</h1>
           <Table
             columns={columns}
             rowKey={(record) => record._id}

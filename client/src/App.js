@@ -24,6 +24,7 @@ import AdminOrders from "./pages/Admin/AdminOrders";
 import Checkout from "./pages/user/Checkout";
 import Payment from "./pages/Payment";
 import Order from "./pages/user/Order";
+import AdminOrder from "./pages/Admin/AdminOrder";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
           <Route path="admin/products" element={<Products />} />
           <Route path="admin/users" element={<Users />} />
           <Route path="admin/orders" element={<AdminOrders />} />
+          <Route path="admin/order/:_id" element={<AdminOrder />} />
         </Route>
 
         {/* Rutas de autenticación */}

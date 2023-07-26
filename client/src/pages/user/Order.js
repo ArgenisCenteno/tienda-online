@@ -47,6 +47,7 @@ const Order = () => {
       <div className="container" style={{ marginTop: "22px", paddingBottom: "22px" }}>
         <div className="row pb-4">
           <div className="col-lg-8 mb-4 pb-4">
+            <h2>Usted ha comprado</h2>
             {/* Show the products in the order */}
             {orderData?.order?.products?.map((p) => (
              <div className="card mb-3" key={p.slug}>

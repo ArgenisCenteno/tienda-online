@@ -6,15 +6,15 @@ export const sliderItems = [
     {
       id: 2,
       img: rojo,
-      title: "OFRECEMOS UN AMPLIO CATOLOGO DE PRODUCTOS CON EXCELENTES PRECIOS",
-      desc: "TODO LO QUE BUSCAS EN UN SOLO LUGAR",
+      title: "VARIEDAD DE PRODUCTOS",
+      desc: "TODO LO QUE BUSCAS EN UN SOLO LUGAR Y A BUENOS PRECIOS",
       bg: "fcf1ed",
     },
     {
       id: 3,
       img:  puntos, 
-      title: "HELLA STORE OFRECE PRECIOS INIMAGINABLES",
-      desc: "AQUÍ ENCONTRARAS ROPA CON LA MEJOR RELACION PRECIO/CALIDAD",
+      title: "PRECIOS INIMAGINABLES",
+      desc: "HELLA STORE OFRECE ROPA CON LA MEJOR RELACION PRECIO/CALIDAD",
       bg: "fbf0f4", 
     }
   ];

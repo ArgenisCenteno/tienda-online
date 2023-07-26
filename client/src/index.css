@@ -359,8 +359,15 @@ body{
     margin-left: "44px" !important; 
     list-style: none; 
   } 
+
+  .ant-table-wrapper{
+    overflow: scroll;
+  }
    
-    
+  .col-4 {
+    flex: 0 0 auto;
+    width: 50.333333%;
+}
   }
 
 @media screen and (max-width: 412px) {
@@ -372,8 +379,13 @@ body{
     margin-left: "44px" !important; 
     list-style: none; 
   } 
-   
-    
+  .ant-table-wrapper{
+    overflow: scroll;
+  }
+  .col-4 {
+    flex: 0 0 auto;
+    width: 50.333333%;
+}
   }
    
 @media screen and (max-width: 375px) {
@@ -390,7 +402,14 @@ body{
     width: 82%;
     height: 65px;
 }
-   
+
+.ant-table-wrapper{
+  overflow: scroll;
+}
+.col-4 {
+  flex: 0 0 auto;
+  width: 50.333333%;
+}
     
   }
 
@@ -407,10 +426,18 @@ body{
      margin-right: 90px;
 
   }
+  .col-4 {
+    flex: 0 0 auto;
+    width: 50.333333%;
+}
 
   .col-9 {
     flex: 0 0 auto;
     width: 76%;
+}
+
+.ant-table-wrapper{
+  overflow: scroll;
 }
 
 .fixed-cart-icon{
@@ -418,7 +445,7 @@ body{
 }
 
 .card-payment{
-  height: 340px !important;
+  height: 350px !important;
   justify-content: center;
   align-items: center;
 }
@@ -435,8 +462,13 @@ body{
       list-style: none; 
     } 
     
-     
-    
+    .ant-table-wrapper{
+      overflow: scroll;
+    }
+    .col-4 {
+      flex: 0 0 auto;
+      width: 50.333333%;
+  }
     }
  
     @media screen and (max-width: 414px) {
@@ -453,6 +485,10 @@ body{
         margin-right: 21px !important;
       }
       
+      .col-4 {
+        flex: 0 0 auto;
+        width: 50.333333%;
+    }
       }   
 
       @media screen and (max-width: 360px) {
@@ -464,6 +500,31 @@ body{
           
           list-style: none; 
         } 
-        
+
+        .form-address{
+          .col-md-6 {
+            flex: 0 0 auto;
+            width: 85%;
+        }
+        }
+        .ant-table-wrapper{
+          overflow: scroll;
+        }
+
+        .col-4 {
+          flex: 0 0 auto;
+          width: 50.333333%;
+      }
          
         } 
+    
+        @media screen and (max-width: 320px) {
+          .iconHeaderPrincipal{
+            position: absolute;
+            top: 1px; 
+            right: 129px; /* Ajusta esta posición según tu preferencia */
+            z-index: 999; /* Asegura que esté por encima de otros elementos */
+            
+            list-style: none; 
+          } 
+        }  

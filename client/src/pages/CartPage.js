@@ -140,7 +140,7 @@ const CartPage = () => {
             </div>
             <div className="col-lg-4 col-xs-4 col-sm-4 cart-summary ">
               <h2>Resumen de Orden</h2>
-              <p>Total | Verificación | Pago</p>
+              <p>Total | Ingresar dirección | Pago</p>
               <hr />
               <h4>Total: {totalPrice()}</h4> 
               {auth?.user  ? (
@@ -171,7 +171,7 @@ const CartPage = () => {
                   ) : (
                    <>
                      <button
-                      className="btn btn-outline-warning"
+                      className="btn btn-outline-warning mb-2"
                       onClick={() =>
                         navigate("/login", {
                           state: "/cart",
@@ -189,7 +189,7 @@ const CartPage = () => {
                       })
                     }
                   >
-                    Registrarse
+                    Registrarse para continuar
                   </button>
                    </>
                   )}

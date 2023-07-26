@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { sliderItems } from './data/data.js';
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
 import "./style/slider.css"
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const Slider = ({ slides }) => {      
   const [current, setCurrent] = useState(0);
@@ -22,7 +24,7 @@ const Slider = ({ slides }) => {
 
 
   return (
-    <section className='slider mt-4 mb-4'>
+    <section className='slider mt-4 '>
       
       {slides.map((slide, index) => {
         return (
@@ -48,8 +50,8 @@ const Slider = ({ slides }) => {
                     </div>
                   </div>
                 </div>
-                <FaArrowAltCircleLeft className='left-arrow' onClick={prevSlide} />
-              <FaArrowAltCircleRight className='right-arrow' onClick={nextSlide} />
+                <ArrowBackIosIcon className='left-arrow' onClick={prevSlide} />
+              <ArrowForwardIosIcon className='right-arrow' onClick={nextSlide} />
               </div>
               
             )}
