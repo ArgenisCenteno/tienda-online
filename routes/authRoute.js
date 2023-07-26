@@ -8,6 +8,7 @@ import {
   getOrdersController,
   getAllOrdersController,
   orderStatusController,
+  getOrderByIdController
 } from "../controllers/authController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 
@@ -40,6 +41,9 @@ router.put("/profile", requireSignIn, updateProfileController);
 
 //OBTENER ORDENES DE CLIENTE
 router.get("/orders", requireSignIn, getOrdersController);
+
+//OBTENER UNA ORDEN EN ESPECIFICO
+router.get("/order/:id", requireSignIn ,getOrderByIdController)
 
 //OBTENER TODAS LAS ORDES PARA ADMINISTRADOR 
 router.get("/all-orders", requireSignIn, isAdmin, getAllOrdersController);

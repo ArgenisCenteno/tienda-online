@@ -80,6 +80,7 @@ const Orders = () => {
                         <th scope="col">Estado de pago</th>
                         <th scope="col">Monto total</th>
                         <th scope="col">Acciones</th>
+                        <th scope="col">Ver</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -97,6 +98,7 @@ const Orders = () => {
                             Ver productos
                           </button>
                         </td>
+                        <td> <a href={ `/dashboard/user/order/${o?._id} `}>Aqui</a> </td>
                       </tr>
                     </tbody>
                   </table>
@@ -124,6 +126,8 @@ const Orders = () => {
                   <th scope="col">Talla</th>
                   <th scope="col">Precio</th>
                   <th scope="col">Cantidad</th>
+                 
+                   
                 </tr>
               </thead>
               <tbody>
@@ -133,6 +137,7 @@ const Orders = () => {
                     <td>{product.size}</td>
                     <td>{product.price}</td>
                     <td>{product.quantity}</td>
+                   
                   </tr>
                 ))}
               </tbody>

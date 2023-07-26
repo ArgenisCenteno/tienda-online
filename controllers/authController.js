@@ -216,6 +216,26 @@ export const getOrdersController = async (req, res) => {
     });
   }
 };
+
+//OBTENER UNA ORDEN POR ID
+export const getOrderByIdController = async (req, res) =>{
+  try {
+    const order = await orderModel.findOne({ _id: req.params.id }); 
+    res.status(200).send({
+      success: true,
+      message: "Orden por ID",
+      order,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error al traer la orden",
+      error,
+    });
+  }
+}
+
 //OBNERER ORDENES
 export const getAllOrdersController = async (req, res) => {
   try {

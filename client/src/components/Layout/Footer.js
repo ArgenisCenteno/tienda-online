@@ -7,7 +7,7 @@ import "./style/footer.css"
 import { Link } from "react-router-dom";
 const Footer = () => {
   return (
-    <div className="footer">
+    <div className="footer"  >
       <section >
         <h2 className="titulo-seccion">¿Por qué comprar con nosotros?</h2>
         <div className=" row d-flex justify-content-center  ">

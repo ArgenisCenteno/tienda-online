@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import "../../styles/AuthStyles.css";
 import login from "./img/login.png";
 import { useAuth } from "../../context/auth";
@@ -9,7 +9,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const [shown, setShown] = useState(false);
-  const [email, setEmail] = useState(" ");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [auth, setAuth] = useAuth();
   const [emailError, setEmailError] = useState("");
@@ -123,7 +123,9 @@ const Login = () => {
                   <button type="submit" className="btn btn-primary ingresar">
                     Ingresar
                   </button>
+                  <p className="mt-4">¿No estas registrado? pulsa <Link to="/register">aquí</Link> </p>
                 </form>
+               
               </div>
             </div>
             <div className="col-lg-5 col-xs-5 col-sm-5 imagen">

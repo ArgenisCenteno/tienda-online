@@ -53,7 +53,7 @@ const CartPage = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }; 
   useEffect(() => {
     getToken();
   }, [auth?.token]);
@@ -73,18 +73,19 @@ const CartPage = () => {
       navigate("/dashboard/user/orders");
       toast.success("Pago completado correctamente, gracias por su compra");
     } catch (error) {
+      toast.danger(error);
       console.log(error);
       setLoading(false);
     }
   };
   return (
-    <Layout>
+    <Layout style={{width: "100vw"}}>
       <div className=" cart-page">
         <div className="row pt-20" >
           <div className=" col-md-12">
-            <h1 className="text-center bg-light p-2 mb-1 pt-20">
+            <h1 className="text-center bg-light p-2 mb-1 pt-0">
               {!auth?.user
-                ? "Hola de nuevo"
+                ? "Hola de nuevo" 
                 : `Hola,  ${auth?.token && auth?.user?.name}`}
               <p className="text-center">
                 {cart?.length
@@ -96,38 +97,37 @@ const CartPage = () => {
             </h1>
           </div>
         </div>
-        <div className="container ">
+        <div className="container " style={{marginTop: "22px", paddingBottom: "22px"}}>
           <div className="row pb-4">
-            <div className="col-12 col-lg-8 col-xs-8 col-sm-8  mb-4">
+            <div className="col-12 col-lg-8 col-xs-8 col-sm-8  mb-4 pb-4">
             {cart?.map((p) => (
-              <div className="row card flex-row  pb-4" key={p._size}>
-                  <div className="col-3 col-md-2">
+              <div className="row card flex-row  pb-4" key={p._id}>
+                  <div className="col-3 col-md-3">
                       <img
                         src={`/api/v1/product/product-photo/${p._id}`}
-                        className="card-img-top"
+                        className="card-img-top-card"
                         alt={p.name}
-                        width="100%"
-                        height={"130px"}
+                       
                       />
                  </div>
-             <div className="col-7 col-md-6">
-              <div className="row container d-flex justify-content-left">
-                  <div className="col-6 col-sm-6">
-                      <p><strong>Producto:</strong>  <br/>  {p.name}</p> 
-                      <p><strong>Cantidad:</strong>  {p.quantity}</p>
+             <div className="col-8 col-md-7">
+              <div className="row container d-flex justify-content-left itemsCart">
+                  <div className="col-6 col-sm-6" >
+                      <p><strong>Producto</strong>   <br/>  {p.name}</p> 
+                    
                  
                   </div>
                  
                   <div className="col-6 col-sm-6">
                   <p><strong>Talla:</strong>  {p.size}</p>   
-                 
+                  <p><strong>Cant:</strong>  {p.quantity}</p>
                   <p><strong>Precio:</strong>  {p.price}</p>
                   </div>
 
               </div>
                  
             </div>
-            <div className="col-1 col-sm-1 pt-1 cart-remove-btn">
+            <div className="col-1 col-sm-2 pt-1 cart-remove-btn">
               <button
                className="btn btn-danger"
                onClick={() => removeCartItem(p._id)}
@@ -138,35 +138,39 @@ const CartPage = () => {
   </div>
 ))}
             </div>
-            <div className="col-lg-3 col-xs-3 col-sm-3 cart-summary ">
+            <div className="col-lg-4 col-xs-4 col-sm-4 cart-summary ">
               <h2>Resumen de Orden</h2>
               <p>Total | Verificación | Pago</p>
               <hr />
               <h4>Total: {totalPrice()}</h4> 
-              {auth?.user?.address ? (
+              {auth?.user  ? (
                 <>
-                  <div className="mb-3">
-                    <h4>Dirección</h4>
-                    <h5>{auth?.user?.address}</h5>
+                <div className="mb-3">
+                  <h5>{auth?.user?.address}</h5>
+                  {cart.length > 0 ? ( // Verificar si el carrito no está vacío
                     <button
-                      className="btn btn-outline-warning"
-                      onClick={() => navigate("/dashboard/user/profile")}
+                      className="btn btn-success"
+                      onClick={() => navigate("/checkout")}
                     >
-                      Actualizar Dirección
+                      Checkout
                     </button>
-                  </div>
-                </>
+                  ) : (
+                    <button className="btn btn-success" disabled>Checkout</button> // Deshabilitar el botón cuando el carrito está vacío
+                  )}
+                </div>
+              </>
               ) : (
                 <div className="mb-3">
                   {auth?.token ? (
                     <button
-                      className="btn btn-outline-warning"
-                      onClick={() => navigate("/dashboard/user/profile")}
+                      className="btn btn-success "
+                      onClick={() => navigate("/checkout")}
                     >
-                      Actualizar Dirección
+                      Checkout
                     </button>
                   ) : (
-                    <button
+                   <>
+                     <button
                       className="btn btn-outline-warning"
                       onClick={() =>
                         navigate("/login", {
@@ -174,36 +178,24 @@ const CartPage = () => {
                         })
                       }
                     >
-                      Por favor, inicia sesión para continuar
+                      Inicia sesión para continuar
                     </button>
+                    <br></br>
+                    <button
+                    className="btn btn-outline-success"
+                    onClick={() =>
+                      navigate("/register", {
+                        state: "/cart",
+                      })
+                    }
+                  >
+                    Registrarse
+                  </button>
+                   </>
                   )}
                 </div>
               )}
-              <div className="mt-2 botonPago">
-                {!clientToken || !auth?.token || !cart?.length ? (
-                  ""
-                ) : (
-                  <>
-                    <DropIn
-                      options={{
-                        authorization: clientToken,
-                        paypal: {
-                          flow: "vault",
-                        },
-                      }}
-                      onInstance={(instance) => setInstance(instance)}
-                    />
-
-                    <button
-                      className="btn btn-success "
-                      onClick={handlePayment}
-                      disabled={loading || !instance || !auth?.user?.address}
-                    >
-                      {loading ? "Cargando ...." : "Realizar pago"}
-                    </button>
-                  </>
-                )}
-              </div>
+             
             </div>
           </div>
         </div>

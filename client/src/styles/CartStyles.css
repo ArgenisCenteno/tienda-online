@@ -8,11 +8,11 @@
 
 .cart-page h1 {
   padding: 30px !important;
-  margin-top: 30px  !important;
+  margin-top: -50px!important;
   font-family: "roboto", sans-serif;
   font-weight: normal;
   background-color: rgba(0, 0, 255, 0.072) !important;
-}
+} 
 .cart-page h1 > p {
   font-size: 20px;
   margin-top: 10px;
@@ -20,7 +20,7 @@
 
 .cart-page .card {
   padding: 5px !important;
-  height: 150px !important;
+  height: 150px !important; 
   margin-bottom: 5px !important;
 
  
@@ -53,3 +53,120 @@
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   width: 100%;
 }
+
+.cart-remove-btn{
+  padding-right: 16px;
+}
+
+.card-img-top-card{
+  width: 100px !important;
+  height: 140px !important
+}
+
+.braintree-placeholder{
+  display: none;
+}
+
+@media screen and (max-width: 820px) {
+  .col-md-7 {
+    flex: 0 0 auto;
+    width: 50.333333%;
+}
+ 
+  } 
+
+
+@media screen and (max-width: 280px) {
+  .cart-page .card{
+     padding: 0px !important;
+     height: 286px !important;
+     display: flex;
+     justify-content: center;
+     align-items: flex-start;
+     gap: 17px;
+
+  }
+  .col-6{
+    width: 100%;
+  }
+
+  .cart-page .cart-remove-btn {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+ 
+  } 
+
+
+  @media screen and (max-width: 375px) {
+    .cart-page .card{
+       padding: 0px !important;
+       height: 286px !important;
+       display: flex;
+       justify-content: center;
+       align-items: flex-start;
+       gap: 17px;
+  
+    }
+    .col-6{
+      width: 100%;
+    }
+  
+    .cart-page .cart-remove-btn {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+  }
+
+  .cart-page .cart-summary {
+    text-align: center;
+    padding-left: 0px;
+    
+}
+   
+    } 
+    @media screen and (max-width: 414px) {
+      .cart-page .card{
+        padding: 0px !important;
+        height: 286px !important;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 17px;
+   
+     }
+     .col-6{
+       width: 100%;
+     }
+   
+     .cart-page .cart-remove-btn {
+       display: flex;
+       align-items: flex-start;
+       justify-content: flex-end;
+   }
+     
+      } 
+      @media screen and (max-width: 540px) {
+        .cart-page .card{
+          padding: 0px !important;
+          height: 286px !important;
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          gap: 17px;
+     
+       }
+       .col-6{
+         width: 100%;
+       }
+     
+       
+       
+        } 
+.titleOrder{
+  padding: 30px !important;
+  margin-top: -50px!important;
+  font-family: "roboto", sans-serif;
+  font-weight: normal; 
+}    

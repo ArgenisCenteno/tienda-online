@@ -53,7 +53,7 @@ const Products = () => {
       title: 'Imagen',
       dataIndex: 'image',
       render: (image, record) => (
-        <img src={`/api/v1/product/product-photo/${record._id}`} height="333px" className="card-img-top" alt={record.name} />
+        <img src={`/api/v1/product/product-photo/${record._id}`} height="333px" className="card-img-top-dashboard" alt={record.name} />
       ),
     },
     {
@@ -62,7 +62,7 @@ const Products = () => {
     },
     {
       title: 'Marca',
-      dataIndex: 'brand',
+      dataIndex: 'description',
     },
     {
       title: 'Acciones',

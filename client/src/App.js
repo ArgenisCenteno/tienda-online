@@ -21,6 +21,9 @@ import Categories from "./pages/Categories";
 import CategoryProduct from "./pages/CategoryProduct";
 import CartPage from "./pages/CartPage";
 import AdminOrders from "./pages/Admin/AdminOrders";
+import Checkout from "./pages/user/Checkout";
+import Payment from "./pages/Payment";
+import Order from "./pages/user/Order";
 
 function App() {
   return (
@@ -32,13 +35,16 @@ function App() {
         <Route path="/categories" element={<Categories />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/category/:slug" element={<CategoryProduct />} />
-        <Route path="/search" element={<Search />} />
+        <Route path="/search" element={<Search />} /> 
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/payment" element={<Payment />} />
 
         {/* Rutas privadas de usuario */}
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="user" element={<Dashboard />} />
           <Route path="user/orders" element={<Orders />} />
           <Route path="user/profile" element={<Profile />} />
+          <Route path="user/order/:_id" element={<Order />} />
         </Route>
 
         {/* Rutas privadas de administrador */}

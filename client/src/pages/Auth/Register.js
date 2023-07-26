@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -127,15 +127,15 @@ const Register = () => {
       );
     } else {
       setPasswordError("");
-    }
+    } 
   };
 
   return (
-    <Layout title="Registrar - Hella Store">
-      <div className="content-wrapper m-0 contenido">
+    <Layout title="Registrar - Hella Store"  style={{ width: "100vw" }}>
+      <div className="content-wrapper m-0 contenido "  >
         <div className="content">
           <div className="row">
-            <div className="col-lg-5 col-xs-5 col-sm-6">
+            <div className="col-lg-5 col-xs-12 col-sm-12">
               <div className="form-container" style={{ minHeight: "100vh" }}>
                 <form onSubmit={handleSubmit}>
                   <h4 className="title">Registrar</h4>
@@ -291,10 +291,12 @@ const Register = () => {
                   <button type="submit" className="btn btn-primary ingresar">
                     Registrar
                   </button>
+                  <p className="mt-4">¿Ya estas registrado? pulsa <Link to="/login">aquí</Link> </p>
+
                 </form>
               </div>
             </div>
-            <div className="col-lg-5 col-xs-5 col-sm-5 imagen">
+            <div className="col-lg-5 col-xs-12 col-sm-12 imagen">
               <div className="container">
                 <img
                   src={register}

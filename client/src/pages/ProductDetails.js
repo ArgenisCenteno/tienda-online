@@ -16,6 +16,7 @@ const ProductDetails = () => {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [selectedPrice, setSelectedPrice] = useState(0);
   const [inputFocused, setInputFocused] = useState(false);
+  const [selectedVariation, setSelectedVariation] = useState(null);
 
   const handleInputFocus = () => {
     setInputFocused(true);
@@ -60,17 +61,18 @@ const ProductDetails = () => {
     setSelectedSize(selectedSize);
 
     // Buscar el precio correspondiente a la talla seleccionada
-    const selectedVariation = product.variations.find(
-      (variation) => variation.size === selectedSize
-    );
+  const variation = product.variations.find(
+    (variation) => variation.size === selectedSize
+  );
 
-    if (selectedVariation) {
-      setSelectedPrice(selectedVariation.price);
-      setSelectedQuantity(1); // Restablecer la cantidad seleccionada a 1 al cambiar de talla
-    } else {
-      setSelectedPrice(0);
-      setSelectedQuantity(0);
-    }
+  if (variation) {
+    setSelectedVariation(variation); // Almacenar la variación seleccionada
+    setSelectedPrice(variation.price);
+    setSelectedQuantity(1); // Restablecer la cantidad seleccionada a 1 al cambiar de talla
+  } else {
+    setSelectedPrice(0);
+    setSelectedQuantity(0);
+  }
   };
 
   // Agregar producto al carrito
@@ -103,7 +105,7 @@ const ProductDetails = () => {
 
   return (
     <Layout>
-      <div className="row container product-details d-flex justify-content-end ">
+      <div className="row container product-details d-flex justify-content-center">
         <div className="col-md-4">
           <img
             src={`/api/v1/product/product-photo/${product._id}`}
@@ -126,7 +128,7 @@ const ProductDetails = () => {
                 <h6>Talla</h6>
               </div>
 
-              <div className="col-4 col-sm-4">
+              <div className="col-6 col-sm-4">
                 <select className="form-select selectSize " value={selectedSize} onChange={handleSizeChange}>
                   <option className="option" value="">Talla</option>
                   {product?.variations?.map((variation) => (
@@ -158,21 +160,36 @@ const ProductDetails = () => {
               </>
             )}
 
-            <div className="row container d-flex justify-content-left pb-3">
-              <div className="col-4 col-sm-2">
-                <h6> Cantidad:</h6>
-              </div>
-
-              <div className="col-4 col-sm-4">
-                <input
-                  className="form-control inputQuantity"
-                  type="number"
-                  min={1}
-                  value={selectedQuantity}
-                  onChange={(e) => setSelectedQuantity(Number(e.target.value))}
-                />
-              </div>
-            </div>
+<div className="row container d-flex justify-content-left pb-3">
+  <div className="col-4 col-sm-2">
+    <h6> Cantidad:</h6>
+  </div>
+  <div className="col-6 col-sm-5 d-flex align-items-center">
+    <button
+      className="btn  btn-outline-danger"
+      onClick={() => setSelectedQuantity((prev) => Math.max(prev - 1, 1))}
+    >
+      -
+    </button>
+    <input
+      className="form-control inputQuantity mx-2"
+      type="number"
+      min={1}
+      value={selectedQuantity}
+      onChange={(e) => setSelectedQuantity(Number(e.target.value))}
+    />
+   <button
+  className="btn  btn-outline-primary"
+  onClick={() =>
+    setSelectedQuantity((prev) =>
+      Math.min(prev + 1, selectedVariation?.quantity || 1)
+    )
+  }
+>
+  +
+</button>
+  </div>
+</div>
           </div>
 
           <button

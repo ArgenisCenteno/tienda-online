@@ -15,12 +15,15 @@
 .home-page {
   display: flex;
   flex-wrap: wrap;
+  width: 100vw !important;
 }
+
 .home-page .card {
   background-color: rgba(128, 128, 128, 0.097);
   width: 18rem;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
+
 .home-page .card-name-price {
   display: flex;
   flex-direction: row;
@@ -93,6 +96,23 @@ FILTROS
   width: 100%;
    
 }
+.filters button:hover {
+  color: #ffff;
+  border: 1px solid #047450;
+  background: #047450; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #0c6179,
+    #047450
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #0c6179,
+    #047450
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  width: 100%;
+   
+}
 
 .loadmore {
   color: #ffff;
@@ -122,11 +142,29 @@ FILTROS
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #045166,
+    #045166, 
     #057c56
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   width: 100%;
 }
+
+.AgregarCarrito:hover{
+  color: #ffff !important;
+   
+  border: 1px solid #046446;
+  background: #046446; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #044557,
+    #046446
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #044557,
+    #046446
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  width: 100%;
+}  
 
 .verDetalles{
   color: #ffff;
@@ -168,3 +206,14 @@ FILTROS
     align-items: center;
   }
 }
+
+
+@media screen and (max-width: 280px) {
+  .home-page .card {
+    background-color: rgba(128, 128, 128, 0.097);
+    width: 16rem;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    margin-left: 33px !important;
+  }
+    
+  }

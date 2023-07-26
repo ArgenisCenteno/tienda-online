@@ -200,7 +200,7 @@ export const updateProductController = async (req, res) => {
 // FILTROS
 export const productFiltersController = async (req, res) => {
   try {
-    const { checked, radio } = req.body;
+    const { checked, radio } = req.body; 
     let args = {};
     if (checked.length > 0) args.category =  checked;
     if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
@@ -355,13 +355,16 @@ export const braintreeTokenController = async (req, res) => {
 
 export const brainTreePaymentController = async (req, res) => {
   try {
-    const { nonce, cart } = req.body;
+    const { nonce, cart, address } = req.body;
     let total = 0;
     cart.map((item) => {
       const itemTotal = item.price * item.quantity;
       total += itemTotal;
+      total += address.tasaEnvio;
+
     });
 
+     
     let newTransaction = gateway.transaction.sale(
       {
         amount: total,
@@ -376,6 +379,7 @@ export const brainTreePaymentController = async (req, res) => {
             products: cart,
             payment: result,
             buyer: req.user._id,
+            address: address,
           });
           await order.save();
 
@@ -390,7 +394,7 @@ export const brainTreePaymentController = async (req, res) => {
             })
           );
 
-          res.json({ ok: true });
+          res.json({ ok: true, order: order });
         } else {
           res.status(500).send(error);
         }

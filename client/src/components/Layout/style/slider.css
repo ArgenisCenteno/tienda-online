@@ -1,0 +1,159 @@
+.slider { 
+    height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+    
+  }
+  
+  .image {
+    width: 90%;
+    height: 600px;
+    border-radius: 10px;
+  }
+  
+  .right-arrow {
+    position: absolute;
+    top: 50%;
+    right: 68px;
+    font-size: 3rem;
+    color: #000;
+    z-index: 10;
+    cursor: pointer;
+    user-select: none;
+    z-index: 1;
+  }
+  
+  .left-arrow {
+    position: absolute;
+    top: 50%;
+    left: 68px;
+    font-size: 3rem;
+    color: #000;
+    z-index: 10;
+    cursor: pointer;
+    user-select: none;
+    z-index: 1;
+    
+  }
+  
+  .slide {
+    opacity: 0;
+    transition-duration: 1s ease;
+  }
+  
+  .slide.active {
+    opacity: 1;
+    transition-duration: 1s;
+    transform: scale(1.08);
+  }
+  
+
+  @media screen and (max-width: 820px) {
+    .slider { 
+       
+        height: 30vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .right-arrow {
+        position: absolute;
+        top: 30%;
+        right: 32px;
+        font-size: 3rem;
+        color: #000;
+        z-index: 1;
+        cursor: pointer;
+        user-select: none;
+       
+      }
+      
+      .left-arrow {
+        position: absolute;
+        top: 30%;
+        left: 32px;
+        font-size: 3rem;
+        color: #000;
+        z-index: 1;
+        cursor: pointer;
+        user-select: none;
+        
+      }
+     
+    }  
+    @media screen and (max-width: 540px) {
+      .slider { 
+         
+          height: 83vh;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center; 
+          
+          
+        }
+      }   
+    @media screen and (max-width: 414px) {
+      .slider { 
+         
+          height: 58vh;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          
+        }
+
+         
+      } 
+      @media screen and (max-width: 375px) {
+        .slider { 
+           
+            height: 75vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+             
+          }
+        }    
+        
+        @media screen and (max-width: 280px) {
+          .slider { 
+             
+              height: 75vh;
+              width: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              
+            }
+
+            .right-arrow {
+              position: absolute;
+              top: 30%;
+              right: 22px;
+              font-size: 3rem;
+              color: #000;
+              z-index: 1;
+              cursor: pointer;
+              user-select: none;
+
+            }
+            
+            .left-arrow {
+              position: absolute;
+              top: 30%;
+              left: 12px;
+              font-size: 3rem;
+              color: #000;
+              z-index: 1;
+              cursor: pointer;
+              user-select: none;
+              
+            }
+          } 

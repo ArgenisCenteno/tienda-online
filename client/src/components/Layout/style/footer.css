@@ -116,6 +116,7 @@
   background-color: #f2f2f2;
   padding: 40px 0;
   text-align: center;
+  width: 100vw !important;
 }
 
 .contenedor__4-columnas {
@@ -135,3 +136,4 @@
     justify-content: space-around;
   }
 }
+ 

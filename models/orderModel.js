@@ -12,6 +12,7 @@ const orderSchema = new mongoose.Schema(
       }
     ],
     payment: {}, 
+    address: {},
     buyer: {
       type: mongoose.ObjectId,
       ref: "users",
