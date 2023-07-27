@@ -30,7 +30,7 @@ const Slider = ({ slides }) => {
         return (
           <div
             className={index === current ? 'slide active' : 'slide'}
-            key={index} style={{margin: "12px"}}
+            key={index} 
           >
             {index === current && (
               <div className='container d-flex align-items-center'>
