@@ -447,6 +447,10 @@ body{
   overflow: scroll;
 }
 
+.filters{
+  margin: 12px;
+}
+
 .braintree-options-list {
   margin: 0 auto;
   padding-bottom: 5px;
@@ -490,7 +494,12 @@ body{
       flex: 0 0 auto;
       width: 50.333333%;
   }
+
+
+
     }
+
+
  
     @media screen and (max-width: 414px) {
       .iconHeaderPrincipal{
@@ -509,6 +518,10 @@ body{
       .col-4 {
         flex: 0 0 auto;
         width: 50.333333%;
+    }
+
+    .filters{
+      margin: 12px;
     }
       }   
 
@@ -536,6 +549,10 @@ body{
           flex: 0 0 auto;
           width: 50.333333%;
       }
+
+      .filters{
+        margin: 12px;
+      }
          
         } 
     
@@ -548,4 +565,8 @@ body{
             
             list-style: none; 
           } 
+          .filters{
+            margin: 12px;
+          }
+
         }  

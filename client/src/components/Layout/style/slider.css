@@ -1138,7 +1138,7 @@
                                                         @media (max-width: 720px) {
                                                           .slider { 
                                                              
-                                                              height: 90vh;
+                                                              height: 75vh;
                                                               width: 100%;
                                                               display: flex;
                                                               justify-content: center;

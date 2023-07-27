@@ -168,7 +168,7 @@ const HomePage = () => {
       <Slider slides={sliderItems} /> 
      
       <div className="container-fluid row mt-3 home-page ">
-      <div className="col-md-3 m-2 filters">
+      <div className="col-md-3 filters">
         <h4 className="text-center mb-4">Filtrar por categoria</h4>
         <a href="https://wa.link/ticqhf" target="_blank">
             <img src={image} className="whatsapp" alt="HelloBanner" width={"100%"} />
