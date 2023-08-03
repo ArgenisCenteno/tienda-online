@@ -27,16 +27,16 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-//app.use(express.static(path.join(__dirname, './client/build')));
+app.use(express.static(path.join(__dirname, './client/build')));
 
 // Middleware para agregar Cache-Control a las respuestas de imágenes
-app.use('/static', express.static(path.join(__dirname, './client/build'), {
+/*app.use('/static', express.static(path.join(__dirname, './client/build'), {
   setHeaders: (res, path) => {
     if (path.includes('/images/')) {
       res.setHeader('Cache-Control', 'public, max-age=86400'); // Establece el tiempo máximo de caché a 1 día (86400 segundos)
     }
   }
-}));
+}));*/
 
 //RUTAS
 app.use("/api/v1/auth", authRoutes);
