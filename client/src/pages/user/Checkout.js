@@ -168,7 +168,7 @@ const Checkout = () => {
                    <option value="">Seleccionar servicio de entrega</option>
                    <option value="MRW">MRW</option>
                    <option value="ZOOM">ZOOM</option>
-                   <option value="Tealca">Tealca</option>
+                   <option value="Domesa">Domesa</option>
                    <option value="Delivery">Delivery</option>
                    <option value="Retirar en negocio">Retirar en negocio</option>
                  </select>

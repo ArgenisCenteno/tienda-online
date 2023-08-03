@@ -407,7 +407,7 @@ const CreateProduct = () => {
                 <div key={index} className="row mb-3 d-flex justify-content-left">
                   <div className="col-4 col-sm-3">
                     <p>
-                      <strong>{`Talla ${size}`}</strong>
+                      <strong>{`Talla: ${size}`}</strong>
                     </p>
                     <input
                       type="text"
@@ -420,7 +420,7 @@ const CreateProduct = () => {
                   </div>
                   <div className="col-4 col-sm-3">
                     <p>
-                      <strong>Precio: {prices[index] !== undefined ? ` ${prices[index]}` : ""}</strong>
+                      <strong>Precio: {prices[index] !== undefined ? ` ${prices[index]} $` : ""}</strong>
                     </p>
                     <input
                       type="number"
@@ -435,7 +435,7 @@ const CreateProduct = () => {
                   </div>
                   <div className="col-4 col-sm-3">
                     <p>
-                      <strong>Cantidad {quantities[index] !== undefined ? ` ${quantities[index]}` : ""}</strong>
+                      <strong>Cantidad: {quantities[index] !== undefined ? ` ${quantities[index]}` : ""}</strong>
                     </p>
                     <input
                       type="number"

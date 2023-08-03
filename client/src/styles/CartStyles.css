@@ -149,8 +149,8 @@
       } 
       @media screen and (max-width: 540px) {
         .cart-page .card{
-          padding: 0px !important;
-          height: 350px !important;
+          padding: 10px !important;
+          height: 360px !important;
           display: flex;
           justify-content: center;
           align-items: flex-start;

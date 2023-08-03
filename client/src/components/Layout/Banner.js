@@ -9,7 +9,7 @@ const Banner = () => {
     <footer className="text-center   text-lg-start bg-success  text-white">
       
       <section className="">
-        <div className="container text-center text-md-start pt-5 mt-5">
+        <div className="container text-center text-md-start pt-5 ">
          
           <div className="row mt-3">
             
