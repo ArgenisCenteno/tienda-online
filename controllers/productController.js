@@ -160,41 +160,51 @@ export const deleteProductController = async (req, res) => {
 //ACTUALIZAR PRODUCTO
 export const updateProductController = async (req, res) => {
   try {
-    const { name, description, category, variations } =
-      req.fields;
+    const { name, description, category, variations } = req.fields;
     const { photo } = req.files;
-    //alidation
+
+    // Validación
     switch (true) {
       case !name:
         return res.status(500).send({ error: "Nombre es requerido" });
       case !description:
         return res.status(500).send({ error: "Marca es requerido" });
-       
       case !category:
         return res.status(500).send({ error: "Categoria es requerido" });
       case variations:
         return res.status(500).send({ error: "La talla, precio y cantidad son obligatorias" });
       case photo && photo.size > 1000000:
-        return res
-          .status(500)
-          .send({ error: "La foto no puede pesar más de 1MB" });
+        return res.status(500).send({ error: "La foto no puede pesar más de 1MB" });
     }
+
     const parsedVariations = JSON.parse(variations);
-     // Sube la foto a Cloudinary si está disponible
-    let photoUrl;
+
+    // Obtén el producto existente desde la base de datos
+    let products = await productModel.findById(req.params.pid);
+
+    if (!products) {
+      return res.status(404).send({ error: "Producto no encontrado" });
+    }
+
+    // Verificar si hay una nueva imagen antes de actualizar el campo 'photo'
     if (photo) {
+      // Sube la nueva foto a Cloudinary
       const result = await cloudinary.uploader.upload(photo.path, {
         folder: 'productos', // Establece el nombre de la carpeta deseada en Cloudinary
       });
-      photoUrl = result.secure_url;
+      products.photo = result.secure_url;
     }
 
-    const products = await productModel.findByIdAndUpdate(
-      req.params.pid,
-      { ...req.fields, slug: slugify(name),  variations: parsedVariations, photo: photoUrl || products.photo, },
-      { new: true }
-    );
-     
+    // Actualizar los campos del producto
+    products.name = name;
+    products.description = description;
+    products.category = category;
+    products.variations = parsedVariations;
+    products.slug = slugify(name);
+
+    // Guardar los cambios en la base de datos
+    await products.save();
+
     res.status(201).send({
       success: true,
       message: "Producto actualizado correctamente",

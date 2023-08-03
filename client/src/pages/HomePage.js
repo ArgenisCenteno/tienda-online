@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { Checkbox } from "antd";
 import { useCart } from "../context/cart";
-import axios from "axios";
-import toast from "react-hot-toast";
-import Layout from "./../components/Layout/Layout";
-import tienda from "./img/tienda.png";
+import axios from "axios"; 
+import Layout from "./../components/Layout/Layout"; 
 import image from "./img/image.png";
 import "../styles/Homepage.css";
 import Slider from "../components/Layout/Slider";
@@ -101,7 +99,7 @@ const HomePage = () => {
   
     if (all.length === 0) {
       setLoading(true);
-      getAllProducts();
+      await getAllProducts();
     } else {
       setLoading(true);
       await getFilteredProducts(id);
@@ -119,12 +117,12 @@ const HomePage = () => {
   useEffect(() => {
     getAllCategory();
     getTotal();
-    getAllProducts(currentPage); // Agrega currentPage como argumento aquí
-  }, [currentPage]); // Asegúrate de agregar currentPage como dependencia aquí
+    
+  }, []); // Asegúrate de agregar currentPage como dependencia aquí
 
   useEffect(() => {
     // Aplicar filtros cuando cambien los checkboxes o radios
-    if (checked.length === 0 && radio.length === 0) {
+    if (checked.length === 0) {
       setLoading(true);
       getAllProducts();
     } else {
@@ -135,11 +133,11 @@ const HomePage = () => {
   
 
   useEffect(() => {
-    if (!checked.length || !radio.length) getAllProducts();
+    if (!checked.length ) getAllProducts();
   }, [checked.length, radio.length]);
 
   useEffect(() => {
-    if (checked.length || radio.length) filterProduct();
+    if (checked.length ) filterProduct();
   }, [checked, radio]);
 
   // OBTENER PRODUCTO FILTRADO

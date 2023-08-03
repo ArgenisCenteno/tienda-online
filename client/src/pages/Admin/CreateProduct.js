@@ -248,6 +248,47 @@ const CreateProduct = () => {
     }
   };
 
+  const clothingOptions = [
+    "blusas",
+    "bikinis",
+    "blazer",
+    "bluma",
+    "boxers",
+    "batas",
+    "camisas",
+    "cardigan",
+    "chaquetas",
+    "collares",
+    "flux",
+    "faldas",
+    "franelas",
+    "gorras",
+    "leggins",
+    "liqui liqui",
+    "medias",
+    "minifaldas",
+    "monos",
+    "pantalones",
+    "pijamas",
+    "pulsera",
+    "sandalias",
+    "sombreros",
+    "smoking",
+    "sostenes",
+    "sujetadores",
+    "sueteres",
+    "tangas",
+    "tops",
+    "trajes de baño",
+    "vestidos",
+    "zapatos",
+    "zarcillo",
+  ];
+
+  const sortedClothingOptions = [...clothingOptions].sort((a, b) =>
+    a.localeCompare(b)
+  );
+
   return (
     <Layout title={"Dashboard - Crear Producto"}>
       <div className="container-fluid   p-3 dashboard">
@@ -296,24 +337,17 @@ const CreateProduct = () => {
             <strong>Tipo de prenda</strong>
           </p>
           <select
-            className="form-control"
-            value={clothingType}
-            onChange={(e) => setClothingType(e.target.value)}
-          >
-             <option value="selected">Tipo de prenda</option>
-            <option value="blusas">Blusas</option>
-            <option value="chaquetas">Chaquetas</option>
-            <option value="camisas">Camisas</option>
-            <option value="pantalones">Pantalones</option>
-            <option value="sueteres">Sueteres</option>
-            <option value="zapatos">Zapatos</option>
-            <option value="sandalias">Sandalias</option>
-            <option value="franelas">Franelas</option>
-            <option value="monos">Monos</option>
-            <option value="shorts">Shorts</option>
-            <option value="tops">Tops</option>
-            {/* Agrega más opciones de tipo de prenda según tus necesidades */}
-          </select>
+      className="form-control"
+      value={clothingType}
+      onChange={(e) => setClothingType(e.target.value)}
+    >
+      <option value="selected">Tipo de prenda</option>
+      {sortedClothingOptions.map((option) => (
+        <option key={option} value={option}>
+          {option.charAt(0).toUpperCase() + option.slice(1)}
+        </option>
+      ))}
+    </select>
         </div>
               <div className="mb-3">
                 <p>
