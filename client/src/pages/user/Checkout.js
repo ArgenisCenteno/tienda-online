@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useCart } from "../../context/cart";
+import { useAuth } from "../../context/auth";
 import Layout from "../../components/Layout/Layout.js";
+import axios from "axios";
 import camion from "../img/camion.png"
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-hot-toast';
@@ -18,10 +21,13 @@ const initialState = {
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const [auth, setAuth] = useAuth();
+  const [cart, setCart] = useCart();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(initialState);
   const [isFormComplete, setIsFormComplete] = useState(false);
 
-
+ 
   useEffect(() => {
     // Verificar si el usuario está autenticado
     const isAuthenticated = localStorage.getItem('auth');
@@ -59,20 +65,37 @@ const Checkout = () => {
         estado: 'Apure',
         municipio: 'Achaguas',
         parroquia: 'Achaguas',
-        codigoPostal: '7002',
-        servicioEntrega: 'Delivery',
-        tasaEnvio: 5,
+        codigoPostal: '7002'
       });
     } else {
       setFormData(initialState); // Aquí se reinician todos los campos
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Guardar los datos en el localStorage
-    localStorage.setItem('address', JSON.stringify(formData));
-    navigate("/payment")
+  const userId =  auth?.user?._id
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Evita que el formulario se envíe automáticamente
+  
+    try {  
+      setLoading(true);
+      const { data } = await axios.post("/api/v1/product/create-order", { 
+        cart, 
+        formData, 
+        userId
+      });  
+      setLoading(false);
+      localStorage.removeItem("cart");
+      setCart([]);
+      
+      // Redireccionar a la ruta de la orden completada
+      navigate(`/dashboard/user/order/${data.order._id}`);
+      
+      toast.success("Orden iniciada");
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   // Verificar si todos los campos requeridos están completos
@@ -90,13 +113,31 @@ const Checkout = () => {
     );
   }, [formData]);
 
+  const handleSelectChange = (event) => {
+    const { name, value } = event.target;
+    if (value === "Delivery") {
+      setFormData({
+        ...formData,
+        [name]: value,
+        tasaEnvio: 5,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+        tasaEnvio: 0,
+      });
+    }
+  };
+  
+
   return (
     <Layout>
       <div className="container mt-5">
         <div className="row justify-content-center form-address">
           <div className="col-10 col-md-6">
             <h1 style={{ color: "#047450" }}>Datos de entrega</h1>
-            <a href="https://wa.link/ticqhf" target="_blank">
+            <a href="https://wa.link/5ye7qg" target="_blank">
             <img src={image} className="whatsapp" alt="HelloBanner" width={"100%"} />
           </a>
             <form onSubmit={handleSubmit}>
@@ -121,9 +162,17 @@ const Checkout = () => {
                 <input type="text" name="codigoPostal" className="form-control" value={formData.codigoPostal} onChange={handleChange} />
               </div>
               <div className="form-group">
-                <strong><label>Servicio de Entrega:</label></strong>
-                <input type="text" name="servicioEntrega" className="form-control" value={formData.servicioEntrega} onChange={handleChange} />
-              </div>
+                  <strong><label>Servicio de Entrega:</label></strong>
+                  <select name="servicioEntrega" className="form-control" value={formData.servicioEntrega} onChange={handleSelectChange}>
+
+                   <option value="">Seleccionar servicio de entrega</option>
+                   <option value="MRW">MRW</option>
+                   <option value="ZOOM">ZOOM</option>
+                   <option value="Tealca">Tealca</option>
+                   <option value="Delivery">Delivery</option>
+                   <option value="Retirar en negocio">Retirar en negocio</option>
+                 </select>
+                </div>
               <div className="form-group">
                 <strong><label>Teléfono de contacto:</label></strong>
                 <input type="text" name="telefono" className="form-control" value={formData.telefono} onChange={handleChange} />

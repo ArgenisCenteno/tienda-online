@@ -87,7 +87,7 @@ const UpdateProduct = () => {
         toast.success(data?.message);
       } else {
         navigate(`/dashboard/admin/products`);
-        toast.success("Producto actualizado correctamente");
+        toast.error("Error al actualizar producto");
       }
     } catch (error) {
       console.log(error);

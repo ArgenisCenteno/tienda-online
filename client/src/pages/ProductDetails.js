@@ -26,22 +26,24 @@ const ProductDetails = () => {
     setInputFocused(false);
   };
 
+    // Obtener el producto por slug
+    const getProduct = async () => {
+      try {
+        const { data } = await axios.get(
+          `/api/v1/product/get-product/${params.slug}`
+        );
+        setProduct(data?.product);
+        getSimilarProduct(data?.product._id, data?.product.category._id);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+
   useEffect(() => {
     if (params?.slug) getProduct();
   }, [params?.slug]);
 
-  // Obtener el producto por slug
-  const getProduct = async () => {
-    try {
-      const { data } = await axios.get(
-        `/api/v1/product/get-product/${params.slug}`
-      );
-      setProduct(data?.product);
-      getSimilarProduct(data?.product._id, data?.product.category._id);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   // Obtener productos similares
   const getSimilarProduct = async (productId, categoryId) => {
@@ -82,9 +84,14 @@ const ProductDetails = () => {
       (variation) => variation.size === selectedSize
     );
 
-    // Verificar si la variación existe y si la cantidad seleccionada es mayor que la cantidad disponible
-    if (!selectedVariation || selectedQuantity > selectedVariation.quantity) {
+    if(!selectedVariation){
       toast.error("Seleccione una talla");
+      return;
+    }
+
+    // Verificar si la variación existe y si la cantidad seleccionada es mayor que la cantidad disponible
+    if ( selectedQuantity > selectedVariation.quantity) {
+      toast.error("No esta disponible esta cantidad en este momento");
       return;
     }
 
@@ -95,7 +102,7 @@ const ProductDetails = () => {
       price: selectedPrice,
       category: product.category,
       size: selectedSize,
-      quantity: selectedQuantity,
+      quantity: selectedQuantity, 
     };
 
     setCart([...cart, productData]);
@@ -107,20 +114,25 @@ const ProductDetails = () => {
     <Layout>
       <div className="row container product-details d-flex justify-content-center">
         <div className="col-md-4">
-          <img
-            src={`/api/v1/product/product-photo/${product._id}`}
-            className="card-img-top"
-            alt={product.name}
-            height="400"
-            width={"320px"}
-          />
+        {product._id ? (
+            <img
+              src={`/api/v1/product/product-photo/${product._id}`}
+               className="card-img-top"
+               alt={product.name}
+               height="400"
+               width={"320px"}
+            />
+            ) : (
+           <p>Imagen no disponible</p>
+            )}
+ 
         </div>
         <div className="col-md-6 product-details-info">
           <h2 className="text-center">Detalles del producto</h2>
           <hr />
           <h6>Nombre: {product.name}</h6>
           <h6>Marca: {product.description}</h6>
-          {product.quantity === 0 && <p className="unavailable-label">No disponible</p>}
+          {product.quantity === 0 || product.quantity < 0  && <p className="unavailable-label">No disponible</p>}
           <h6>Categoría: {product?.category?.name}</h6>
           <div className="size-quantity">
             <div className="row container d-flex justify-content-left pb-3">

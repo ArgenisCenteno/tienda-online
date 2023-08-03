@@ -24,7 +24,7 @@ const Slider = ({ slides }) => {
 
 
   return (
-    <section className='slider mt-4 '>
+    <section className='slider mt-4 mb-4'>
       
       {slides.map((slide, index) => {
         return (
@@ -43,7 +43,7 @@ const Slider = ({ slides }) => {
                       style={{ maxWidth: '100%', height: 'auto' }}
                     />
                   </div>
-                  <div className='col-md-6'>
+                  <div className='col-md-5'>
                     <div className='slide-content'>
                       <h2 style={{color: "#006d5b", marginTop: "12px"}}>{slide.title}</h2>
                       <h5>{slide.desc}</h5>

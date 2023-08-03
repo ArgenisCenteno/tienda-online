@@ -1,73 +1,330 @@
 import React, { useState, useEffect } from "react";
-import AdminMenu from "../../components/Layout/AdminMenu";
 import Layout from "./../../components/Layout/Layout";
-import axios from "axios";
+import AdminMenu from "./../../components/Layout/AdminMenu";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Select } from "antd";
+import { useNavigate } from "react-router-dom";
+const { Option } = Select;
 
-const Products = () => {
-  const [products, setProducts] = useState([]);
+const CreateProduct = () => {
+  const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [quantities, setQuantities] = useState([]);
+  const [keywords, setKeywords] = useState([]);
+  const [photo, setPhoto] = useState("");
+  const [sizes, setSizes] = useState(["S"]);
+  const [prices, setPrices] = useState([]);
+  const [formValid, setFormValid] = useState(false);
+  const [priceError, setPriceError] = useState("");
 
-  //OBTENER TODOS LOS PRODUCTOS
-  const getAllProducts = async () => {
+  // Obtener todas las categorías
+  const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("/api/v1/product/get-product");
-      setProducts(data.products);
+      const { data } = await axios.get("/api/v1/category/get-category");
+      if (data?.success) {
+        setCategories(data?.category);
+      }
     } catch (error) {
       console.log(error);
-      toast.error("Ocurrio un error al traer los productos");
+      toast.error("Ha ocurrido un error al consultar las categorias");
     }
   };
 
-  //CICLO DE VIDA 
   useEffect(() => {
-    getAllProducts();
+    getAllCategory();
   }, []);
 
-  return (
-    <Layout>
-      <div className="row container-fluid m-3 p-3 dashboard ">
-        <div className="col-md-3">
-          <AdminMenu />
-        </div>
+  // Agregar una nueva talla
+  const handleAddVariation = () => {
+    setSizes([...sizes, ""]);
+    setPrices([...prices, 0]);
+    setQuantities([...quantities, 0]);
+  };
 
-        <div className="col-md-8">
-          <h1>Todos los productos</h1>
-          <div className="table-responsive">
-            <table className="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th style={{width: "80px"}} >Imagen</th>
-                  <th style={{width: "80px"}}>Nombre</th>
-                  <th style={{width: "80px"}}>Marca</th>
-                  <th style={{width: "80px"}} >Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products?.map((p) => (
-                  <tr key={p._id}>
-                    <td style={{width: "80px"}}>
-                      <img
-                        src={`/api/v1/product/product-photo/${p._id}`}
-                        height={"200px"}
-                        className="card-img-top"
-                        alt={p.name}
-                      />
-                    </td>
-                    <td style={{width: "80px"}}>{p.name}</td>
-                    <td style={{width: "80px"}}>{p.description}</td>
-                    <td style={{width: "80px"}}>
-                      <Link
-                        to={`/dashboard/admin/product/${p.slug}`}
-                        className="product-link"
-                      >
-                        <button className="btn btn-success">Ver</button>
-                      </Link>
-                    </td>
-                  </tr>
+  // Remover elementos de las variaciones
+  const handleRemoveVariation = (index) => {
+    const updatedSizes = [...sizes];
+    const updatedPrices = [...prices];
+    const updatedQuantities = [...quantities];
+    updatedSizes.splice(index, 1);
+    updatedPrices.splice(index, 1);
+    updatedQuantities.splice(index, 1);
+    setSizes(updatedSizes);
+    setPrices(updatedPrices);
+    setQuantities(updatedQuantities);
+  };
+
+  // Modificar la talla
+  const handleSizeChange = (e, index) => {
+    const updatedSizes = [...sizes];
+    updatedSizes[index] = e.target.value;
+    setSizes(updatedSizes);
+  };
+
+  // Modificar el precio
+  const handlePriceChange = (e, index) => {
+    const newPrice = Number(e.target.value);
+    if (newPrice >= 0) {
+      const updatedPrices = [...prices];
+      updatedPrices[index] = newPrice;
+      setPrices(updatedPrices);
+      setPriceError("");
+    } else {
+      setPriceError("El precio no puede ser negativo");
+    }
+  };
+
+  // Modificar la cantidad
+  const handleQuantityChange = (e, index) => {
+    const updatedQuantities = [...quantities];
+    updatedQuantities[index] = Number(e.target.value);
+    setQuantities(updatedQuantities);
+  };
+
+  // Validar el formulario
+  useEffect(() => {
+    const hasSizes = sizes.length > 0;
+    const hasValidPrices = prices.every((price) => price > 0);
+    const hasValidQuantities = quantities.every((quantity) => quantity >= 0);
+    const isFormValid =
+      hasSizes && hasValidPrices && hasValidQuantities && name !== "" && description !== "" && category !== "";
+    setFormValid(isFormValid);
+  }, [sizes, prices, quantities, name, description, category]);
+
+  // Agregar una nueva palabra clave
+  const handleAddKeyword = () => {
+    setKeywords([...keywords, ""]);
+  };
+
+  // Modificar una palabra clave
+  const handleKeywordChange = (e, index) => {
+    const updatedKeywords = [...keywords];
+    updatedKeywords[index] = e.target.value;
+    setKeywords(updatedKeywords);
+  };
+
+  // Remover una palabra clave
+  const handleRemoveKeyword = (index) => {
+    const updatedKeywords = [...keywords];
+    updatedKeywords.splice(index, 1);
+    setKeywords(updatedKeywords);
+  };
+
+  // Crear producto
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    try {
+      const variations = sizes.map((size, index) => ({
+        size: size,
+        price: prices[index],
+        quantity: quantities[index],
+      }));
+
+      const productData = new FormData();
+      productData.append("name", name);
+      productData.append("description", description);
+      productData.append("variations", JSON.stringify(variations));
+      productData.append("photo", photo);
+      productData.append("category", category);
+      productData.append("keywords", JSON.stringify(keywords));
+
+      const { data } = await axios.post("/api/v1/product/create-product", productData);
+
+      if (data?.success) {
+        toast.success(data?.message);
+      } else {
+        toast.danger("Verifique los campos para crear el producto");
+        navigate("/dashboard/admin/create-product");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Complete los campos en el formulario");
+    }
+  };
+
+  return (
+    <Layout title={"Dashboard - Crear Producto"}>
+      <div className="container-fluid   p-3 dashboard">
+        <div className="row">
+          <div className="col-md-3">
+            <AdminMenu />
+          </div>
+          <div className="col-md-9">
+            <h1>Crear Producto</h1>
+            <div className="m-1 w-75">
+              <p>
+                <strong>Categoría</strong>
+              </p>
+              <Select
+                bordered={false}
+                placeholder="Selecciona una categoria"
+                size="large"
+                showSearch
+                className="form-select mb-3"
+                onChange={(value) => {
+                  setCategory(value);
+                }}
+              >
+                {categories?.map((c) => (
+                  <Option key={c._id} value={c._id}>
+                    {c.name}
+                  </Option>
                 ))}
-              </tbody>
-            </table>
+              </Select>
+              <div className="mb-3">
+                <p>
+                  <strong>Imagen</strong>
+                </p>
+                <label className="btn btn-outline-success col-md-12">
+                  {photo ? photo.name : "Subir imagen"}
+                  <input
+                    type="file"
+                    name="photo"
+                    accept="image/*"
+                    onChange={(e) => setPhoto(e.target.files[0])}
+                    hidden
+                    required
+                  />
+                </label>
+              </div>
+              <div className="mb-3">
+                {photo && (
+                  <div className="text-center">
+                    <img
+                      src={URL.createObjectURL(photo)}
+                      alt="product_photo"
+                      height={"200px"}
+                      className="img img-responsive"
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="mb-3">
+                <p>
+                  <strong>Nombre del producto</strong>
+                </p>
+                <input
+                  type="text"
+                  value={name}
+                  placeholder="Ingresa un nombre"
+                  className="form-control"
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <p>
+                  <strong>Marca</strong>
+                </p>
+                <input
+                  type="text"
+                  value={description}
+                  placeholder="Ingresa una marca"
+                  className="form-control"
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                />
+              </div>
+              {sizes.map((size, index) => (
+                <div key={index} className="row mb-3 d-flex justify-content-left">
+                  <div className="col-4 col-sm-3">
+                    <p>
+                      <strong>{`Talla ${size}`}</strong>
+                    </p>
+                    <input
+                      type="text"
+                      value={size}
+                      placeholder="Ingresa la talla"
+                      className="form-control"
+                      onChange={(e) => handleSizeChange(e, index)}
+                      required
+                    />
+                  </div>
+                  <div className="col-4 col-sm-3">
+                    <p>
+                      <strong>Precio: {prices[index] !== undefined ? ` ${prices[index]}` : ""}</strong>
+                    </p>
+                    <input
+                      type="number"
+                      step="any"
+                      value={prices[index]}
+                      className="form-control"
+                      min="0"
+                      onChange={(e) => handlePriceChange(e, index)}
+                      required
+                    />
+                    {priceError && <p className="text-danger">{priceError}</p>}
+                  </div>
+                  <div className="col-4 col-sm-3">
+                    <p>
+                      <strong>Cantidad {quantities[index] !== undefined ? ` ${quantities[index]}` : ""}</strong>
+                    </p>
+                    <input
+                      type="number"
+                      value={quantities[index]}
+                      placeholder="Cantidad"
+                      className="form-control"
+                      onChange={(e) => handleQuantityChange(e, index)}
+                      required
+                    />
+                  </div>
+                  {sizes.length > 1 && (
+                    <div className="col-4 col-sm-3 align-self-center">
+                      <p>
+                        <strong>Quitar</strong>
+                      </p>
+                      <button className="btn btn-danger" onClick={() => handleRemoveVariation(index)}>
+                        X
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+              <div className="mb-3">
+                <button className="btn btn-success" onClick={handleAddVariation}>
+                  Agregar Talla
+                </button>
+              </div>
+              <div className="mb-3">
+                <p>
+                  <strong>Palabras clave</strong>
+                </p>
+                {keywords.map((keyword, index) => (
+                  <div key={index} className="row mb-3">
+                    <div className="col-10">
+                      <input
+                        type="text"
+                        value={keyword}
+                        placeholder="Ingresa una palabra clave"
+                        className="form-control"
+                        onChange={(e) => handleKeywordChange(e, index)}
+                      />
+                    </div>
+                    {keywords.length > 1 && (
+                      <div className="col-2 align-self-center">
+                        <button className="btn btn-danger" onClick={() => handleRemoveKeyword(index)}>
+                          X
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+                <div>
+                  <button className="btn btn-success" onClick={handleAddKeyword}>
+                    Agregar Palabra Clave
+                  </button>
+                </div>
+              </div>
+              <div className="mb-3">
+                <button className="btn btn-success" onClick={handleCreate} disabled={!formValid}>
+                  Crear Producto
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -75,199 +332,30 @@ const Products = () => {
   );
 };
 
-export default Products;
-
-import React, { useState, useEffect } from 'react';
-import { Table, Select, Button, Modal } from 'antd';
-import AdminMenu from '../../components/Layout/AdminMenu';
-import Layout from './../../components/Layout/Layout';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
-import moment from 'moment';
-
-const { Option } = Select;
-
-const AdminOrders = () => {
-  const [status, setStatus] = useState([
-    'No procesada',
-    'Procesada',
-    'Enviada',
-    'Recibida',
-    'Cancelada',
-  ]);
-  const [changeStatus, setChangeStatus] = useState('');
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const getOrders = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get('/api/v1/auth/all-orders');
-      setOrders(data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      toast.error('Ocurrió un error al obtener las órdenes');
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getOrders();
-  }, []);
-
-  const handleChange = async (orderId, value) => {
-    try {
-      setLoading(true);
-      await axios.put(`/api/v1/auth/order-status/${orderId}`, {
-        status: value,
-      });
-      getOrders();
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  };
-
-  const handleViewOrder = (order) => {
-    setSelectedOrder(order);
-    setModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setSelectedOrder(null);
-    setModalVisible(false);
-  };
-
-  const columns = [
-    {
-      title: '#',
-      dataIndex: '_id',
-      key: '_id',
-      render: (_, record, index) => index + 1,
-    },
-    
-    {
-      title: 'Cliente',
-      dataIndex: 'buyer',
-      key: 'buyer',
-      render: (buyer) => <span>{buyer?.name}</span>,
-    },
-    {
-      title: 'Email',
-      dataIndex: 'buyer',
-      key: 'email',
-      render: (buyer) => <span>{buyer?.email}</span>,
-    },
-    {
-      title: 'Fecha',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (createdAt) => (
-        <span>{moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
-      ),
-    },
-    {
-      title: 'Estado de pago',
-      dataIndex: 'payment',
-      key: 'success',
-      render: (payment) => (
-        <span>{payment?.success ? 'Pagada' : 'Sin pagar'}</span>
-      ),
-    },
-    {
-      title: 'Monto',
-      dataIndex: 'payment',
-      key: 'amount',
-      render: (payment) => (
-        <span>{payment?.transaction?.amount}</span>
-      ),
-    }, 
-    {
-      title: 'Productos',
-      key: 'products',
-      render: (text, record) => (
-        <Button className='status-select' onClick={() => handleViewOrder(record)}>
-          Ver productos
-        </Button>
-      ),
-    },
-    {
-      title: 'Cambiar Estado',
-      key: 'changeStatus',
-      render: (text, record) => (
-        <Select
-          defaultValue={record.status}
-          style={{ width: 120 }}
-          className='status-select'
-          onChange={(value) => handleChange(record._id, value)}
-        >
-          {status.map((s) => (
-            <Option key={s} value={s}>
-              {s}
-            </Option>
-          ))}
-        </Select>
-      ),
-    },
-  ];
-
-  return (
-    <Layout>
-      <div className="row container-fluid m-3 p-3 dashboard">
-        <div className="col-md-3">
-          <AdminMenu />
-        </div>
-        <div className="col-md-9">
-          <h1>Todas las órdenes</h1>
-          <Table
-            columns={columns}
-            rowKey={(record) => record._id}
-            dataSource={orders}
-            pagination={false}
-            loading={loading}
-          />
-        </div>
-      </div>
-      <Modal
-        visible={modalVisible}
-        onCancel={closeModal}
-        title="Detalles de la orden"
-        footer={[
-          <Button key="cerrar" onClick={closeModal}>
-            Cerrar
-          </Button>
-        ]}
-      >
-        {selectedOrder && (
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Producto</th>
-                <th scope="col">Talla</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Cantidad</th>
-              </tr>
-            </thead>
-            <tbody>
-              {selectedOrder.products.map((product, index) => (
-                <tr key={index}>
-                  <td>{product.name}</td>
-                  <td>{product.size}</td>
-                  <td>{product.price}</td>
-                  <td>{product.quantity}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </Modal>
-    </Layout>
-  );
-};
-
-export default AdminOrders;
+export default CreateProduct;
+ keywords.push(`${clothingType} para hombres`);
+    keywords.push(`${clothingType} para caballeros`);
+    keywords.push(`${clothingType} de hombres`);
+    keywords.push(`${clothingType} de caballeros`);
+    keywords.push(`${clothingType} de hombre`);
+    keywords.push(`${clothingType} de caballero`);
+    keywords.push(`${clothingType} para hombre`);
+    keywords.push(`${clothingType} para caballero`);
+    keywords.push(`${clothingType} hombres`);
+    keywords.push(`${clothingType} caballeros`);
+    keywords.push(`${clothingType} hombre`);
+    keywords.push(`${clothingType} de caballero`);
+    // Agrega más palabras clave específicas para categorías de hombres aquí
+  } else if (gender === "mujer") {
+    keywords.push(`${clothingType} para mujeres`);
+    keywords.push(`${clothingType} para damas`);
+    keywords.push(`${clothingType} de mujeres`);
+    keywords.push(`${clothingType} de damas`);
+    keywords.push(`${clothingType} de mujer`);
+    keywords.push(`${clothingType} para mujer`);
+    keywords.push(`${clothingType} de dama`);
+    keywords.push(`${clothingType} para dama`);
+    keywords.push(`${clothingType} mujeres`);
+    keywords.push(`${clothingType} damas`);
+    keywords.push(`${clothingType} mujeres`);
+    keywords.push(`${clothingType} damas`);

@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Table, Select, Button, Modal } from 'antd';
+import { useNavigate } from "react-router-dom";
 import AdminMenu from '../../components/Layout/AdminMenu';
 import Layout from './../../components/Layout/Layout';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { Input} from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
 const AdminOrders = () => {
+
+  const navigate = useNavigate();
   const [status, setStatus] = useState([
     'No procesada',
     'Procesada',
@@ -22,7 +27,11 @@ const AdminOrders = () => {
   const [loading, setLoading] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [searchText, setSearchText] = useState({
+    client: '',
+    orderId: '',
+    email: '',
+  })
   // Obtener las órdenes del servidor
   const getOrders = async () => {
     try {
@@ -56,37 +65,133 @@ const AdminOrders = () => {
     }
   };
 
-  // Mostrar los detalles de una orden en un modal
-  const handleViewOrder = (order) => {
-    setSelectedOrder(order);
-    setModalVisible(true);
+  const handleSearch = (selectedKeys, dataIndex, confirm) => {
+    confirm();
+    setSearchText((prevSearchText) => ({
+      ...prevSearchText,
+      [dataIndex]: selectedKeys[0],
+    }));
   };
-
-  // Cerrar el modal
-  const closeModal = () => {
-    setSelectedOrder(null);
-    setModalVisible(false);
+  
+  const handleReset = (clearFilters, dataIndex) => {
+    clearFilters();
+   navigate("/dashboard/admin/orders")
   };
-
+ 
   // Columnas de la tabla
   const columns = [
     {
-      title: '#',
+      title: 'ID de Orden',
       dataIndex: '_id',
-      key: '_id',
-      render: (_, record, index) => index + 1, // Renderizar un número secuencial para la columna "#"
+      key: 'orderId',
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            placeholder="Buscar ID de Orden"
+            value={selectedKeys[0]}
+            onChange={(e) =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={() =>
+              handleSearch(selectedKeys, 'orderId', confirm)
+            }
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+          />
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, 'orderId', confirm)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ marginRight: 8 }}
+          >
+            Buscar
+          </Button>
+          <Button onClick={() => handleReset(clearFilters, 'orderId')} size="small">
+            Limpiar
+          </Button>
+        </div>
+      ),
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+      ),
+      onFilter: (value, record) =>
+        record._id.toLowerCase().includes(value.toLowerCase()), // Filtrar por el ID de Orden
     },
     {
       title: 'Cliente',
       dataIndex: 'buyer',
       key: 'buyer',
-      render: (buyer) => <span>{buyer?.name}</span>, // Renderizar el nombre del cliente
+      render: (buyer) => <span>{buyer?.name}</span>,
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            placeholder="Buscar cliente"
+            value={selectedKeys[0]}
+            onChange={(e) =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={() =>
+              handleSearch(selectedKeys, 'client', confirm)
+            }
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+          />
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, 'client', confirm)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ marginRight: 8 }}
+          >
+            Buscar
+          </Button>
+          <Button onClick={() => handleReset(clearFilters, 'client')} size="small">
+            Limpiar
+          </Button>
+        </div>
+      ),
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+      ),
+      onFilter: (value, record) =>
+        record.buyer?.name.toLowerCase().includes(value.toLowerCase()), // Filtrar por el nombre del cliente
     },
     {
-      title: 'Email',
+      title: 'Correo',
       dataIndex: 'buyer',
       key: 'email',
-      render: (buyer) => <span>{buyer?.email}</span>, // Renderizar el email del cliente
+      render: (buyer) => <span>{buyer?.email}</span>,
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            placeholder="Buscar correo"
+            value={selectedKeys[0]}
+            onChange={(e) =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={() =>
+              handleSearch(selectedKeys, 'buyer.email', confirm) 
+            }
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+          />
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, 'buyer.email', confirm)} 
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ marginRight: 8 }}
+          >
+            Buscar
+          </Button>
+          <Button onClick={() => handleReset(clearFilters, 'buyer.email')} size="small">  
+            Limpiar
+          </Button>
+        </div>
+      ),
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+      ),
+      onFilter: (value, record) =>
+        record.buyer?.email.toLowerCase().includes(value.toLowerCase()), // Filtrar por el correo del cliente
     },
     {
       title: 'Fecha',
@@ -98,29 +203,46 @@ const AdminOrders = () => {
     },
     {
       title: 'Estado de pago',
-      dataIndex: 'payment',
-      key: 'success',
-      render: (payment) => (
-        <span>{payment?.success ? 'Pagada' : 'Sin pagar'}</span> // Renderizar el estado de pago de la orden
+      dataIndex: 'isPaid',
+      key: 'isPaid',
+      render: (isPaid) => <span>{isPaid ? 'Pagada' : 'Sin pagar'}</span>,
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+        <div style={{ padding: 8 }}>
+          <Select
+            style={{ width: 120 }}
+            value={selectedKeys[0]}
+            onChange={(value) => setSelectedKeys([value])}
+          >
+            <Option value="">Todos</Option>
+            <Option value="true">Pagada</Option>
+            <Option value="false">Sin pagar</Option>
+          </Select>
+          <Button
+            type="primary"
+            onClick={() => {
+              confirm();
+            }}
+            size="small"
+            style={{ marginRight: 8 }}
+          >
+            Filtrar
+          </Button>
+          <Button onClick={clearFilters} size="small">
+            Limpiar
+          </Button>
+        </div>
       ),
+      onFilter: (value, record) => {
+        if (value === 'true') {
+          return record.isPaid;
+        } else if (value === 'false') {
+          return !record.isPaid;
+        }
+        return true;
+      },
+      // ...otras propiedades...
     },
-    {
-      title: 'Monto',
-      dataIndex: 'payment',
-      key: 'amount',
-      render: (payment) => (
-        <span>{payment?.transaction?.amount}</span> // Renderizar el monto de la transacción de pago
-      ),
-    },
-    {
-      title: 'Productos',
-      key: 'products',
-      render: (text, record) => (
-        <Button className='status-select' onClick={() => handleViewOrder(record)}>
-          Ver productos
-        </Button>
-      ), // Renderizar un botón para ver los productos de la orden
-    },
+    
     {
       title: 'Cambiar Estado',
       key: 'changeStatus',
@@ -149,55 +271,28 @@ const AdminOrders = () => {
   ];
 
   return (
-    <Layout>
+    <Layout title={"Dashboard - Ordenes"}>
       <div className="row container-fluid  p-3 dashboard">
         <div className="col-md-3">
           <AdminMenu />
         </div>
         <div className="col-md-9">
-          <h1 className='mt-4 mb-4'>Todas las órdenes</h1>
+          <h1 className='mt-4  mb-4'>Todas las órdenes</h1>
           <Table
             columns={columns}
             rowKey={(record) => record._id}
-            dataSource={orders}
-            pagination={false}
+            dataSource={orders} 
+            pagination={{
+              
+              pageSize: 10, // Cantidad de filas por página
+              showSizeChanger: true, // Opción para cambiar la cantidad de filas por página
+              pageSizeOptions: ['10', '20', '50'], // Opciones para seleccionar la cantidad de filas por página
+            }}
             loading={loading}
           />
         </div>
       </div>
-      <Modal
-        visible={modalVisible}
-        onCancel={closeModal}
-        title="Detalles de la orden"
-        footer={[
-          <Button key="cerrar" onClick={closeModal}>
-            Cerrar
-          </Button>
-        ]}
-      >
-        {selectedOrder && (
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Producto</th>
-                <th scope="col">Talla</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Cantidad</th>
-              </tr>
-            </thead>
-            <tbody>
-              {selectedOrder.products.map((product, index) => (
-                <tr key={index}>
-                  <td>{product.name}</td>
-                  <td>{product.size}</td>
-                  <td>{product.price}</td>
-                  <td>{product.quantity}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </Modal>
+       
     </Layout>
   );
 };

@@ -1,5 +1,7 @@
 import userModel from "../models/userModel.js";
 import orderModel from "../models/orderModel.js";
+import categoryModel from "../models/categoryModel.js";
+import productModel from "../models/productModel.js";
 
 import { comparePassword, hashPassword } from "./../helpers/authHelper.js";
 import JWT from "jsonwebtoken";
@@ -205,7 +207,8 @@ export const getOrdersController = async (req, res) => {
     const orders = await orderModel
       .find({ buyer: req.user._id })
       .populate("products", "-photo")
-      .populate("buyer", "name email phone");
+      .populate("buyer", "name email phone") 
+      .sort({ createdAt: "-1" });
     res.json(orders);
   } catch (error) {
     console.log(error);
@@ -249,7 +252,7 @@ export const getAllOrdersController = async (req, res) => {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error al traer ordenes",
+      message: "Error al traer ordenes", 
       error,
     });
   }
@@ -271,6 +274,114 @@ export const orderStatusController = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Error While Updateing Order",
+      error,
+    });
+  }
+};
+
+//ESTADO DE PAGO DE LA ORDEN
+export const orderStatusPaidController = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    
+    // Realizamos una actualización directa en la base de datos para establecer isPaid como true
+    const updatedOrder = await orderModel.findByIdAndUpdate(
+      orderId,
+      { isPaid: true },
+      { new: true }
+    );
+    
+    if (!updatedOrder) {
+      return res.status(404).json({
+        success: false,
+        message: "Orden no encontrada",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "El estado de pago de la orden ha sido actualizado a 'Pagada'",
+      order: updatedOrder,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error al actualizar el estado de pago de la orden",
+      error,
+    });
+  }
+}; 
+
+export const getAllUsersController = async (req, res) => {
+  try {
+    const users = await userModel.find({}).select("-password");
+    res.json({
+      success: true,
+      users,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error al obtener la lista de usuarios",
+      error,
+    });
+  }
+};
+ 
+export const getTotalProductsController = async (req, res) => {
+  try {
+    const total = await productModel.countDocuments();
+    res.json({ total });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while fetching total products",
+      error,
+    });
+  }
+};
+ 
+   
+export const getTotalCategoriesController = async (req, res) => {
+  try {
+    const total = await categoryModel.countDocuments();
+    res.json({ total });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while fetching total categories",
+      error,
+    });
+  }
+};
+
+export const getTotalUsersController = async (req, res) => {
+  try {
+    const total = await userModel.countDocuments();
+    res.json({ total });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while fetching total users",
+      error,
+    });
+  }
+};
+
+export const getTotalOrders = async (req, res) => {
+  try {
+    const total = await orderModel.countDocuments();
+    res.json({ total });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while fetching total orders",
       error,
     });
   }

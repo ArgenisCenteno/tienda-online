@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"; 
 import Layout from "./../components/Layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
 import DropIn from "braintree-web-drop-in-react";
-
- 
+import {PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js'; 
 import axios from "axios";
 import toast from "react-hot-toast";
 import "../styles/CartStyles.css";
@@ -16,6 +15,8 @@ const Payment = () => {
   const [clientToken, setClientToken] = useState("");
   const [instance, setInstance] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isPaying, setIsPaying] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,17 +49,16 @@ const Payment = () => {
       cart?.map((item) => {
         const itemTotal = item.price * item.quantity;
         total += itemTotal;
-        total += address?.tasaEnvio;
+        total += address?.tasaEnvio; 
 
       });
-      return total.toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
-      });
+      return total
     } catch (error) {
       console.log(error);
     }
   };
+
+ 
  //CALCULAR EL SUBTOTAL 
  const subTotal = () => {
     try {
@@ -68,11 +68,7 @@ const Payment = () => {
         total += itemTotal;
       });
 
-      return total.toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
-      });
-    } catch (error) {
+      return total }  catch (error) {
       console.log(error);
     }
   };
@@ -132,8 +128,33 @@ const Payment = () => {
     }
   };
 
+  const onOrderCompleted = async (details) => {
+    if ( details.status !== 'COMPLETED' ) {
+      return toast.error('No hay pago en Paypal'); }
 
+      setIsPaying(true);
 
+      try {
+          
+          const { data } = await  axios.post("/api/v1/product/paypal-pay", {
+              transactionId: details.id,
+            
+              cart,
+              address
+          });
+
+          localStorage.removeItem("cart");
+          setCart([]);
+          navigate( `/dashboard/user/order/${data.order._id}` );
+          toast.success("Pago completado correctamente, gracias por su compra"); 
+      } catch (error) {
+          setIsPaying(false);
+          console.log(error);
+          toast.error('Error');
+      }
+  console.log("Detalles de la transacción:", details);
+  }
+    
   return (
     <Layout style={{ width: "100vw" }}>
       <div className="cart-page">
@@ -243,11 +264,36 @@ const Payment = () => {
                 </div>
               )}
               <div className="mt-2 botonPago">
+                     
+              <PayPalButtons 
+              createOrder={(data, actions) => {
+                return actions.order.create({
+                    purchase_units: [
+                        {
+                            amount: {
+                                value:  totalPrice().toString(),
+                            },
+                        },
+                    ],
+                });
+            }}
+            onApprove={(data, actions) => {
+                return actions.order.capture().then((details) => {
+                    onOrderCompleted( details );
+                    // console.log({ details  })
+                    // const name = details.payer.name.given_name;
+                    // alert(`Transaction completed by ${name}`);
+                });
+            }}
+              />
+     
+
                 {!clientToken || !auth?.token || !cart?.length ? (
                   ""
                 ) : (
                   <>
-                    <p className="text-left">Seleccione un metodo de pago</p>
+                 
+                     <p className="text-left">Seleccione un metodo de pago</p>
                     <DropIn
                       options={{
                         authorization: clientToken,

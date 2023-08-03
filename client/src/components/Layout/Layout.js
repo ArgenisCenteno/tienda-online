@@ -1,5 +1,5 @@
 import React from "react";
-import Footer from "./Footer";
+import Banner from "./Banner";
 import Header from "./Header";
 import NavbarCategories from "./NavbarCategories"
 import { Helmet } from "react-helmet";
@@ -21,7 +21,7 @@ const Layout = ({ children, title, description, keywords, author }) => {
 
         {children}
       </main>
-      <Footer />
+      <Banner />
     </div>
   );
 };

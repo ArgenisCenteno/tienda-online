@@ -45,39 +45,8 @@ const CartPage = () => {
     }
   };
 
-  //TRAEMOS UN TOKEN PARA REALIZAR UN PAGO
-  const getToken = async () => {
-    try {
-      const { data } = await axios.get("/api/v1/product/braintree/token");
-      setClientToken(data?.clientToken);
-    } catch (error) {
-      console.log(error);
-    }
-  }; 
-  useEffect(() => {
-    getToken();
-  }, [auth?.token]);
-
-  //REALIZAMOS EL PAGO
-  const handlePayment = async () => {
-    try {
-      setLoading(true);
-      const { nonce } = await instance.requestPaymentMethod();
-      const { data } = await axios.post("/api/v1/product/braintree/payment", {
-        nonce,
-        cart,
-      });
-      setLoading(false);
-      localStorage.removeItem("cart");
-      setCart([]);
-      navigate("/dashboard/user/orders");
-      toast.success("Pago completado correctamente, gracias por su compra");
-    } catch (error) {
-      toast.danger(error);
-      console.log(error);
-      setLoading(false);
-    }
-  };
+   
+  
   return (
     <Layout style={{width: "100vw"}}>
       <div className=" cart-page">
@@ -98,36 +67,31 @@ const CartPage = () => {
           </div>
         </div>
         <div className="container " style={{marginTop: "22px", paddingBottom: "22px"}}>
-          <div className="row pb-4">
-            <div className="col-12 col-lg-8 col-xs-8 col-sm-8  mb-4 pb-4">
-            {cart?.map((p) => (
-              <div className="row card flex-row  pb-4" key={p._id}>
-                  <div className="col-3 col-md-3">
-                      <img
-                        src={`/api/v1/product/product-photo/${p._id}`}
-                        className="card-img-top-card"
-                        alt={p.name}
-                       
-                      />
+        <div className="row pb-4">
+          <div className="col-lg-8 mb-4 pb-4">  
+            
+            {cart.map((p, index) => (
+             <div className="card mb-3" key={index}>
+             <div className="row no-gutters">
+               <div className="col-4 col-md-3">
+                 <img
+                   src={`/api/v1/product/product-photo/${p._id}`}
+                   className="card-img-Pay"
+                   alt={p.name}
+                   style={{ maxHeight: "140px" }}
+                 />
+               </div>
+               <div className="col-4 col-md-6">
+                 <div className="card-body">
+                   <h5 className="card-title">{p.name}</h5>
+                   <p className="card-text">
+                     <strong>Talla:</strong> {p.size} <br />
+                     <strong>Cantidad:</strong> {p.quantity} <br />
+                     <strong>Precio:</strong> {p.price}
+                   </p>
                  </div>
-             <div className="col-8 col-md-7">
-              <div className="row container d-flex justify-content-left itemsCart">
-                  <div className="col-6 col-sm-6" >
-                      <p><strong>Producto</strong>   <br/>  {p.name}</p> 
-                    
-                 
-                  </div>
-                 
-                  <div className="col-6 col-sm-6">
-                  <p><strong>Talla:</strong>  {p.size}</p>   
-                  <p><strong>Cant:</strong>  {p.quantity}</p>
-                  <p><strong>Precio:</strong>  {p.price}</p>
-                  </div>
-
-              </div>
-                 
-            </div>
-            <div className="col-1 col-sm-2 pt-1 cart-remove-btn">
+               </div>
+               <div className="col-1 col-sm-2 pt-1 cart-remove-btn">
               <button
                className="btn btn-danger"
                onClick={() => removeCartItem(p._id)}
@@ -135,9 +99,11 @@ const CartPage = () => {
                  X
             </button>
     </div>
-  </div>
-))}
-            </div>
+             </div>
+           </div>
+            ))}
+          </div>
+
             <div className="col-lg-4 col-xs-4 col-sm-4 cart-summary ">
               <h2>Resumen de Orden</h2>
               <p>Total | Ingresar dirección | Pago</p>

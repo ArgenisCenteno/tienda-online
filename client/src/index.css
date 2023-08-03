@@ -134,7 +134,7 @@ body{
 =================== */
 
 .dashboard {
-  margin-top: 100px !important;
+  margin-top: 1rem !important;
 }
 
 .dashboard-menu h4 {
@@ -314,6 +314,10 @@ body{
 
   .fixed-cart-icon{
     margin-right: 40px !important;
+  }
+
+  .ant-table-wrapper{
+    overflow: scroll;
   }
 
 }
@@ -514,7 +518,7 @@ body{
       .fixed-cart-icon{
         margin-right: 21px !important;
       }
-      
+       
       .col-4 {
         flex: 0 0 auto;
         width: 50.333333%;
@@ -570,3 +574,16 @@ body{
           }
 
         }  
+
+        .offset-1 {
+          margin-left: 0.333333%;
+      }
+
+.category-card{
+  background-color: #ffff;
+}
+ .category-card:hover{
+  background-color: #017752 !important;
+ }     
+
+ 

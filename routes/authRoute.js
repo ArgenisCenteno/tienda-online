@@ -8,7 +8,14 @@ import {
   getOrdersController,
   getAllOrdersController,
   orderStatusController,
-  getOrderByIdController
+  getOrderByIdController,
+  orderStatusPaidController,
+  getAllUsersController,
+  getTotalUsersController,
+  getTotalCategoriesController,
+  getTotalOrders,
+  getTotalProductsController
+
 } from "../controllers/authController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 
@@ -54,6 +61,48 @@ router.put(
   requireSignIn,
   isAdmin,
   orderStatusController
+);
+
+router.put(
+  "/update-isPaid/:orderId",
+  requireSignIn,
+  isAdmin,
+  orderStatusPaidController
+);
+
+router.get(
+  "/all-users",
+  requireSignIn,
+  isAdmin,
+  getAllUsersController
+);
+
+router.get(
+  "/total-users",
+  requireSignIn,
+  isAdmin,
+  getTotalUsersController
+);
+
+router.get(
+  "/total-categories",
+  requireSignIn,
+  isAdmin,
+  getTotalCategoriesController
+);
+
+router.get(
+  "/total-orders",
+  requireSignIn,
+  isAdmin,
+  getTotalOrders
+);
+
+router.get(
+  "/total-products",
+  requireSignIn,
+  isAdmin,
+  getTotalProductsController
 );
 
 export default router;

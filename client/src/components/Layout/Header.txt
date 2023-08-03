@@ -1,170 +1,1118 @@
-import React from "react";
-import { NavLink, Link } from "react-router-dom";
-import { useAuth } from "../../context/auth";
-import toast from "react-hot-toast";
-import SearchInput from "../Form/SearchInput";
-import useCategory from "../../hooks/useCategory";
-import { useCart } from "../../context/cart";
-import hella from "./img/hella-sin-fondo.png";
-import { Badge } from "antd";
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
- 
-const Header = () => {
-  const [auth, setAuth] = useAuth();
-  const [cart] = useCart();
-  const categories = useCategory();
+@media  (max-width: 912px) {
+  .slider { 
+     
+      height: 30vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-  // CERRAR SESION
-  const handleLogout = () => {
-    setAuth({
-      ...auth,
-      user: null,
-      token: "",
-    });
-    localStorage.removeItem("auth");
-    toast.success("Sesion cerrada");
-  };
-
-  return (
-    <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
-        <div className="container-fluid">
-          <button
-            className="navbar-toggler iconHeader"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarTogglerDemo01"
-            aria-controls="navbarTogglerDemo01"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-            
-          </button>
-            <Link to={"/"} className="navbar-brand text-success " >
-              <img src={hella} className="" alt="logo-hella" width="50px" height="50px" />
-              Hella Store 
-            </Link>
-
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <Link to={"/"} className="navbar-brand text-success " >
-              <img src={hella} className="iconHeaderPrincipal  d-lg-none" alt="logo-hella" width="50px" height="50px" />
-             
-            </Link>
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              <SearchInput />
-              <li className="nav-item">
-                <Link to={"/"} className="nav-link ">
-                  Inicio
-                </Link>
-              </li>
-              <li className="nav-item dropdown">
-                <Link
-                  className="nav-link dropdown-toggle"
-                  to={"/categories"}
-                  data-bs-toggle="dropdown"
-                >
-                  Categorias
-                </Link>
-                <ul className="dropdown-menu">
-                  <li>
-                    <Link className="dropdown-item" to={"/categories"}>
-                      Todas las categorias
-                    </Link>
-                  </li>
-                  {categories?.map((c) => (
-                    <li key={c._id}>
-                      <Link
-                        className="dropdown-item"
-                        to={`/category/${c.slug}`}
-                      >
-                        {c.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-
-              {!auth?.user ? (
-                <>
-                  <li className="nav-item">
-                    <NavLink to="/register" className="nav-link">
-                      Registrar
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink to="/login" className="nav-link">
-                      Inicio Sesion
-                    </NavLink>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li className="nav-item dropdown">
-                    <NavLink
-                      className="nav-link dropdown-toggle"
-                      href="#"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      style={{ border: "none" }}
-                    >
-                      {auth?.user?.name}
-                    </NavLink>
-                    <ul className="dropdown-menu userDropDown">
-                      <li>
-                        <NavLink
-                          to={`/dashboard/${
-                            auth?.user?.role === 1 ? "admin" : "user"
-                          }`}
-                          className="dropdown-item"
-                        >
-                          Dashboard
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          onClick={handleLogout}
-                          to="/login"
-                          className="dropdown-item"
-                        >
-                          Cerrar Sesion
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </li>
-                  <li className="nav-item">
-                    {/* Agregar el ícono del carrito al lado del nombre del usuario */}
-                   
-                  </li>
-                </>
-              )}
-              
-            </ul>
-          </div>
-          <ul>
-          <li className="nav-item fixed-cart-icon ">
-              <NavLink to="/cart" className="nav-link " style={{ marginLeft: "32px", marginRight: "9px" }}>
-                      <Badge
-                        count={cart?.length}
-                        style={{ color: "#ffff", background: "#057c56" }}
-                        showZero
-                        offset={[10, -5]}
-                      >
-                        
-                        <ShoppingCartOutlinedIcon style={{ color: "#057c56" }} />
-                      </Badge>
-                    </NavLink>
-              </li>        
-          </ul>
-         
-          {/* No olvides mantener el NavLink del carrito de compra aquí si tienes estilos adicionales */}
-        </div>
-       
-      </nav>
-
+    .right-arrow {
+      position: absolute;
+      top: 30%;
+      right: 32px;
+      font-size: 3rem;
+      color: #000;
+      z-index: 1;
+      cursor: pointer;
+      user-select: none;
+     
+    }
+    
+    .left-arrow {
+      position: absolute;
+      top: 30%;
+      left: 32px;
+      font-size: 3rem;
+      color: #000;
+      z-index: 1;
+      cursor: pointer;
+      user-select: none;
       
-    </>
-  );
-};
+    }
+   
+  }
 
-export default Header;
+
+@media  (max-width: 820px) {
+  .slider { 
+     
+      height: 30vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .right-arrow {
+      position: absolute;
+      top: 30%;
+      right: 32px;
+      font-size: 3rem;
+      color: #000;
+      z-index: 1;
+      cursor: pointer;
+      user-select: none;
+     
+    }
+    
+    .left-arrow {
+      position: absolute;
+      top: 30%;
+      left: 32px;
+      font-size: 3rem;
+      color: #000;
+      z-index: 1;
+      cursor: pointer;
+      user-select: none;
+      
+    }
+   
+  }  
+  @media (max-width: 540px) {
+    .slider { 
+       
+        height: 83vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+        
+        
+      }
+    }   
+
+    @media  (max-width: 520px) {
+      .slider { 
+         
+          height: 50vh;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center; 
+          
+          
+        }
+      } 
+
+      @media (max-width: 540px) {
+        .slider { 
+           
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            
+            
+          }
+        } 
+        @media   (min-width: 600px) {
+          .slider { 
+             
+              height: 100vh;
+              width: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center; 
+              
+              
+            }
+          } 
+
+          @media   (max-width: 650px) {
+            .slider { 
+               
+                height: 50vh;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center; 
+                
+                
+              }
+            } 
+
+            @media  (max-width: 750px) {
+              .slider { 
+                 
+                  height: 60vh;
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center; 
+                  
+                  
+                }
+              } 
+
+          @media   (max-width: 700px) {
+            .slider { 
+               
+                height: 60vh;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center; 
+                
+                
+              }
+            } 
+  @media  (max-width: 414px) {
+    .slider { 
+       
+        height: 58vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+      }
+
+       
+    } 
+    @media  (max-width: 375px) {
+      .slider { 
+         
+          height: 75vh;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+           
+        }
+      }    
+      
+      @media (max-width: 280px) {
+        .slider { 
+           
+            height: 75vh;
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+          }
+
+          .right-arrow {
+            position: absolute;
+            top: 30%;
+            right: 22px;
+            font-size: 3rem;
+            color: #000;
+            z-index: 1;
+            cursor: pointer;
+            user-select: none;
+
+          }
+          
+          .left-arrow {
+            position: absolute;
+            top: 30%;
+            left: 12px;
+            font-size: 3rem;
+            color: #000;
+            z-index: 1;
+            cursor: pointer;
+            user-select: none;
+            
+          }
+        } 
+
+        @media (max-width: 380px) {
+          .slider { 
+             
+              height: 75vh;
+              width: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              
+            }
+  
+            .right-arrow {
+              position: absolute;
+              top: 30%;
+              right: 22px;
+              font-size: 3rem;
+              color: #000;
+              z-index: 1;
+              cursor: pointer;
+              user-select: none;
+  
+            }
+            
+            .left-arrow {
+              position: absolute;
+              top: 30%;
+              left: 12px;
+              font-size: 3rem;
+              color: #000;
+              z-index: 1;
+              cursor: pointer;
+              user-select: none;
+              
+            }
+          } 
+          @media (max-width: 400px) {
+            .slider { 
+               
+                height: 75vh;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+              }
+    
+              .right-arrow {
+                position: absolute;
+                top: 30%;
+                right: 22px;
+                font-size: 3rem;
+                color: #000;
+                z-index: 1;
+                cursor: pointer;
+                user-select: none;
+    
+              }
+              
+              .left-arrow {
+                position: absolute;
+                top: 30%;
+                left: 12px;
+                font-size: 3rem;
+                color: #000;
+                z-index: 1;
+                cursor: pointer;
+                user-select: none;
+                
+              }
+            }           
+
+            @media (max-width: 416px) {
+              .slider { 
+                 
+                  height: 75vh;
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  
+                }
+      
+                .right-arrow {
+                  position: absolute;
+                  top: 30%;
+                  right: 22px;
+                  font-size: 3rem;
+                  color: #000;
+                  z-index: 1;
+                  cursor: pointer;
+                  user-select: none;
+      
+                }
+                
+                .left-arrow {
+                  position: absolute;
+                  top: 30%;
+                  left: 12px;
+                  font-size: 3rem;
+                  color: #000;
+                  z-index: 1;
+                  cursor: pointer;
+                  user-select: none;
+                  
+                }
+              } 
+
+              @media (max-width: 450px) {
+                .slider { 
+                   
+                    height: 75vh;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    
+                  }
+        
+                  .right-arrow {
+                    position: absolute;
+                    top: 30%;
+                    right: 22px;
+                    font-size: 3rem;
+                    color: #000;
+                    z-index: 1;
+                    cursor: pointer;
+                    user-select: none;
+        
+                  }
+                  
+                  .left-arrow {
+                    position: absolute;
+                    top: 30%;
+                    left: 12px;
+                    font-size: 3rem;
+                    color: #000;
+                    z-index: 1;
+                    cursor: pointer;
+                    user-select: none;
+                    
+                  }
+                } 
+
+                @media (max-width: 500px) {
+                  .slider { 
+                     
+                      height: 75vh;
+                      width: 100%;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      
+                    }
+          
+                    .right-arrow {
+                      position: absolute;
+                      top: 30%;
+                      right: 22px;
+                      font-size: 3rem;
+                      color: #000;
+                      z-index: 1;
+                      cursor: pointer;
+                      user-select: none;
+          
+                    }
+                    
+                    .left-arrow {
+                      position: absolute;
+                      top: 30%;
+                      left: 12px;
+                      font-size: 3rem;
+                      color: #000;
+                      z-index: 1;
+                      cursor: pointer;
+                      user-select: none;
+                      
+                    }
+                  } 
+
+
+                  @media (max-width: 520px) {
+                    .slider { 
+                       
+                        height: 75vh;
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        
+                      }
+            
+                      .right-arrow {
+                        position: absolute;
+                        top: 30%;
+                        right: 22px;
+                        font-size: 3rem;
+                        color: #000;
+                        z-index: 1;
+                        cursor: pointer;
+                        user-select: none;
+            
+                      }
+                      
+                      .left-arrow {
+                        position: absolute;
+                        top: 30%;
+                        left: 12px;
+                        font-size: 3rem;
+                        color: #000;
+                        z-index: 1;
+                        cursor: pointer;
+                        user-select: none;
+                        
+                      }
+                    } 
+      
+                    @media (max-width: 523px) {
+                      .slider { 
+                         
+                          height: 75vh;
+                          width: 100%;
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                          
+                        }
+              
+                        .right-arrow {
+                          position: absolute;
+                          top: 30%;
+                          right: 22px;
+                          font-size: 3rem;
+                          color: #000;
+                          z-index: 1;
+                          cursor: pointer;
+                          user-select: none;
+              
+                        }
+                        
+                        .left-arrow {
+                          position: absolute;
+                          top: 30%;
+                          left: 12px;
+                          font-size: 3rem;
+                          color: #000;
+                          z-index: 1;
+                          cursor: pointer;
+                          user-select: none;
+                          
+                        }
+                      } 
+      
+                      @media (max-width: 550px) {
+                        .slider { 
+                           
+                            height: 75vh;
+                            width: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            
+                          }
+                
+                          .right-arrow {
+                            position: absolute;
+                            top: 30%;
+                            right: 22px;
+                            font-size: 3rem;
+                            color: #000;
+                            z-index: 1;
+                            cursor: pointer;
+                            user-select: none;
+                
+                          }
+                          
+                          .left-arrow {
+                            position: absolute;
+                            top: 30%;
+                            left: 12px;
+                            font-size: 3rem;
+                            color: #000;
+                            z-index: 1;
+                            cursor: pointer;
+                            user-select: none;
+                            
+                          }
+                        } 
+
+                        @media (max-width: 600px) {
+                          .slider { 
+                             
+                              height: 83vh;
+                              width: 100%;
+                              display: flex;
+                              justify-content: center;
+                              align-items: center;
+                              
+                            }
+                  
+                            .right-arrow {
+                              position: absolute;
+                              top: 30%;
+                              right: 22px;
+                              font-size: 3rem;
+                              color: #000;
+                              z-index: 1;
+                              cursor: pointer;
+                              user-select: none;
+                  
+                            }
+                            
+                            .left-arrow {
+                              position: absolute;
+                              top: 30%;
+                              left: 12px;
+                              font-size: 3rem;
+                              color: #000;
+                              z-index: 1;
+                              cursor: pointer;
+                              user-select: none;
+                              
+                            }
+                          } 
+            
+                          @media (max-width: 620px) {
+                            .slider { 
+                               
+                                height: 75vh;
+                                width: 100%;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                
+                              }
+                    
+                              .right-arrow {
+                                position: absolute;
+                                top: 30%;
+                                right: 22px;
+                                font-size: 3rem;
+                                color: #000;
+                                z-index: 1;
+                                cursor: pointer;
+                                user-select: none;
+                    
+                              }
+                              
+                              .left-arrow {
+                                position: absolute;
+                                top: 30%;
+                                left: 12px;
+                                font-size: 3rem;
+                                color: #000;
+                                z-index: 1;
+                                cursor: pointer;
+                                user-select: none;
+                                
+                              }
+                            } 
+            
+                            @media (max-width: 650px) {
+                              .slider { 
+                                 
+                                  height: 75vh;
+                                  width: 100%;
+                                  display: flex;
+                                  justify-content: center;
+                                  align-items: center;
+                                  
+                                }
+                      
+                                .right-arrow {
+                                  position: absolute;
+                                  top: 30%;
+                                  right: 22px;
+                                  font-size: 3rem;
+                                  color: #000;
+                                  z-index: 1;
+                                  cursor: pointer;
+                                  user-select: none;
+                      
+                                }
+                                
+                                .left-arrow {
+                                  position: absolute;
+                                  top: 30%;
+                                  left: 12px;
+                                  font-size: 3rem;
+                                  color: #000;
+                                  z-index: 1;
+                                  cursor: pointer;
+                                  user-select: none;
+                                  
+                                }
+                              } 
+
+                              @media (max-width: 768px) {
+                                .slider { 
+                                   
+                                    height: 75vh;
+                                    width: 100%;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    
+                                  }
+                        
+                                  .right-arrow {
+                                    position: absolute;
+                                    top: 30%;
+                                    right: 22px;
+                                    font-size: 3rem;
+                                    color: #000;
+                                    z-index: 1;
+                                    cursor: pointer;
+                                    user-select: none;
+                        
+                                  }
+                                  
+                                  .left-arrow {
+                                    position: absolute;
+                                    top: 30%;
+                                    left: 12px;
+                                    font-size: 3rem;
+                                    color: #000;
+                                    z-index: 1;
+                                    cursor: pointer;
+                                    user-select: none;
+                                    
+                                  }
+                                } 
+
+                                @media (max-width: 720px) {
+                                  .slider { 
+                                     
+                                      height: 95vh;
+                                      width: 100%;
+                                      display: flex;
+                                      justify-content: center;
+                                      align-items: center;
+                                      
+                                    }
+                          
+                                    .right-arrow {
+                                      position: absolute;
+                                      top: 30%;
+                                      right: 22px;
+                                      font-size: 3rem;
+                                      color: #000;
+                                      z-index: 1;
+                                      cursor: pointer;
+                                      user-select: none;
+                          
+                                    }
+                                    
+                                    .left-arrow {
+                                      position: absolute;
+                                      top: 30%;
+                                      left: 12px;
+                                      font-size: 3rem;
+                                      color: #000;
+                                      z-index: 1;
+                                      cursor: pointer;
+                                      user-select: none;
+                                      
+                                    }
+                                  } 
+
+                                  @media (max-width: 800px) {
+                                    .slider { 
+                                       
+                                        height: 75vh;
+                                        width: 100%;
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        
+                                      }
+                            
+                                      .right-arrow {
+                                        position: absolute;
+                                        top: 30%;
+                                        right: 22px;
+                                        font-size: 3rem;
+                                        color: #000;
+                                        z-index: 1;
+                                        cursor: pointer;
+                                        user-select: none;
+                            
+                                      }
+                                      
+                                      .left-arrow {
+                                        position: absolute;
+                                        top: 30%;
+                                        left: 12px;
+                                        font-size: 3rem;
+                                        color: #000;
+                                        z-index: 1;
+                                        cursor: pointer;
+                                        user-select: none;
+                                        
+                                      }
+                                    } 
+
+                                    @media (max-width: 640px) {
+                                      .slider { 
+                                         
+                                          height: 95vh;
+                                          width: 100%;
+                                          display: flex;
+                                          justify-content: center;
+                                          align-items: center;
+                                          
+                                        }
+                              
+                                        .right-arrow {
+                                          position: absolute;
+                                          top: 30%;
+                                          right: 22px;
+                                          font-size: 3rem;
+                                          color: #000;
+                                          z-index: 1;
+                                          cursor: pointer;
+                                          user-select: none;
+                              
+                                        }
+                                        
+                                        .left-arrow {
+                                          position: absolute;
+                                          top: 30%;
+                                          left: 12px;
+                                          font-size: 3rem;
+                                          color: #000;
+                                          z-index: 1;
+                                          cursor: pointer;
+                                          user-select: none;
+                                          
+                                        }
+                                      } 
+    
+                                      @media (max-width: 660px) {
+                                        .slider { 
+                                           
+                                            height: 75vh;
+                                            width: 100%;
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: center;
+                                            
+                                          }
+                                
+                                          .right-arrow {
+                                            position: absolute;
+                                            top: 30%;
+                                            right: 22px;
+                                            font-size: 3rem;
+                                            color: #000;
+                                            z-index: 1;
+                                            cursor: pointer;
+                                            user-select: none;
+                                
+                                          }
+                                          
+                                          .left-arrow {
+                                            position: absolute;
+                                            top: 30%;
+                                            left: 12px;
+                                            font-size: 3rem;
+                                            color: #000;
+                                            z-index: 1;
+                                            cursor: pointer;
+                                            user-select: none;
+                                            
+                                          }
+                                        } 
+
+                                        @media (max-width: 680px) {
+                                          .slider { 
+                                             
+                                              height: 95vh;
+                                              width: 100%;
+                                              display: flex;
+                                              justify-content: center;
+                                              align-items: center;
+                                              
+                                            }
+                                  
+                                            .right-arrow {
+                                              position: absolute;
+                                              top: 30%;
+                                              right: 22px;
+                                              font-size: 3rem;
+                                              color: #000;
+                                              z-index: 1;
+                                              cursor: pointer;
+                                              user-select: none;
+                                  
+                                            }
+                                            
+                                            .left-arrow {
+                                              position: absolute;
+                                              top: 30%;
+                                              left: 12px;
+                                              font-size: 3rem;
+                                              color: #000;
+                                              z-index: 1;
+                                              cursor: pointer;
+                                              user-select: none;
+                                              
+                                            }
+                                          } 
+        
+                                          @media (max-width: 700px) {
+                                            .slider { 
+                                               
+                                                height: 100vh;
+                                                width: 100%;
+                                                display: flex;
+                                                justify-content: center;
+                                                align-items: center;
+                                                
+                                              }
+                                    
+                                              .right-arrow {
+                                                position: absolute;
+                                                top: 30%;
+                                                right: 22px;
+                                                font-size: 3rem;
+                                                color: #000;
+                                                z-index: 1;
+                                                cursor: pointer;
+                                                user-select: none;
+                                    
+                                              }
+                                              
+                                              .left-arrow {
+                                                position: absolute;
+                                                top: 30%;
+                                                left: 12px;
+                                                font-size: 3rem;
+                                                color: #000;
+                                                z-index: 1;
+                                                cursor: pointer;
+                                                user-select: none;
+                                                
+                                              }
+                                            } 
+
+                                            @media (max-width: 660px) {
+                                              .slider { 
+                                                 
+                                                  height: 75vh;
+                                                  width: 100%;
+                                                  display: flex;
+                                                  justify-content: center;
+                                                  align-items: center;
+                                                  
+                                                }
+                                      
+                                                .right-arrow {
+                                                  position: absolute;
+                                                  top: 30%;
+                                                  right: 22px;
+                                                  font-size: 3rem;
+                                                  color: #000;
+                                                  z-index: 1;
+                                                  cursor: pointer;
+                                                  user-select: none;
+                                      
+                                                }
+                                                
+                                                .left-arrow {
+                                                  position: absolute;
+                                                  top: 30%;
+                                                  left: 12px;
+                                                  font-size: 3rem;
+                                                  color: #000;
+                                                  z-index: 1;
+                                                  cursor: pointer;
+                                                  user-select: none;
+                                                  
+                                                }
+                                              } 
+      
+                                              @media (max-width: 820px) {
+                                                .slider { 
+                                                   
+                                                    height: 40vh;
+                                                    width: 100%;
+                                                    display: flex;
+                                                    justify-content: center;
+                                                    align-items: center;
+                                                    
+                                                  }
+                                        
+                                                  .right-arrow {
+                                                    position: absolute;
+                                                    top: 48%;
+                                                    right: 40px;
+                                                    font-size: 3rem;
+                                                    color: #000;
+                                                    z-index: 1;
+                                                    cursor: pointer;
+                                                    user-select: none;
+                                        
+                                                  }
+                                                  
+                                                  .left-arrow {
+                                                    position: absolute;
+                                                    top: 48%;
+                                                    left: 40px;
+                                                    font-size: 3rem;
+                                                    color: #000;
+                                                    z-index: 1;
+                                                    cursor: pointer;
+                                                    user-select: none;
+                                                    
+                                                  }
+                                                } 
+              
+                                                @media (max-width: 810px) {
+                                                  .slider { 
+                                                     
+                                                      height: 137vh;
+                                                      width: 100%;
+                                                      display: flex;
+                                                      justify-content: center;
+                                                      align-items: center;
+                                                      
+                                                    }
+                                          
+                                                    .right-arrow {
+                                                      position: absolute;
+                                                      top: 30%;
+                                                      right: 22px;
+                                                      font-size: 3rem;
+                                                      color: #000;
+                                                      z-index: 1;
+                                                      cursor: pointer;
+                                                      user-select: none;
+                                          
+                                                    }
+                                                    
+                                                    .left-arrow {
+                                                      position: absolute;
+                                                      top: 30%;
+                                                      left: 12px;
+                                                      font-size: 3rem;
+                                                      color: #000;
+                                                      z-index: 1;
+                                                      cursor: pointer;
+                                                      user-select: none;
+                                                      
+                                                    }
+                                                  } 
+
+                                                  @media (max-width: 600px) {
+                                                    .slider { 
+                                                       
+                                                        height: 70vh;
+                                                        width: 100%;
+                                                        display: flex;
+                                                        justify-content: center;
+                                                        align-items: center;
+                                                        
+                                                      }
+                                            
+                                                      .right-arrow {
+                                                        position: absolute;
+                                                        top: 30%;
+                                                        right: 22px;
+                                                        font-size: 3rem;
+                                                        color: #000;
+                                                        z-index: 1;
+                                                        cursor: pointer;
+                                                        user-select: none;
+                                            
+                                                      }
+                                                      
+                                                      .left-arrow {
+                                                        position: absolute;
+                                                        top: 30%;
+                                                        left: 12px;
+                                                        font-size: 3rem;
+                                                        color: #000;
+                                                        z-index: 1;
+                                                        cursor: pointer;
+                                                        user-select: none;
+                                                        
+                                                      }
+                                                    } 
+                                                    @media (max-width: 620px) {
+                                                      .slider { 
+                                                         
+                                                          height: 120vh;
+                                                          width: 100%;
+                                                          display: flex;
+                                                          justify-content: center;
+                                                          align-items: center;
+                                                          
+                                                        }
+                                              
+                                                        .right-arrow {
+                                                          position: absolute;
+                                                          top: 30%;
+                                                          right: 22px;
+                                                          font-size: 3rem;
+                                                          color: #000;
+                                                          z-index: 1;
+                                                          cursor: pointer;
+                                                          user-select: none;
+                                              
+                                                        }
+                                                        
+                                                        .left-arrow {
+                                                          position: absolute;
+                                                          top: 30%;
+                                                          left: 12px;
+                                                          font-size: 3rem;
+                                                          color: #000;
+                                                          z-index: 1;
+                                                          cursor: pointer;
+                                                          user-select: none;
+                                                          
+                                                        }
+                                                      } 
+                                                      @media (max-width: 600px) {
+                                                        .slider { 
+                                                           
+                                                            height: 120vh;
+                                                            width: 100%;
+                                                            display: flex;
+                                                            justify-content: center;
+                                                            align-items: center;
+                                                            
+                                                          }
+                                                
+                                                          .right-arrow {
+                                                            position: absolute;
+                                                            top: 30%;
+                                                            right: 22px;
+                                                            font-size: 3rem;
+                                                            color: #000;
+                                                            z-index: 1;
+                                                            cursor: pointer;
+                                                            user-select: none;
+                                                
+                                                          }
+                                                          
+                                                          .left-arrow {
+                                                            position: absolute;
+                                                            top: 30%;
+                                                            left: 12px;
+                                                            font-size: 3rem;
+                                                            color: #000;
+                                                            z-index: 1;
+                                                            cursor: pointer;
+                                                            user-select: none;
+                                                            
+                                                          }
+                                                        } 
+                                                        @media (max-width: 280px) {
+                                                          .slider { 
+                                                             
+                                                              height: 60vh;
+                                                              width: 100%;
+                                                              display: flex;
+                                                              justify-content: center;
+                                                              align-items: center;
+                                                              
+                                                            }
+                                                  
+                                                            .right-arrow {
+                                                              position: absolute;
+                                                              top: 30%;
+                                                              right: 22px;
+                                                              font-size: 3rem;
+                                                              color: #000;
+                                                              z-index: 1;
+                                                              cursor: pointer;
+                                                              user-select: none;
+                                                  
+                                                            }
+                                                            
+                                                            .left-arrow {
+                                                              position: absolute;
+                                                              top: 30%;
+                                                              left: 12px;
+                                                              font-size: 3rem;
+                                                              color: #000;
+                                                              z-index: 1;
+                                                              cursor: pointer;
+                                                              user-select: none;
+                                                              
+                                                            }
+                                                          } 

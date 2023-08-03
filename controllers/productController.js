@@ -2,21 +2,23 @@ import productModel from "../models/productModel.js";
 import categoryModel from "../models/categoryModel.js";
 import orderModel from "../models/orderModel.js";
 
-
+import nodemailer from "nodemailer"
+import axios from "axios";
 import fs from "fs";
 import slugify from "slugify";
 import braintree from "braintree";
 import dotenv from "dotenv";
+import cloudinary from "cloudinary";
 
 dotenv.config();
 
-//PASARELA DE PAGO
-var gateway = new braintree.BraintreeGateway({
-  environment: braintree.Environment.Sandbox,
-  merchantId: process.env.BRAINTREE_MERCHANT_ID,
-  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
-  privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+ 
 
 export const createProductController = async (req, res) => {
   try {
@@ -42,13 +44,13 @@ export const createProductController = async (req, res) => {
 
     const parsedVariations = JSON.parse(variations);
     const parsedKeywords = JSON.parse(keywords);
-
-
-    const products = new productModel({ ...req.fields, slug: slugify(name),  variations: parsedVariations, keywords: parsedKeywords});
-    if (photo) {
-      products.photo.data = fs.readFileSync(photo.path);
-      products.photo.contentType = photo.type;
-    }
+    const cloudinaryResult = await cloudinary.uploader.upload(photo.path, {
+      folder: "productos", // Nombre de la carpeta donde se almacenarán las fotos en Cloudinary
+      use_filename: true, // Utilizar el nombre original del archivo
+    });
+     
+    const products = new productModel({ ...req.fields, slug: slugify(name),  variations: parsedVariations, keywords: parsedKeywords, photo: cloudinaryResult.secure_url});
+    
     await products.save();
     res.status(201).send({
       success: true,
@@ -70,8 +72,8 @@ export const getProductController = async (req, res) => {
   try {
     const products = await productModel
       .find({})
-      .populate("category")
       .select("-photo")
+      .populate("category") 
       .limit(99)
       .sort({ createdAt: -1 });
     res.status(200).send({
@@ -93,7 +95,7 @@ export const getProductController = async (req, res) => {
 export const getSingleProductController = async (req, res) => {
   try {
     const product = await productModel
-      .findOne({ slug: req.params.slug })
+      .findOne({ slug: req.params.slug }) 
       .select("-photo")
       .populate("category");
     res.status(200).send({
@@ -111,13 +113,21 @@ export const getSingleProductController = async (req, res) => {
   }
 };
 
-//OBTENER FOTO
 export const productPhotoController = async (req, res) => {
   try {
+    
     const product = await productModel.findById(req.params.pid).select("photo");
-    if (product.photo.data) {
-      res.set("Content-type", product.photo.contentType);
-      return res.status(200).send(product.photo.data);
+    console.log(product)
+    if (product.photo) {
+      // Descargar la imagen desde Cloudinary
+      const response = await axios.get(product.photo, { responseType: 'arraybuffer' });
+      const imageBuffer = Buffer.from(response.data, 'binary');
+
+      // Enviar la imagen como una respuesta binaria
+      return res.status(200).send(imageBuffer);
+    } else {
+      // Si no hay foto disponible, puedes enviar una respuesta de error o una imagen de reemplazo por defecto
+      return res.status(404).send({ message: "Foto no encontrada" });
     }
   } catch (error) {
     console.log(error);
@@ -170,18 +180,21 @@ export const updateProductController = async (req, res) => {
           .send({ error: "La foto no puede pesar más de 1MB" });
     }
     const parsedVariations = JSON.parse(variations);
-     
+     // Sube la foto a Cloudinary si está disponible
+    let photoUrl;
+    if (photo) {
+      const result = await cloudinary.uploader.upload(photo.path, {
+        folder: 'productos', // Establece el nombre de la carpeta deseada en Cloudinary
+      });
+      photoUrl = result.secure_url;
+    }
 
     const products = await productModel.findByIdAndUpdate(
       req.params.pid,
-      { ...req.fields, slug: slugify(name),  variations: parsedVariations, },
+      { ...req.fields, slug: slugify(name),  variations: parsedVariations, photo: photoUrl || products.photo, },
       { new: true }
     );
-    if (photo) {
-      products.photo.data = fs.readFileSync(photo.path);
-      products.photo.contentType = photo.type;
-    }
-    await products.save();
+     
     res.status(201).send({
       success: true,
       message: "Producto actualizado correctamente",
@@ -240,13 +253,13 @@ export const productCountController = async (req, res) => {
 // LISTA DE PRODUCTOS EN UNA PÁGINA
 export const productListController = async (req, res) => {
   try {
-    const perPage = 22;
+    const perPage = 6;
     const page = req.params.page ? req.params.page : 1;
     const products = await productModel
-      .find({})
+      .find({})  
       .select("-photo")
       .skip((page - 1) * perPage)
-      .limit(perPage)
+      .limit(6)
       .sort({ createdAt: -1 });
     res.status(200).send({
       success: true,
@@ -332,78 +345,173 @@ export const productCategoryController = async (req, res) => {
   }
 };
 
-//LLAMADA A LA API DE PAGO
-//token
-export const braintreeTokenController = async (req, res) => {
+ 
+ 
+
+export const createOrderController = async (req, res) => {
   try {
-    gateway.clientToken.generate({}, function (err, response) {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        res.send(response);
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-
-
-
-// ...
-
-export const brainTreePaymentController = async (req, res) => {
-  try {
-    const { nonce, cart, address } = req.body;
+    const { cart, formData, userId } = req.body;
     let total = 0;
     cart.map((item) => {
       const itemTotal = item.price * item.quantity;
       total += itemTotal;
-      total += address.tasaEnvio;
+      total += formData.tasaEnvio;
+      total = Number(total.toFixed(2));
 
     });
 
-     
-    let newTransaction = gateway.transaction.sale(
-      {
-        amount: total,
-        paymentMethodNonce: nonce,
-        options: {
-          submitForSettlement: true,
-        },
-      },
-      async function (error, result) {
-        if (result) {
-          const order = new orderModel({
-            products: cart,
-            payment: result,
-            buyer: req.user._id,
-            address: address,
-          });
-          await order.save();
+    let subTotal = 0;
+    cart.map((item) => {
+      const itemTotal = item.price * item.quantity;
+      subTotal += itemTotal; 
+      subTotal = Number(subTotal.toFixed(2));
 
-          // Actualizar la cantidad de productos en la base de datos
-          await Promise.all(
-            cart.map(async (item) => {
-              const product = await productModel.findOneAndUpdate(
-                { _id: item._id, "variations.size": item.size },
-                { $inc: { "variations.$.quantity": -item.quantity } },
-                { new: true }
-              );
-            })
-          );
+    });
+    
+    const order = new orderModel({
+      products: cart,
+      buyer: userId,
+      address: formData,
+      total: total, // Agregar el total de la orden
+      subtotal: subTotal,
+      isPaid: false,
+    });
 
-          res.json({ ok: true, order: order });
-        } else {
-          res.status(500).send(error);
-        }
-      }
+    // Guardar la orden en la base de datos
+    await order.save();
+
+    // Actualizar la cantidad de productos en la base de datos
+    await Promise.all(
+      cart.map(async (item) => {
+        const product = await productModel.findOneAndUpdate(
+          { _id: item._id, "variations.size": item.size },
+          { $inc: { "variations.$.quantity": -item.quantity } },
+          { new: true }
+        );
+      })
     );
+
+    res.status(201).json({ message: 'Orden creada correctamente', order });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+const getPaypalBearerToken = async(req, res)  => {
+    
+  const PAYPAL_CLIENT = process.env.REACT_APP_PAYPAL_CLIENT_ID;
+  const PAYPAL_SECRET = process.env.REACT_APP_PAYPAL_SECRET_KEY;
+
+  const base64Token = Buffer.from(`${ PAYPAL_CLIENT }:${ PAYPAL_SECRET }`, 'utf-8').toString('base64');
+  const body = new URLSearchParams('grant_type=client_credentials');
+
+
+  try {
+      
+      const { data} = await axios.post( process.env.PAYPAL_OAUTH_URL || '', body, {
+          headers: {
+              'Authorization': `Basic ${ base64Token }`,
+              'Content-Type': 'application/x-www-form-urlencoded'
+          }
+      });
+
+      return data.access_token;
+
+
+  } catch (error) {
+      if ( axios.isAxiosError(error) ) {
+          console.log(error.response?.data);
+      } else {
+          console.log(error);
+      }
+
+      return null;
+  }
+
+
+}
+
+const sendEmailToAdmin = async (orderId, mountTotal) => {
+  try {
+    // Configura el transporte de nodemailer
+    const transporter = nodemailer.createTransport({
+      // Configura los detalles del servidor de correo saliente (SMTP)
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true, // true para SSL 
+      auth: {
+        user:  process.env.EMAIL_SMTP ,
+        pass: process.env.PASSWORD_EMAIL_SMTP,
+      },
+    });
+    
+   
+    // Configura el contenido del correo electrónico
+    const mailOptions = {
+      from: process.env.EMAIL_SMTP,
+      to:  process.env.ADMIN_EMAIL ,
+      subject: "Nueva Orden Pagada", 
+      html: `<p>La orden con ID ${orderId} ha sido pagada correctamente, con un Monto total de $${mountTotal} . Puedes ver los detalles en el panel de administración:</p><p> <a href="https://hellastore.cyclic.app/dashboard/admin/order/${orderId}">Aquí</a>.</p>`,
+
+    };
+
+    // Envía el correo electrónico
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Correo electrónico enviado:", info.messageId);
+  } catch (error) {
+    console.log("Error al enviar el correo electrónico:", error);
   }
 };
+
+
+export const paypalPayController = async (req, res) =>{
+  const paypalBearerToken = await getPaypalBearerToken();
+
+  if ( !paypalBearerToken ) {
+      return res.status(400).json({ message: 'No se pudo confirmar el token de paypal' })
+  }
+
+  const { transactionId , orderId } = req.body;
+
+
+  const { data } = await axios.get( `${ process.env.PAYPAL_ORDERS_URL }/${ transactionId }`, {
+      headers: {
+          'Authorization': `Bearer ${ paypalBearerToken }`
+      }
+  });
+
+  if ( data.status !== 'COMPLETED' ) {
+      return res.status(401).json({ message: 'Orden no reconocida' });
+  }
+
+ 
+  const dbOrder = await orderModel.findById(orderId);
+
+  if ( !dbOrder ) {
+      await db.disconnect();
+      return res.status(400).json({ message: 'Orden no existe en nuestra base de datos' });
+  }
+  
+  
+  if ( dbOrder.total !== Number(data.purchase_units[0].amount.value) ) {
+      await db.disconnect();
+      return res.status(400).json({ message: 'Los montos de PayPal y nuestra orden no son iguales' });
+  }
+
+  const mountTotal = dbOrder.total;
+  dbOrder.payment = {
+    transactionId,
+    paymentMethod: "Paypal"
+  };
+  dbOrder.isPaid = true;
+  await dbOrder.save(); 
+
+  // Envía el correo electrónico al administrador con el enlace a la orden
+  await sendEmailToAdmin(orderId, mountTotal);
+
+  return res.status(200).json({ message: 'Orden pagada' });
+}
 
 
 //Gestionar pago

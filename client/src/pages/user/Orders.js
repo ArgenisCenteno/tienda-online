@@ -4,34 +4,14 @@ import Layout from "../../components/Layout/Layout";
 import axios from "axios";
 import { useAuth } from "../../context/auth";
 import moment from "moment";
-import { Select, Modal } from "antd";
-const { Option } = Select;
+import { Table, Button } from "antd";
+const { Column } = Table;
 
 const Orders = () => {
-
-  // Estilos personalizados para el modal
-  const customModalStyles = {
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-      width: "50%", // Ajusta el ancho del modal según tus necesidades
-      maxHeight: "80vh", // Ajusta la altura máxima del modal según tus necesidades
-      overflow: "auto", // Habilita el desplazamiento si el contenido del modal es más largo
-    },
-    overlay: {
-      backgroundColor: "rgba(0, 0, 0, 0.5)", // Ajusta el color de fondo del overlay
-      zIndex: 9999, // Ajusta el índice de apilamiento del overlay para que esté por encima de los elementos detrás del modal
-    },
-  };
-
   const [orders, setOrders] = useState([]);
   const [auth, setAuth] = useAuth();
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  
 
   // Obtener las órdenes del usuario autenticado
   const getOrders = async () => {
@@ -47,18 +27,7 @@ const Orders = () => {
     if (auth?.token) getOrders();
   }, [auth?.token]);
 
-  // Manejar la acción de ver productos de una orden
-  const handleViewProducts = (order) => {
-    setSelectedOrder(order);
-    setModalOpen(true);
-  };
-
-  // Cerrar el modal
-  const closeModal = () => {
-    setSelectedOrder(null);
-    setModalOpen(false);
-  };
-
+  
   return (
     <Layout title={"Historial de órdenes"}>
       <div className="container-fluid p-3 dashboard">
@@ -68,86 +37,42 @@ const Orders = () => {
           </div>
           <div className="col-md-9">
             <h1 className="text-center mt-4 mb-4">Historial de órdenes</h1>
-            {orders?.map((o, i) => (
-              <div key={o?._id} className="border shadow mb-4">
-                <div className="table-responsive">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Estado de pago</th>
-                        <th scope="col">Monto total</th>
-                        <th scope="col">Acciones</th>
-                        <th scope="col">Ver</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>{i + 1}</td>
-                        <td>{o?.status}</td>
-                        <td>{moment(o?.createdAt).format("YYYY-MM-DD")}</td>
-                        <td>{o?.payment.success ? "Pagada" : "Sin pagar"}</td>
-                        <td>{o?.payment?.transaction?.amount}</td>
-                        <td>
-                          <button
-                            className="btn btn-primary"
-                            onClick={() => handleViewProducts(o)}
-                          >
-                            Ver productos
-                          </button>
-                        </td>
-                        <td> <a href={ `/dashboard/user/order/${o?._id} `}>Aqui</a> </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            ))}
+            <Table dataSource={orders} rowKey="_id" pagination={true}>
+              <Column title="#" dataIndex="_id" key="id" render={(text, record, index) => index + 1} />
+              <Column title="Estado" dataIndex="status" key="status" />
+              <Column
+                title="Fecha"
+                dataIndex="createdAt"
+                key="createdAt"
+                render={(createdAt) => moment(createdAt).format('YYYY-MM-DD HH:mm:ss')} 
+              />
+              <Column
+                title="Estado de pago"
+                dataIndex="isPaid"
+                key="isPaid"
+                render={(success) => (success ? "Pagada" : "Sin pagar")}
+              />
+              <Column
+                title="Monto total"
+                dataIndex="total"
+                key="total"
+              />
+              
+              <Column
+                title="Ver"
+                key="ver"
+                render={(text, record) => (
+                  <Button type="link" href={`/dashboard/user/order/${record._id}`}>
+                    Aqui
+                  </Button>
+                )}
+              />
+            </Table>
           </div>
         </div>
       </div>
 
-      {/* Modal para mostrar los productos de una orden */}
-      <Modal
-        visible={modalOpen}
-        onCancel={closeModal}
-        footer={null}
-        style={customModalStyles}
-      >
-        {selectedOrder && (
-          <div>
-            <h4 className="text-center">Productos de la orden</h4>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Producto</th>
-                  <th scope="col">Talla</th>
-                  <th scope="col">Precio</th>
-                  <th scope="col">Cantidad</th>
-                 
-                   
-                </tr>
-              </thead>
-              <tbody>
-                {selectedOrder.products.map((product, index) => (
-                  <tr key={index}>
-                    <td>{product.name}</td>
-                    <td>{product.size}</td>
-                    <td>{product.price}</td>
-                    <td>{product.quantity}</td>
-                   
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <button className="btn btn-success" onClick={closeModal}>
-              Cerrar
-            </button>
-          </div>
-        )}
-      </Modal>
+      
     </Layout>
   );
 };

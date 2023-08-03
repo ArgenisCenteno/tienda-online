@@ -1,11 +1,11 @@
 import express from "express";
-import {
-  brainTreePaymentController,
-  braintreeTokenController,
+import { 
+  createOrderController,
   createProductController,
   deleteProductController,
   getProductController,
   getSingleProductController,
+  paypalPayController,
   productCategoryController,
   productCountController,
   productFiltersController,
@@ -68,10 +68,8 @@ router.get("/related-product/:pid/:cid", realtedProductController);
 router.get("/product-category/:slug", productCategoryController);
 
 //RUTA DE PAGOS
-//OBTENER TOKEN
-router.get("/braintree/token", braintreeTokenController);
-
-//REALIZAR PAGO
-router.post("/braintree/payment", requireSignIn, brainTreePaymentController);
+ 
+router.post("/paypal-pay", requireSignIn, paypalPayController)
+router.post("/create-order", requireSignIn, createOrderController)
 
 export default router;

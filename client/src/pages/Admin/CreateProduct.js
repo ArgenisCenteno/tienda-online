@@ -20,6 +20,8 @@ const CreateProduct = () => {
   const [prices, setPrices] = useState([]);
   const [formValid, setFormValid] = useState(false);
   const [priceError, setPriceError] = useState("");
+  const [gender, setGender] = useState("unisex");
+  const [clothingType, setClothingType] = useState("");  
 
   // Obtener todas las categorías
   const getAllCategory = async () => {
@@ -77,7 +79,107 @@ const CreateProduct = () => {
       setPriceError("El precio no puede ser negativo");
     }
   };
+  const generateKeywordsFromTypeAndGender = (clothingType, gender) => {
+    // Función para convertir una palabra a plural
+    const toPlural = (word) => {
+      // Implementa aquí la lógica para convertir a plural
+      // Por ejemplo, si el tipo de prenda está en singular, podrías agregar una "s" al final para convertirlo a plural
+      if (!word.endsWith("s")) {
+        return word + "s";
+      }
+      return word;
+    };
+  
+    // Función para convertir una palabra a singular
+    const toSingular = (word) => {
+      // Implementa aquí la lógica para convertir a singular
+      // Por ejemplo, si el tipo de prenda está en plural y termina en "s", podrías quitar la "s" para convertirlo a singular
+      if (word.endsWith("s")) {
+        return word.slice(0, -1);
+      }
+      return word;
+    };
+  
+    const singularClothingType = toSingular(clothingType);
+    const pluralClothingType = toPlural(clothingType);
+  
+    const keywords = [singularClothingType, pluralClothingType];
+  
+    if (gender === "hombre") {
+      keywords.push(`${singularClothingType} para caballeros`);
+       keywords.push(`${singularClothingType} de hombres`);
+       keywords.push(`${singularClothingType} para hombres`);
+    keywords.push(`${singularClothingType} de caballeros`);
+    keywords.push(`${singularClothingType} de hombre`);
+    keywords.push(`${singularClothingType} de caballero`);
+    keywords.push(`${singularClothingType} para hombre`);
+    keywords.push(`${singularClothingType} para caballero`);
+    keywords.push(`${singularClothingType} hombres`);
+    keywords.push(`${singularClothingType} caballeros`);
+    keywords.push(`${singularClothingType} hombre`);
+    keywords.push(`${singularClothingType} de caballero`);
+ 
+    //PLURAL
 
+    keywords.push(`${pluralClothingType} para caballeros`);
+       keywords.push(`${pluralClothingType} de hombres`);
+    keywords.push(`${pluralClothingType} de caballeros`);
+    keywords.push(`${pluralClothingType} para hombres`);
+    keywords.push(`${pluralClothingType} de hombre`);
+    keywords.push(`${pluralClothingType} de caballero`);
+    keywords.push(`${pluralClothingType} para hombre`);
+    keywords.push(`${pluralClothingType} para caballero`);
+    keywords.push(`${pluralClothingType} hombres`);
+    keywords.push(`${pluralClothingType} caballeros`);
+    keywords.push(`${pluralClothingType} hombre`);
+    keywords.push(`${pluralClothingType} de caballero`);
+      
+      
+    } else if (gender === "mujer") {
+      keywords.push(`${singularClothingType} para damas`);
+       keywords.push(`${singularClothingType} de mujeres`);
+    keywords.push(`${singularClothingType} de damas`);
+    keywords.push(`${singularClothingType} de mujer`);
+    keywords.push(`${singularClothingType} de dama`);
+    keywords.push(`${singularClothingType} para mujeres`);
+    keywords.push(`${singularClothingType} para mujer`);
+    keywords.push(`${singularClothingType} para dama`);
+    keywords.push(`${singularClothingType} mujeres`);
+    keywords.push(`${singularClothingType} damas`);
+    keywords.push(`${singularClothingType} mujer`);
+    keywords.push(`${singularClothingType} de dama`);
+    keywords.push(`${singularClothingType} de mujeres`);
+ 
+    //PLURAL
+
+    keywords.push(`${pluralClothingType} para damas`);
+       keywords.push(`${pluralClothingType} de mujer`);
+    keywords.push(`${pluralClothingType} de damas`);
+    keywords.push(`${pluralClothingType} de mujer`);
+    keywords.push(`${pluralClothingType} de dama`);
+    keywords.push(`${pluralClothingType} para mujer`);
+    keywords.push(`${pluralClothingType} para mujeres`);
+    keywords.push(`${pluralClothingType} para dama`);
+    keywords.push(`${pluralClothingType} mujeres`);
+    keywords.push(`${pluralClothingType} damas`);
+    keywords.push(`${pluralClothingType} hombre`);
+    keywords.push(`${pluralClothingType} de dama`);
+    keywords.push(`${singularClothingType} de mujeres`);
+     
+    }
+   
+  
+    return keywords;
+  };
+
+ // Actualizar palabras clave cuando la categoría o el género cambie
+  // Actualizar palabras clave cuando el tipo de prenda cambie
+  useEffect(() => {
+    if (clothingType && gender) {
+      const generatedKeywords = generateKeywordsFromTypeAndGender(clothingType, gender);
+      setKeywords(generatedKeywords);
+    }
+  }, [clothingType, gender]);
   // Modificar la cantidad
   const handleQuantityChange = (e, index) => {
     const updatedQuantities = [...quantities];
@@ -129,7 +231,7 @@ const CreateProduct = () => {
       productData.append("description", description);
       productData.append("variations", JSON.stringify(variations));
       productData.append("photo", photo);
-      productData.append("category", category);
+      productData.append("category", category); 
       productData.append("keywords", JSON.stringify(keywords));
 
       const { data } = await axios.post("/api/v1/product/create-product", productData);
@@ -175,6 +277,44 @@ const CreateProduct = () => {
                   </Option>
                 ))}
               </Select>
+              <div className="mb-3">
+          <p>
+            <strong>Género</strong>
+          </p>
+          <select
+            className="form-control"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+          >
+            <option value="unisex">Unisex</option>
+            <option value="hombre">Hombre</option>
+            <option value="mujer">Mujer</option>
+          </select>
+        </div>
+        <div className="mb-3">
+          <p>
+            <strong>Tipo de prenda</strong>
+          </p>
+          <select
+            className="form-control"
+            value={clothingType}
+            onChange={(e) => setClothingType(e.target.value)}
+          >
+             <option value="selected">Tipo de prenda</option>
+            <option value="blusas">Blusas</option>
+            <option value="chaquetas">Chaquetas</option>
+            <option value="camisas">Camisas</option>
+            <option value="pantalones">Pantalones</option>
+            <option value="sueteres">Sueteres</option>
+            <option value="zapatos">Zapatos</option>
+            <option value="sandalias">Sandalias</option>
+            <option value="franelas">Franelas</option>
+            <option value="monos">Monos</option>
+            <option value="shorts">Shorts</option>
+            <option value="tops">Tops</option>
+            {/* Agrega más opciones de tipo de prenda según tus necesidades */}
+          </select>
+        </div>
               <div className="mb-3">
                 <p>
                   <strong>Imagen</strong>

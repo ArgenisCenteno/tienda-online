@@ -11,13 +11,16 @@ const orderSchema = new mongoose.Schema(
         price: { type: Number, required: true },
       }
     ],
+    total: { type: Number, required: true },
+    subtotal: { type: Number, required: true },
+    isPaid : { type: Boolean, required: true, default: false },
     payment: {}, 
     address: {},
     buyer: {
       type: mongoose.ObjectId,
       ref: "users",
     },
-    status: {
+    status: {  
       type: String,
       default: "No procesada",
       enum: ["No procesada", "Procesada", "Enviada", "Recibida", "Cancelada"],
