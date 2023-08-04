@@ -237,10 +237,10 @@ const UpdateProduct = () => {
               </div>
 
               {variations.map((variation, index) => (
-                <div key={index} className="row mb-3 d-flex justify-content-between">
+                <div key={index} className="row mb-3 d-flex justify-content-between variations-update">
                   <div className="col">
                     <p>
-                      <strong>{`Talla ${variation.size}`}</strong>
+                      <strong>{`Talla: ${variation.size}`}</strong>
                     </p>
                     <input
                       type="text"
@@ -252,7 +252,7 @@ const UpdateProduct = () => {
                   </div>
                   <div className="col">
                     <p>
-                      <strong>{`Precio ${variation.price}`}</strong>
+                      <strong>{`Precio: ${variation.price} $`}</strong>
                     </p>
                     <input
                       type="number"
@@ -267,7 +267,7 @@ const UpdateProduct = () => {
                   </div>
                   <div className="col">
                     <p>
-                      <strong>{`Cantidad ${variation.quantity}`}</strong>
+                      <strong>{`Cantidad: ${variation.quantity}`}</strong>
                     </p>
                     <input
                       type="number"

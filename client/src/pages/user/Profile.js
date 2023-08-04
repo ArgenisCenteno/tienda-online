@@ -4,9 +4,11 @@ import Layout from "./../../components/Layout/Layout";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Profile = () => {
   //CONTEXTO
   const [auth, setAuth] = useAuth();
+  const [shown, setShown] = useState(false);
   //ESTADOS
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -51,13 +53,13 @@ const Profile = () => {
   };
   return (
     <Layout title={"Perfil"}>
-      <div className="container-fluid p-3 dashboard">
-        <div className="row">
+      <div className="container-fluid-4 p-3 dashboard">
+        <div className="row  mt">
           <div className="col-md-3">
             <UserMenu />
           </div>
           <div className="col-md-8">
-            <div className="form-container" style={{ marginTop: "-40px" }}>
+            <div className="form-container" style={{ marginTop: "10px" }}>
               <form onSubmit={handleSubmit}>
                 <h4 className="title mt-4 mb-4">Perfil de Usuario</h4>
                 <div className="mb-3">
@@ -82,15 +84,33 @@ const Profile = () => {
                     disabled
                   />
                 </div>
-                <div className="mb-3">
+                <div className="mb-3" style={{ position: "relative" }}>
                   <input
-                    type="password"
+                    type={shown ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="form-control"
+                    className="form-control" 
                     id="exampleInputPassword1"
                     placeholder="Ingresa tu clave"
                   />
+                  <button
+                        type="button"
+                        style={{
+                          backgroundColor: "transparent",
+                          
+                          border: "none",
+                          color: "#059669",
+                          marginRight: "8px",
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                        }}
+                        onClick={() => setShown(!shown)}
+                      >
+                         {shown ? <FaEye /> : <FaEyeSlash />}
+                      </button>
+
                 </div>
                 <div className="mb-3">
                   <input

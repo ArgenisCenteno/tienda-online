@@ -5,6 +5,8 @@ import productModel from "../models/productModel.js";
 
 import { comparePassword, hashPassword } from "./../helpers/authHelper.js";
 import JWT from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import bcrypt from "bcrypt"
 
 //REGISTRAR USUARIO
 export const registerController = async (req, res) => {
@@ -117,44 +119,7 @@ export const loginController = async (req, res) => {
   }
 };
 
-//EDITAR CLAVE
-
-export const forgotPasswordController = async (req, res) => {
-  try {
-    const { email, answer, newPassword } = req.body;
-    if (!email) {
-      res.status(400).send({ message: "Emai is required" });
-    }
-    if (!answer) {
-      res.status(400).send({ message: "answer is required" });
-    }
-    if (!newPassword) {
-      res.status(400).send({ message: "New Password is required" });
-    }
-    //check
-    const user = await userModel.findOne({ email, answer });
-    //validation
-    if (!user) {
-      return res.status(404).send({
-        success: false,
-        message: "Wrong Email Or Answer",
-      });
-    }
-    const hashed = await hashPassword(newPassword);
-    await userModel.findByIdAndUpdate(user._id, { password: hashed });
-    res.status(200).send({
-      success: true,
-      message: "Password Reset Successfully",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Something went wrong",
-      error,
-    });
-  }
-};
+ 
 
 //TEST DE PRUEBA
 export const testController = (req, res) => {
@@ -382,6 +347,116 @@ export const getTotalOrders = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Error while fetching total orders",
+      error,
+    });
+  }
+};
+
+export const validateToken = async (req, res) => {
+  const { token } = req.body;
+  try {
+    // Verificar el token con la misma clave secreta que se utilizó para firmarlo
+    const decodedToken = JWT.verify(token, process.env.JWT_SECRET);
+
+    // El token es válido
+    res.json({ success: true });
+  } catch (error) {
+    // El token no es válido o ha expirado
+    res.json({ success: false });
+  }
+  
+};
+
+export const forgoutPasswordController = async (req, res) => {
+  const { email } = req.body;
+
+  const user = await userModel.findOne({ email });
+  if (!user) {
+    return res.status(404).send({
+      success: false,
+      message: "Email no registrado",
+    });
+  }else{
+    // Crear el token JWT con un tiempo de expiración (por ejemplo, 1 hora)
+  const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "15m" });
+
+  // Configurar el transporte de nodemailer
+  const transporter = nodemailer.createTransport({
+    // Configura aquí el servicio de correo que utilizarás (por ejemplo, Gmail)
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // true para SSL 
+    auth: {
+      user:  process.env.EMAIL_SMTP ,
+      pass: process.env.PASSWORD_EMAIL_SMTP,
+    },
+  });
+
+  // URL del enlace para resetear la contraseña, debes definir esta ruta en tu servidor
+  const resetPasswordLink = `http://localhost:3000/new-password/${token}`;
+
+  // Enviar el correo con el enlace de reseteo de contraseña
+  try {
+    await transporter.sendMail({
+      from: process.env.EMAIL_SMTP,
+      to: email,
+      subject: "Cambiar clave",
+      html: `<p>Click <a href="${resetPasswordLink}">aquí</a> para cambiar clave. Este enlace expira en 15 minutos, no se puede usar luego de 
+      transcurrido ese tiempo.</p>`,
+    });
+    res.json({ success: true, message: "Enlace de recuperación de clave enviado correctamente" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Failed to send reset password link." });
+  }
+  }
+
+};
+
+export const resetPasswordController = async (req, res) => {
+  const { token, password } = req.body;
+
+  // Verificar el token con el mismo secreto utilizado para firmarlo en el controlador 'validateToken'
+  try {
+    const decodedToken = JWT.verify(token, process.env.JWT_SECRET);
+
+    // El token es válido, podemos obtener el ID del usuario desde el token decodificado
+    const userId = decodedToken._id;
+
+    // Buscar al usuario por su ID
+    const user = await userModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Usuario no encontrado",
+      });
+    }
+
+    // Hashear la nueva contraseña
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Actualizar la contraseña del usuario en la base de datos
+    user.password = hashedPassword; 
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Contraseña actualizada correctamente",
+    });
+  } catch (error) {
+    if (error.name === "JsonWebTokenError") {
+      // El token no es válido
+      return res.status(400).json({
+        success: false,
+        message: "Token inválido o expirado",
+      });
+    }
+
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error al actualizar la contraseña",
       error,
     });
   }

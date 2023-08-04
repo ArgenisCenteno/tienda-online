@@ -93,6 +93,24 @@
   max-width: 100%;
 }
 
+@media screen and (max-width: 760px) {
+   
+   .form-container{
+    max-width: 100%;
+   }
+   .col-sm-5 {
+    flex: 0 0 auto;
+    width: 100%;
+}
+
+  .col-9 {
+    flex: 0 0 auto;
+    width: 100%;
+}
+  }
+
+ 
+
 
 @media screen and (max-width: 412px) {
   .imagen{

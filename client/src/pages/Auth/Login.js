@@ -123,6 +123,7 @@ const Login = () => {
                     Ingresar
                   </button>
                   <p className="mt-4">¿No estas registrado? pulsa <Link to="/register">aquí</Link> </p>
+                  <p className="mt-4">¿Olvidaste tu clave? pulsa <Link to="/reset-password">aquí</Link> </p>
                 </form>
                
               </div>

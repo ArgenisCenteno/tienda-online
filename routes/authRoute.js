@@ -3,7 +3,7 @@ import {
   registerController,
   loginController,
   testController,
-  forgotPasswordController,
+  forgoutPasswordController,
   updateProfileController,
   getOrdersController,
   getAllOrdersController,
@@ -14,7 +14,9 @@ import {
   getTotalUsersController,
   getTotalCategoriesController,
   getTotalOrders,
-  getTotalProductsController
+  getTotalProductsController,
+  validateToken,
+  resetPasswordController
 
 } from "../controllers/authController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
@@ -48,6 +50,9 @@ router.put("/profile", requireSignIn, updateProfileController);
 
 //OBTENER ORDENES DE CLIENTE
 router.get("/orders", requireSignIn, getOrdersController);
+router.post("/forgot-password", forgoutPasswordController);
+router.post("/validate-token", validateToken);
+router.post("/reset-password", resetPasswordController)
 
 //OBTENER UNA ORDEN EN ESPECIFICO
 router.get("/order/:id", requireSignIn ,getOrderByIdController)

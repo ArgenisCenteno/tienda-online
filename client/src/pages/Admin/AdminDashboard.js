@@ -46,8 +46,8 @@ const AdminDashboard = () => {
           <div className="col-md-3">
             <AdminMenu />
           </div>
-          <div className="col-md-9">
-            <div className="card w-100 p-3">
+          <div className="col-md-9 ">
+            <div className="card w-100 p-3  mt-3">
               <h5>Administrador:</h5>
               <p>{auth?.user?.name}</p>
               <h5>Email:</h5>
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
             </div>
 
             <div className="row mt-4">
-              <div className="col-md-3">
+              <div className="col-md-3 mt-3">
                 <div className="card">
                   <div className="card-body ">
                     <h5 className="card-title ">Total de Productos</h5>
@@ -66,7 +66,7 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-3 mt-3">
                 <div className="card">
                   <div className="card-body  ">
                     <h5 className="card-title">Total de Órdenes</h5>
@@ -75,7 +75,7 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-3 mt-3">
                 <div className="card">
                   <div className="card-body  ">
                     <h5 className="card-title">Total de Categorías</h5>
@@ -84,7 +84,7 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-3 mt-3">
                 <div className="card">
                   <div className="card-body  ">
                     <h5 className="card-title">Total de Usuarios</h5>

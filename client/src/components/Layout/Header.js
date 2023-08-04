@@ -8,7 +8,18 @@ import { useCart } from "../../context/cart";
 import hella from "./img/hella-sin-fondo.png";
 import { Badge } from "antd";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
- 
+
+const formatUserName = (name) => {
+  const namesArray = name.split(" ");
+  if (namesArray.length === 4) {
+    // Si tiene dos nombres y dos apellidos, mostrar primer nombre y segundo apellido
+    return `${namesArray[0]} ${namesArray[2]}`;
+  } else {
+    // Si no, mostrar el nombre tal cual
+    return name;
+  }
+};
+
 const Header = () => {
   const [auth, setAuth] = useAuth();
   const [cart] = useCart();
@@ -25,9 +36,11 @@ const Header = () => {
     toast.success("Sesion cerrada");
   };
 
+ 
+
   return (
     <>
-      <nav className="navbar navbar-expand-sm  bg-body-tertiary " >
+      <nav className="navbar navbar-expand-lg bg-body-tertiary " >
         <div className="container-fluid">
           <button
             className="navbar-toggler iconHeader"
@@ -103,14 +116,13 @@ const Header = () => {
               ) : (
                 <>
                   <li className="nav-item dropdown">
-                    <NavLink
-                      className="nav-link dropdown-toggle"
-                      href="#"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      style={{ border: "none" }}
-                    >
-                      {auth?.user?.name}
+                  <NavLink
+                        className="nav-link dropdown-toggle" 
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       style={{ border: "none" }}
+                                 >
+                       {formatUserName(auth?.user?.name)}
                     </NavLink>
                     <ul className="dropdown-menu userDropDown">
                       <li>
@@ -144,7 +156,7 @@ const Header = () => {
             </ul>
           </div>
           <ul>
-          <li className="iconHeaderPrincipal   d-lg-none">
+          <li className="iconHeaderPrincipal">
               <Link to={"/"} className="navbar-brand text-success d-sm-none" >
             <img src={hella}  alt="logo-hella" width="50px" height="50px" />
 

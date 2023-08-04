@@ -25,6 +25,8 @@ import Checkout from "./pages/user/Checkout";
 import Payment from "./pages/Payment";
 import Order from "./pages/user/Order";
 import AdminOrder from "./pages/Admin/AdminOrder";
+import ForgotPassword from "./pages/Auth/ForgotPasssword";
+import NewPassword from "./pages/Auth/NewPassword";
 
 function App() {
   return (
@@ -38,7 +40,8 @@ function App() {
         <Route path="/category/:slug" element={<CategoryProduct />} />
         <Route path="/search" element={<Search />} /> 
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/payment" element={<Payment />} />
+        <Route path="/new-password/:token" element={<NewPassword/>} />
+        <Route path="/reset-password" element={<ForgotPassword/>} />
 
         {/* Rutas privadas de usuario */}
         <Route path="/dashboard" element={<PrivateRoute />}>
@@ -46,6 +49,7 @@ function App() {
           <Route path="user/orders" element={<Orders />} />
           <Route path="user/profile" element={<Profile />} />
           <Route path="user/order/:_id" element={<Order />} />
+          
         </Route>
 
         {/* Rutas privadas de administrador */}
