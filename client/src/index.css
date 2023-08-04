@@ -308,7 +308,7 @@ body{
 
 @media screen and (max-width: 990px) {
   .logo-container {
-    margin-left: 160px !important;
+    display: none
    }
    
 
@@ -320,20 +320,12 @@ body{
     overflow: scroll;
   }
 
-  .iconHeaderPrincipal{
-    position: absolute;
-    top: 1px; 
-    right: 260px; /* Ajusta esta posición según tu preferencia */
-    z-index: 999; /* Asegura que esté por encima de otros elementos */
-    margin-left: "44px" !important; 
-    list-style: none; 
-    display: block;
-  }
+   
 
 }
 @media screen and (max-width: 660px) {
   .logo-container {
-    margin-left: 110px !important;
+    display: none;
    }
    
 
@@ -345,21 +337,12 @@ body{
     overflow: scroll;
   }
 
-  .iconHeaderPrincipal{
-    position: absolute;
-    top: 1px; 
-    right: 260px; /* Ajusta esta posición según tu preferencia */
-    z-index: 999; /* Asegura que esté por encima de otros elementos */
-    margin-left: "44px" !important; 
-    list-style: none; 
-    display: block;
-  }
-
+   
 }
 
 @media screen and (max-width: 820px) {
   .logo-container {
-    margin-left: 100px;
+    display:  none;
   }
    
 
@@ -371,15 +354,7 @@ body{
     overflow: scroll;
   }
 
-  .iconHeaderPrincipal{
-    position: absolute;
-    top: 1px; 
-    right: 260px; /* Ajusta esta posición según tu preferencia */
-    z-index: 999; /* Asegura que esté por encima de otros elementos */
-    margin-left: "44px" !important; 
-    list-style: none; 
-    display: block;
-  }
+   
 
 }
 
@@ -403,15 +378,7 @@ body{
     overflow: scroll;
   }
 
-  .iconHeaderPrincipal{
-    position: absolute;
-    top: 1px; 
-    right: 246px; /* Ajusta esta posición según tu preferencia */
-    z-index: 999; /* Asegura que esté por encima de otros elementos */
-    margin-left: 44px !important; 
-    list-style: none; 
-    display: block;
-  }
+   
 
 }
 
@@ -426,16 +393,7 @@ body{
   .ant-table-wrapper{
     overflow: scroll;
   }
-
-  .iconHeaderPrincipal{
-    position: absolute;
-    top: 1px; 
-    right: 260px; /* Ajusta esta posición según tu preferencia */
-    z-index: 999; /* Asegura que esté por encima de otros elementos */
-    margin-left: "44px" !important; 
-    list-style: none; 
-  }
-
+ 
   .variations-update .col{
     .col {
       flex: 1 0 50%;
@@ -478,27 +436,12 @@ body{
 }
  
 
-.iconHeaderPrincipal{
-  position: absolute;
-  top: 1px; 
-  right: 110px; /* Ajusta esta posición según tu preferencia */
-  z-index: 999; /* Asegura que esté por encima de otros elementos */
-  margin-left: "44px" !important; 
-  list-style: none; 
-} 
+ 
 
  
 
 @media screen and (max-width: 573px) {
-  .iconHeaderPrincipal{
-    position: absolute;
-    top: 1px; 
-    right: 260px; /* Ajusta esta posición según tu preferencia */
-    z-index: 999; /* Asegura que esté por encima de otros elementos */
-    
-    list-style: none; 
-  } 
-
+   
   .ant-table-wrapper{
     overflow: scroll;
   }
@@ -515,14 +458,7 @@ body{
 }
   }
   @media screen and (max-width: 440px) {
-    .iconHeaderPrincipal{
-      position: absolute;
-      top: 1px; 
-      right: 179px; /* Ajusta esta posición según tu preferencia */
-      z-index: 999; /* Asegura que esté por encima de otros elementos */
-      
-      list-style: none; 
-    } 
+    
   
     .ant-table-wrapper{
       overflow: scroll;
@@ -541,14 +477,7 @@ body{
     }
 
   @media screen and (max-width: 422px) {
-    .iconHeaderPrincipal{
-      position: absolute;
-      top: 1px; 
-      right: 169px; /* Ajusta esta posición según tu preferencia */
-      z-index: 999; /* Asegura que esté por encima de otros elementos */
-      
-      list-style: none; 
-    } 
+    
   
     .ant-table-wrapper{
       overflow: scroll;
@@ -568,14 +497,7 @@ body{
 
 
   @media screen and (max-width: 420px) {
-    .iconHeaderPrincipal{
-      position: absolute;
-      top: 1px; 
-      right: 169px; /* Ajusta esta posición según tu preferencia */
-      z-index: 999; /* Asegura que esté por encima de otros elementos */
-      
-      list-style: none; 
-    } 
+    
   
     .ant-table-wrapper{
       overflow: scroll;
@@ -588,14 +510,7 @@ body{
     }
 
   @media screen and (max-width: 416px) {
-    .iconHeaderPrincipal{
-      position: absolute;
-      top: 1px; 
-      right: 170px; /* Ajusta esta posición según tu preferencia */
-      z-index: 999; /* Asegura que esté por encima de otros elementos */
-      
-      list-style: none; 
-    } 
+     
   
     .ant-table-wrapper{
       overflow: scroll;
@@ -608,14 +523,7 @@ body{
     }  
 
 @media screen and (max-width: 412px) {
-  .iconHeaderPrincipal{
-    position: absolute;
-    top: 1px; 
-    right: 170px; /* Ajusta esta posición según tu preferencia */
-    z-index: 999; /* Asegura que esté por encima de otros elementos */
-    margin-left: "44px" !important; 
-    list-style: none; 
-  } 
+   
   .ant-table-wrapper{
     overflow: scroll;
   }
@@ -626,14 +534,7 @@ body{
   }
    
 @media screen and (max-width: 375px) {
-  .iconHeaderPrincipal{
-    position: absolute;
-    top: 1px; 
-    right: 150px; /* Ajusta esta posición según tu preferencia */
-    z-index: 999; /* Asegura que esté por encima de otros elementos */
-    margin-left: "44px" !important; 
-    list-style: none; 
-  } 
+   
 
    .card-img-top-dashboard {
     width: 82%;
@@ -651,13 +552,7 @@ body{
   }
 
 @media screen and (max-width: 280px) {
-  .iconHeaderPrincipal{
-    position: absolute;
-    top: 1px; 
-    right: 110px !important; /* Ajusta esta posición según tu preferencia */
-    z-index: 999; /* Asegura que esté por encima de otros elementos */ 
-    list-style: none; 
-  } 
+   
 
   .image-payment{
      margin-right: 90px;
@@ -714,14 +609,7 @@ body{
     
   }
   @media screen and (max-width: 220px) {
-    .iconHeaderPrincipal{
-      position: absolute;
-      top: 1px; 
-      right: 110px; /* Ajusta esta posición según tu preferencia */
-      z-index: 999; /* Asegura que esté por encima de otros elementos */
     
-      list-style: none; 
-    } 
     
     .ant-table-wrapper{
       overflow: scroll;
@@ -742,14 +630,7 @@ body{
 
  
     @media screen and (max-width: 414px) {
-      .iconHeaderPrincipal{
-        position: absolute;
-        top: 1px; 
-        right: 167px; /* Ajusta esta posición según tu preferencia */
-        z-index: 999; /* Asegura que esté por encima de otros elementos */
-        
-        list-style: none; 
-      } 
+       
       
       .fixed-cart-icon{
         margin-right: 21px !important;
@@ -774,14 +655,7 @@ body{
       }   
 
       @media screen and (max-width: 360px) {
-        .iconHeaderPrincipal{
-          position: absolute;
-          top: 1px; 
-          right: 147px; /* Ajusta esta posición según tu preferencia */
-          z-index: 999; /* Asegura que esté por encima de otros elementos */
-          
-          list-style: none; 
-        } 
+       
 
         .form-address{
           .col-md-6 {
@@ -811,14 +685,7 @@ body{
         } 
     
         @media screen and (max-width: 320px) {
-          .iconHeaderPrincipal{
-            position: absolute;
-            top: 1px; 
-            right: 129px; /* Ajusta esta posición según tu preferencia */
-            z-index: 999; /* Asegura que esté por encima de otros elementos */
-            
-            list-style: none; 
-          } 
+           
           .filters{
             margin: 12px;
           }
@@ -836,45 +703,41 @@ body{
   background-color: #017752 !important;
  }     
 
- @media screen and (max-width: 441px){
-.iconHeaderPrincipal {
-    position: absolute;
-    top: 1px;
-    right: 189px;
+ 
+@media screen and (min-width: 281px) and (max-width: 390px) {
+  .iconHeaderPrincipal {
+    position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
+    display: block;
+    top: 50%; /* Centra verticalmente */
+    right: 33%; /* Centra horizontalmente */
+    transform: translate(-50%, -50%); /* Centra el elemento en ambos ejes */
     z-index: 999;
     list-style: none;
-}}
+  }
+}
+ 
+@media screen and (min-width: 190px) and (max-width: 260px) {
+  .iconHeaderPrincipal {
+    position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
+    display: block;
+    top: 50%; /* Centra verticalmente */
+    right: 20%; /* Centra horizontalmente */
+    transform: translate(-50%, -50%); /* Centra el elemento en ambos ejes */
+    z-index: 999;
+    list-style: none;
+  }
+}
 
-@media screen and (max-width: 300px)
-{.iconHeaderPrincipal {
-    position: absolute;
-    top: 1px;
-    right: 124px;
-    z-index: 999;
-    list-style: none;
-}}
 
-@media screen and (max-width: 330px)
-{.iconHeaderPrincipal {
-    position: absolute;
-    top: 1px;
-    right: 124px;
+ 
+@media screen and (min-width: 410px) and (max-width: 989px) {
+  .iconHeaderPrincipal {
+    position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
+    display: block;
+    top: 50%; /* Centra verticalmente */
+    right: 40%; /* Centra horizontalmente */
+    transform: translate(-50%, -50%); /* Centra el elemento en ambos ejes */
     z-index: 999;
     list-style: none;
-}}
-@media screen and (max-width: 340px)
-{.iconHeaderPrincipal {
-    position: absolute;
-    top: 1px;
-    right: 131px;
-    z-index: 999;
-    list-style: none;
-}}
-@media screen and (max-width: 320px)
-{.iconHeaderPrincipal {
-    position: absolute;
-    top: 1px;
-    right: 124px;
-    z-index: 999;
-    list-style: none;
-}}
+  }
+}
