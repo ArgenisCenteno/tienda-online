@@ -91,10 +91,13 @@ const CreateProduct = () => {
     };
   
     // Función para convertir una palabra a singular
-    const toSingular = (word) => {
-      // Implementa aquí la lógica para convertir a singular
-      // Por ejemplo, si el tipo de prenda está en plural y termina en "s", podrías quitar la "s" para convertirlo a singular
-      if (word.endsWith("s")) {
+    const toSingular = (word) => { 
+      if (word.endsWith("es")) {
+        if (word === "shores") {
+          return "short";
+        }
+        return word.slice(0, -2);
+      }else{
         return word.slice(0, -1);
       }
       return word;
@@ -274,6 +277,7 @@ const CreateProduct = () => {
     "sandalias",
     "sombreros",
     "smoking",
+    "shores",
     "sostenes",
     "sujetadores",
     "sueteres",
@@ -439,6 +443,7 @@ const CreateProduct = () => {
                     </p>
                     <input
                       type="number"
+                      min="0"
                       value={quantities[index]}
                       placeholder="Cantidad"
                       className="form-control"
