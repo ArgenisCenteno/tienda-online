@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { Checkbox } from "antd";
 import { useCart } from "../context/cart";
-import axios from "axios";
-import toast from "react-hot-toast";
-import Layout from "./../components/Layout/Layout";
-import tienda from "./img/tienda.png";
+import axios from "axios"; 
+import Layout from "./../components/Layout/Layout"; 
 import image from "./img/image.png";
 import "../styles/Homepage.css";
 import Slider from "../components/Layout/Slider";
 import { sliderItems } from '../components/Layout/data/data.js';
+import   Footer   from "../components/Layout/Footer";
+import { Pagination } from "antd";
+import Gallery from "../components/Layout/Gallery";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -24,7 +25,8 @@ const HomePage = () => {
   const [foundProducts, setFoundProducts] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [sliderPosition, setSliderPosition] = useState("0");
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // Número de productos por página
 
   const toggleMenu = () => {
     setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen);
@@ -43,10 +45,9 @@ const HomePage = () => {
   };
 
   // OBTENER PRODUCTOS
-  const getAllProducts = async () => {
+  const getAllProducts = async (page = 1) => {
     try {
       setLoading(true);
-      const page = 1;
       const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
       setLoading(false);
       setProducts(data.products);
@@ -85,7 +86,7 @@ const HomePage = () => {
   };
 
   // FILTRAR POR CATEGORIA
-  const handleFilter = (value, id, name) => {
+  const handleFilter = async (value, id, name) => {
     let all = [...checked];
     if (value) {
       all.push(id);
@@ -93,17 +94,18 @@ const HomePage = () => {
     } else {
       all = all.filter((c) => c !== id);
       setSelectedCategory("");
-      getFilteredProducts();
     }
     setChecked(all);
-
+  
     if (all.length === 0) {
-      getAllProducts();
+      setLoading(true);
+      await getAllProducts();
     } else {
-      getFilteredProducts(id);
+      setLoading(true);
+      await getFilteredProducts(id);
     }
   };
-
+  
   // Resetear filtros y obtener todos los productos
   const resetFilters = () => {
     setChecked([]);
@@ -115,24 +117,27 @@ const HomePage = () => {
   useEffect(() => {
     getAllCategory();
     getTotal();
-    getAllProducts();
-  }, []);
+    
+  }, []); // Asegúrate de agregar currentPage como dependencia aquí
 
   useEffect(() => {
-    if (categories && categories.length > 0) {
-      const checkedCategories = categories.filter((c) => checked.includes(c._id));
-      if (checkedCategories.length === 0) {
-        getAllProducts();
-      }
+    // Aplicar filtros cuando cambien los checkboxes o radios
+    if (checked.length === 0) {
+      setLoading(true);
+      getAllProducts();
+    } else {
+      setLoading(true);
+      filterProduct();
     }
-  }, [categories, checked]);
+  }, [checked, radio]);
+  
 
   useEffect(() => {
-    if (!checked.length || !radio.length) getAllProducts();
+    if (!checked.length ) getAllProducts();
   }, [checked.length, radio.length]);
 
   useEffect(() => {
-    if (checked.length || radio.length) filterProduct();
+    if (checked.length ) filterProduct();
   }, [checked, radio]);
 
   // OBTENER PRODUCTO FILTRADO
@@ -162,86 +167,108 @@ const HomePage = () => {
       document.title = "Hella Store";
     }
   }, [selectedCategory]);
-
+ 
   return (
-    <Layout title={selectedCategory ? `Resultado de ${selectedCategory}` : "Hella Store"} >
-      <Slider slides={sliderItems} /> 
-     
-      <div className="container-fluid row mt-3 home-page " style={{minWidth: "100vw"}}>
-      <div className="col-md-3 filters">
-        <h4 className="text-center mb-4">Filtrar por categoria</h4>
-        <button
-          className="btn btn-info mb-3 mt-4 d-md-none " // "d-md-none" para ocultar el botón en pantallas medianas y grandes
-          onClick={toggleMenu}
-        >
-          {isMenuOpen ? "Cerrar Filtros" : "Abrir Filtros"}
-        </button>
-        <div className={`d-md-flex flex-column ${isMenuOpen ? "d-block" : "d-none"}`}>
-          {categories?.map((c) => (
-            <Checkbox
-              className="filter-checkbox"
-              key={c._id}
-              onChange={(e) => handleFilter(e.target.checked, c._id, c.name)}
+    <>
+      <Layout title={selectedCategory ? `Resultado de ${selectedCategory}` : "Hella Store"} >
+        <Slider slides={sliderItems} /> 
+       
+        <div className="container-fluid row mt-3 home-page ">
+          <div className="col-md-3 filters">
+            <h4 className="text-center mb-4">Filtrar por categoria</h4>
+            <a href="https://wa.link/5ye7qg" target="_blank">
+              <img src={image} className="whatsapp" alt="HelloBanner" width={"100%"} />
+            </a>
+            <button
+              className="btn btn-info mb-3 mt-4 d-md-none " // "d-md-none" para ocultar el botón en pantallas medianas y grandes
+              onClick={toggleMenu}
             >
-              {c.name}
-            </Checkbox>
-          ))}
-          <a href="/">
-            <button className="btn btn-info mb-3 mt-4" onClick={resetFilters}>
-              Resetear filtros
+              {isMenuOpen ? "Cerrar Filtros" : "Abrir Filtros"}
             </button>
-          </a>
-        </div>
-      </div>
-        <div className="col-md-9 m-8">
-          <h1 className="text-center mt-8">
-            {selectedCategory
-              ? `Resultado de ${selectedCategory}`
-              : "Todos los productos"}
-          </h1>
-          {loading ? (
-            <div className="text-center mt-4">
-              <h4>Cargando...</h4>
+            <div className={`d-md-flex flex-column ${isMenuOpen ? "d-block" : "d-none"}`}>
+              {categories?.map((c) => (
+                <Checkbox
+                  className="filter-checkbox"
+                  key={c._id}
+                  onChange={(e) => handleFilter(e.target.checked, c._id, c.name)}
+                >
+                  {c.name}
+                </Checkbox>
+              ))}
+              <a href="/">
+                <button className="btn btn-info mb-3 mt-4" onClick={resetFilters}>
+                  Resetear filtros
+                </button>
+              </a>
             </div>
-          ) : (
-            <div className="container d-flex justify-content-center card-products">
-              <div className="d-flex flex-wrap center-cards">
-                {!foundProducts ? (
-                  <div className="text-center mt-4">No hay productos disponibles.</div>
-                ) : (
-                  products.map((p) => (
-                    <div className="card m-2" key={p._id}>
-                      <img
-                        src={`/api/v1/product/product-photo/${p._id}`}
-                        className="card-img-top"
-                        alt={p.name}
-                      />
-                      <div className="card-body">
-                        <div className="card-name-price">
-                          <h5 className="card-title">{p.name}</h5>
-                        </div>
-                        <p className="card-text">{p.description}</p>
-                        <p className="card-text">
-                          <strong>Tallas:</strong> {p.variations.map((e) => e.size).join(" | ")}
-                        </p>
-                        <div className="card-name-price">
-                          <button
-                            className="btn btn-info ms-1 text-white verDetalles"
-                            onClick={() => navigate(`/product/${p.slug}`)}
-                          >
-                            Ver detalles
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                )}
+          </div>
+          <div className="col-md-9">
+            <h1 className="text-center mt-4">
+              {selectedCategory
+                ? `Resultado de ${selectedCategory}`
+                : "Todos los productos"}
+            </h1>
+            {loading ? (
+              <div className="text-center mt-4">
+                <h4>Cargando...</h4>
               </div>
-            </div>
-          )}
+            ) : (
+              <>
+                <div className="container d-flex justify-content-center card-products mb-4">
+                  <div className="d-flex flex-wrap center-cards">
+                    {!foundProducts ? (
+                      <div className="text-center mt-4">No hay productos disponibles.</div>
+                    ) : (
+                      products.map((p) => (
+                        
+                        <div className="card m-2" key={p._id}>
+                          
+                          <img
+                            src={`/api/v1/product/product-photo/${p._id}`}
+                            className="card-img-top"
+                            alt={p.name}
+                          />
+                          <div className="card-body">
+                            <div className="card-name-price">
+                              <h5 className="card-title">{p.name}</h5>
+                            </div>
+                            <p className="card-text">{p.description}</p>
+                            <p className="card-text">
+                              <strong>Tallas:</strong> {p.variations.map((e) => e.size).join(" | ")}
+                            </p>
+                            <div className="card-name-price">
+                              <button
+                                className="btn btn-info ms-1 text-white verDetalles"
+                                onClick={() => navigate(`/product/${p.slug}`)}
+                              >
+                                Ver detalles
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+                <div className="d-flex justify-content-center">
+                <Pagination
+                current={currentPage}
+                  onChange={(page) => {
+                 setCurrentPage(page);
+                   // getAllProducts(page); // No es necesario aquí, ya se llama en el useEffect anterior
+                   }}
+                 total={total}
+                 pageSize={itemsPerPage}
+                />
+                </div>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-    </Layout>
+        <Gallery/>
+        <Footer/>
+      </Layout>
+    </>
   );
 };
 

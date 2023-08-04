@@ -48,7 +48,7 @@ const HomePage = () => {
   const getAllProducts = async (page = 1) => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
+      const { data } = await axios.get(`/api/v1/product/product-list/${page}?limit=${itemsPerPage}`);
       setLoading(false);
       setProducts(data.products);
       setFoundProducts(data.products.length > 0);
@@ -57,6 +57,8 @@ const HomePage = () => {
       console.log(error);
     }
   };
+  
+  
 
   // OBTENER PRODUCTOS FILTRADOS POR CATEGORÍA
   const getFilteredProducts = async (categoryId) => {
@@ -252,15 +254,15 @@ const HomePage = () => {
                 </div>
                 <div className="d-flex justify-content-center">
                 <Pagination
-                current={currentPage}
-                  onChange={(page) => {
-                 setCurrentPage(page);
-                   // getAllProducts(page); // No es necesario aquí, ya se llama en el useEffect anterior
-                   }}
-                 total={total}
-                 pageSize={itemsPerPage}
-                />
-                </div>
+  current={currentPage}
+  onChange={(page) => {
+    setCurrentPage(page);
+    getAllProducts(page); // Agrega esta línea para obtener los productos de la página seleccionada
+  }}
+  total={total}
+  pageSize={itemsPerPage}
+/>
+</div>
               </>
             )}
           </div>
