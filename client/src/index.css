@@ -704,11 +704,11 @@ body{
  }     
 
  
-@media screen and (min-width: 281px) and (max-width: 390px) {
+@media screen and (min-width: 275px) and (max-width: 390px) {
   .iconHeaderPrincipal {
-    position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
-    display: block;
-    top: 50%; /* Centra verticalmente */
+    position: fixed; /* Cambia la posición a relativa para ajustar el centrado */
+   
+    top: 5%; /* Centra verticalmente */
     right: 33%; /* Centra horizontalmente */
     transform: translate(-50%, -50%); /* Centra el elemento en ambos ejes */
     z-index: 999;
@@ -718,9 +718,9 @@ body{
  
 @media screen and (min-width: 190px) and (max-width: 260px) {
   .iconHeaderPrincipal {
-    position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
-    display: block;
-    top: 50%; /* Centra verticalmente */
+    position: fixed; /* Cambia la posición a relativa para ajustar el centrado */
+    
+    top: 5%; /* Centra verticalmente */
     right: 20%; /* Centra horizontalmente */
     transform: translate(-50%, -50%); /* Centra el elemento en ambos ejes */
     z-index: 999;
@@ -730,11 +730,11 @@ body{
 
 
  
-@media screen and (min-width: 410px) and (max-width: 989px) {
+@media screen and (min-width: 390px) and (max-width: 989px) {
   .iconHeaderPrincipal {
-    position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
-    display: block;
-    top: 50%; /* Centra verticalmente */
+    position: fixed; /* Cambia la posición a relativa para ajustar el centrado */
+     
+    top: 5%; /* Centra verticalmente */
     right: 40%; /* Centra horizontalmente */
     transform: translate(-50%, -50%); /* Centra el elemento en ambos ejes */
     z-index: 999;
