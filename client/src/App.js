@@ -27,6 +27,7 @@ import Order from "./pages/user/Order";
 import AdminOrder from "./pages/Admin/AdminOrder";
 import ForgotPassword from "./pages/Auth/ForgotPasssword";
 import NewPassword from "./pages/Auth/NewPassword";
+import PasswordUpdate from "./pages/user/PasswordUpdate";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
           <Route path="user/orders" element={<Orders />} />
           <Route path="user/profile" element={<Profile />} />
           <Route path="user/order/:_id" element={<Order />} />
+          <Route path="user/password" element={<PasswordUpdate />} />
           
         </Route>
 

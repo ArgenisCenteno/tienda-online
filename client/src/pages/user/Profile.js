@@ -15,7 +15,9 @@ const Profile = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   //OBTENER USUARIO
   useEffect(() => {
     const { email, name, phone, address } = auth?.user;
@@ -28,6 +30,12 @@ const Profile = () => {
   // FUNCIÓN DE FORMULARIO 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Validar que la nueva contraseña y la repetición de la contraseña sean iguales
+    if (password !== repeatPassword) {
+       toast.error("La nueva contraseña y la repetición de contraseña no coinciden");
+        return;
+      }
+
     try {
       const { data } = await axios.put("/api/v1/auth/profile", {
         name,
@@ -35,6 +43,7 @@ const Profile = () => {
         password,
         phone,
         address,
+        currentPassword
       });
       if (data?.errro) {
         toast.error(data?.error);
@@ -51,6 +60,19 @@ const Profile = () => {
       toast.error("Ha ocurrido un error");
     }
   };
+
+   // Validar password
+   const validatePassword = () => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_@$!%*#?&.,¡¿])[A-Za-z\d\-_@$!%*#?&.,¡¿.]{8,}$/;
+
+    if (!password || !passwordRegex.test(password)) {
+      setPasswordError(
+        "La clave debe tener al menos 8 caracteres y contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial (- _ @ $ ! % * # ? &)"
+      );
+    } else {
+      setPasswordError("");
+    } 
+  };
   return (
     <Layout title={"Perfil"}>
       <div className="container-fluid-4 p-3 dashboard">
@@ -63,72 +85,49 @@ const Profile = () => {
               <form onSubmit={handleSubmit}>
                 <h4 className="title mt-4 mb-4">Perfil de Usuario</h4>
                 <div className="mb-3">
+                <span> <strong>Nombre</strong> </span>
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="form-control"
-                    id="exampleInputEmail1"
+                    id="exampleInputEmail16"
                     placeholder="Ingesa tu nombre"
                     autoFocus
                   />
                 </div>
                 <div className="mb-3">
+                <span> <strong>Email</strong> </span>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="form-control"
-                    id="exampleInputEmail1"
+                    id="exampleInputEmail12"
                     placeholder="Ingresa tu email"
                     disabled
                   />
                 </div>
-                <div className="mb-3" style={{ position: "relative" }}>
-                  <input
-                    type={shown ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="form-control" 
-                    id="exampleInputPassword1"
-                    placeholder="Ingresa tu clave"
-                  />
-                  <button
-                        type="button"
-                        style={{
-                          backgroundColor: "transparent",
-                          
-                          border: "none",
-                          color: "#059669",
-                          marginRight: "8px",
-                          position: "absolute",
-                          right: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                        }}
-                        onClick={() => setShown(!shown)}
-                      >
-                         {shown ? <FaEye /> : <FaEyeSlash />}
-                      </button>
-
-                </div>
+               
                 <div className="mb-3">
+                <span> <strong>Telefono</strong> </span>
                   <input
                     type="text"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="form-control"
-                    id="exampleInputEmail1"
+                    id="exampleInputEmail13"
                     placeholder="Ingresa tu telefono"
                   />
                 </div>
                 <div className="mb-3">
+                <span> <strong>Dirección</strong> </span>
                   <input
                     type="text"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     className="form-control"
-                    id="exampleInputEmail1"
+                    id="exampleInputEmail14"
                     placeholder="Ingresa tu dirección"
                   />
                 </div>

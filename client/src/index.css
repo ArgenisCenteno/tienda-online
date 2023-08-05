@@ -252,6 +252,10 @@ body{
   background-color: #017752 !important;
 }
 
+.admin-panel{
+  margin-bottom: 14rem;
+}
+
 .ant-modal-close{
   margin-left: 63px !important;
   display: flex !important;
@@ -551,6 +555,24 @@ body{
     
   }
 
+  @media screen and (min-width: 376px) and (max-width: 820px)  {
+   
+
+    .card-img-top-dashboard {
+     width: 82%;
+     height: 65px;
+ }
+ 
+ .ant-table-wrapper{
+   overflow: scroll;
+ }
+ .col-4 {
+   flex: 0 0 auto;
+   width: 50.333333%;
+ }
+     
+   }
+
 @media screen and (max-width: 280px) {
    
 
@@ -705,24 +727,31 @@ body{
 
  
 @media screen and (min-width: 275px) and (max-width: 390px) {
+
+  .navbar {
+    position: relative; /* Asegura que el navbar sea el marco de referencia */
+  }
   .iconHeaderPrincipal {
-    position: fixed; /* Cambia la posición a relativa para ajustar el centrado */
+    position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
    
-    top: 5%; /* Centra verticalmente */
-    right: 33%; /* Centra horizontalmente */
-    transform: translate(-50%, -50%); /* Centra el elemento en ambos ejes */
+    top: 0%; /* Centra verticalmente */
+    right: 50%; /* Centra horizontalmente */
+   
     z-index: 999;
     list-style: none;
   }
 }
  
 @media screen and (min-width: 190px) and (max-width: 260px) {
+  .navbar {
+    position: relative; /* Asegura que el navbar sea el marco de referencia */
+  }
   .iconHeaderPrincipal {
-    position: fixed; /* Cambia la posición a relativa para ajustar el centrado */
+    position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
     
-    top: 5%; /* Centra verticalmente */
-    right: 20%; /* Centra horizontalmente */
-    transform: translate(-50%, -50%); /* Centra el elemento en ambos ejes */
+    top: 0%; /* Centra verticalmente */
+    right: 30%; /* Centra horizontalmente */
+    
     z-index: 999;
     list-style: none;
   }
@@ -731,12 +760,15 @@ body{
 
  
 @media screen and (min-width: 390px) and (max-width: 989px) {
+  .navbar {
+    position: relative; /* Asegura que el navbar sea el marco de referencia */
+  }
   .iconHeaderPrincipal {
-    position: fixed; /* Cambia la posición a relativa para ajustar el centrado */
+    position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
      
-    top: 5%; /* Centra verticalmente */
-    right: 40%; /* Centra horizontalmente */
-    transform: translate(-50%, -50%); /* Centra el elemento en ambos ejes */
+    top: 0%; /* Centra verticalmente */
+    right: 50%; /* Centra horizontalmente */
+   
     z-index: 999;
     list-style: none;
   }

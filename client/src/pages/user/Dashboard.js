@@ -6,7 +6,7 @@ const Dashboard = () => {
   const [auth] = useAuth();
   return (
     <Layout title={"Dashboard - Cliente"}>
-      <div className="container-flui p-3 dashboard" style={{marginBottom: "18rem"}}>
+      <div className="container-flui p-3 dashboard " style={{marginBottom: "18rem"}}>
         <div className="row">
           <div className="col-md-3">
             <UserMenu />

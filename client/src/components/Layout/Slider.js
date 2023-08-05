@@ -45,8 +45,8 @@ const Slider = ({ slides }) => {
                   </div>
                   <div className='col-md-5'>
                     <div className='slide-content'>
-                      <h2 style={{color: "#006d5b", marginTop: "12px"}}>{slide.title}</h2>
-                      <h5>{slide.desc}</h5>
+                      <h2 style={{color: "#006d5b", marginTop: "12px",padding: "10px" }}>{slide.title}</h2>
+                      <h5 style={{padding: "10px"}}>{slide.desc}</h5>
                     </div>
                   </div>
                 </div>

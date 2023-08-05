@@ -41,7 +41,7 @@ const AdminDashboard = () => {
 
   return (
     <Layout>
-      <div className="container-fluid   p-3 dashboard">
+      <div className="container-fluid   p-3 dashboard admin-panel">
         <div className="row">
           <div className="col-md-3">
             <AdminMenu />

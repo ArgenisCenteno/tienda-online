@@ -117,7 +117,7 @@ export const productPhotoController = async (req, res) => {
   try {
     
     const product = await productModel.findById(req.params.pid).select("photo");
-    console.log(product)
+    
     if (product.photo) {
       // Descargar la imagen desde Cloudinary
       const response = await axios.get(product.photo, { responseType: 'arraybuffer' });

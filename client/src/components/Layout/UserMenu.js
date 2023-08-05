@@ -18,6 +18,12 @@ const UserMenu = () => {
           >
             Ordenes
           </NavLink>
+          <NavLink
+            to="/dashboard/user/password"
+            className="list-group-item list-group-item-action "
+          >
+            Actualizar clave
+          </NavLink>
         </div>
       </div>
     </div>

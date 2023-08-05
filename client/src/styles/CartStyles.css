@@ -19,8 +19,8 @@
 }
 
 .cart-page .card {
-  padding: 5px !important;
-  height: 150px !important; 
+  padding: 10px !important;
+  height: 200px !important; 
   margin-bottom: 5px !important;
 
  
@@ -72,7 +72,18 @@
     flex: 0 0 auto;
     width: 50.333333%;
 }
- 
+
+.cart-page .card {
+  padding: 20px !important;
+  height: 345px !important;
+  margin-bottom: 5px !important;
+}
+.cart-page .cart-summary {
+  text-align: center;
+  padding-left: 22px;
+   
+  width: 100%;
+}
   } 
 
 

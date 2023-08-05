@@ -16,7 +16,8 @@ import {
   getTotalOrders,
   getTotalProductsController,
   validateToken,
-  resetPasswordController
+  resetPasswordController,
+  updatePasswordController
 
 } from "../controllers/authController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
@@ -59,6 +60,14 @@ router.get("/order/:id", requireSignIn ,getOrderByIdController)
 
 //OBTENER TODAS LAS ORDES PARA ADMINISTRADOR 
 router.get("/all-orders", requireSignIn, isAdmin, getAllOrdersController);
+
+
+// ACTUALIZAR CLAVE
+router.put(
+  "/update-password",
+  requireSignIn, 
+  updatePasswordController
+);
 
 // ACTUALIZAR ESTADO DE LA ORDEN
 router.put(

@@ -66,7 +66,7 @@ const CartPage = () => {
             </h1>
           </div>
         </div>
-        <div className="container " style={{marginTop: "22px", paddingBottom: "22px"}}>
+        <div className="container " style={{marginTop: "22px", paddingBottom: "22px", marginBottom: "16rem"}}>
         <div className="row pb-4">
           <div className="col-lg-8 mb-4 pb-4">  
             

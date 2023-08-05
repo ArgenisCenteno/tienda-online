@@ -72,8 +72,8 @@ const Order = () => {
           <div className="col-lg-8 mb-4 pb-4">
           
           <h4><LocalOfferIcon/> Código: {orderData?.order?._id}</h4> 
-          
-            <h5>Usted ha comprado</h5> 
+          { orderData?.order?.isPaid  ? <h5>Usted ha comprado</h5> : <h5>Productos a pagar</h5> }
+            
             {orderData?.order?.products?.map((p, index) => (
              <div className="card mb-3" key={index}>
              <div className="row no-gutters">

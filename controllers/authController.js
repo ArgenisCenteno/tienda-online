@@ -119,7 +119,39 @@ export const loginController = async (req, res) => {
   }
 };
 
- 
+export const updatePasswordController = async (req, res) => {
+  try {
+    const { email, password, currentPassword } = req.body;
+
+    // Verificar que exista un usuario con ese email
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    // Verificar que la contraseña actual sea correcta
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Contraseña actual incorrecta" });
+    }
+
+     
+    // Encriptar la nueva contraseña
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Actualizar la contraseña en la base de datos
+    user.password = hashedPassword;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Contraseña actualizada correctamente",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Ha ocurrido un error al actualizar la contraseña" });
+  }
+};
 
 //TEST DE PRUEBA
 export const testController = (req, res) => {
