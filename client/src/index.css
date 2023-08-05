@@ -735,7 +735,7 @@ body{
     position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
    
     top: 0%; /* Centra verticalmente */
-    right: 50%; /* Centra horizontalmente */
+    right: 40%; /* Centra horizontalmente */
    
     z-index: 999;
     list-style: none;
