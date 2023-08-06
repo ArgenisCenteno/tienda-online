@@ -10,7 +10,7 @@ const { Column } = Table;
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [auth, setAuth] = useAuth();
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  
   
 
   // Obtener las órdenes del usuario autenticado

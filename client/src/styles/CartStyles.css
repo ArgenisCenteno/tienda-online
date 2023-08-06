@@ -90,7 +90,7 @@
 @media screen and (max-width: 280px) {
   .cart-page .card{
      padding: 0px !important;
-     height: 286px !important;
+     height: 300px !important;
      display: flex;
      justify-content: center;
      align-items: flex-start;
@@ -217,7 +217,7 @@
       @media screen and (max-width: 540px) {
         .cart-page .card{
           padding: 10px !important;
-          height: 360px !important;
+          height: 380px !important;
           display: flex;
           justify-content: center;
           align-items: flex-start;
@@ -231,6 +231,43 @@
        
        
         } 
+
+        @media screen and (min-width: 415px) and (max-width: 1024px) {
+          .cart-page .card{
+            padding: 40px !important;
+            height: 300px !important;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+           
+       
+         }
+         
+         .col-4 {
+          flex: 0 0 auto;
+          width: 42.333333%;
+      }
+
+      .col-sm-2 {
+        flex: 0 0 auto;
+        width: 14.666667%;
+    }
+          } 
+
+          @media screen  and (min-width: 220px) and (max-width: 270px) {
+            .cart-page .card{
+              padding:  0px !important;
+              height: 460px !important;
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+             
+         
+           }
+           
+          
+          }
+          
 .titleOrder{
   padding: 30px !important;
   margin-top: -50px!important;

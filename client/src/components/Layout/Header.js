@@ -68,11 +68,7 @@ const Header = () => {
            
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0   ">
               <SearchInput />
-              <li className="nav-item">
-                <Link to={"/"} className="nav-link ">
-                  Inicio
-                </Link>
-              </li>
+             
               <li className="nav-item dropdown">
                 <Link
                   className="nav-link dropdown-toggle"
@@ -109,7 +105,7 @@ const Header = () => {
                   </li>
                   <li className="nav-item">
                     <NavLink to="/login" className="nav-link">
-                      Inicio Sesion
+                      Ingresar
                     </NavLink>
                   </li>
                 </>

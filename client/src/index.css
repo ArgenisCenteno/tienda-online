@@ -299,16 +299,7 @@ body{
   margin-right: "72px" !important;
 }
 
-@media screen and (max-width: 1024px) {
-  
-  .navbar-expand-sm .navbar-collapse{
-    margin-right: 24px;
-  }
 
-  .fixed-cart-icon{
-    margin-right: 33px !important;
-  }
-}
 
 @media screen and (min-width: 821px) and (max-width: 991px){
   .logo-container {
@@ -552,7 +543,7 @@ body{
   flex: 0 0 auto;
   width: 50.333333%;
 }
-    
+     
   }
 
   @media screen and (min-width: 300px) and (max-width: 1024px)  {
@@ -761,7 +752,7 @@ body{
 
 
  
-@media screen and (min-width: 390px) and (max-width: 989px) {
+@media screen and (min-width: 600px) and (max-width: 989px) {
   .navbar {
     position: relative; /* Asegura que el navbar sea el marco de referencia */
   }
@@ -774,5 +765,43 @@ body{
    
     z-index: 999;
     list-style: none;
+  }
+}
+@media screen and (min-width: 390px) and (max-width: 599px) {
+  .navbar {
+    position: relative; /* Asegura que el navbar sea el marco de referencia */
+  }
+  .iconHeaderPrincipal {
+    position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
+     
+    top: 1%;  
+    right: 44%;  
+    left: 44%; 
+   
+    z-index: 999;
+    list-style: none;
+  }
+}
+
+@media screen  and (min-width: 280px) and (max-width: 1024px) {
+  
+  .navbar-expand-sm .navbar-collapse{
+    margin-right: 24px;
+  }
+
+  .fixed-cart-icon{
+    margin-right: 10px !important;
+  }
+}
+
+
+@media screen  and  (max-width: 1025px) {
+  
+  .navbar-expand-sm .navbar-collapse{
+    margin-right: 24px;
+  }
+
+  .fixed-cart-icon{
+    margin-right: 12px !important;
   }
 }

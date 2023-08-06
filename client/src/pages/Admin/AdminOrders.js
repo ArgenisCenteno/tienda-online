@@ -1,11 +1,11 @@
 import React, { useState, useEffect} from 'react';
-import { Table, Select, Button, Modal } from 'antd';
+import { Table, Select, Button  } from 'antd';
 import { useNavigate } from "react-router-dom";
 import AdminMenu from '../../components/Layout/AdminMenu';
 import Layout from './../../components/Layout/Layout';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+ 
 import moment from 'moment';
 import { Input} from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
@@ -22,11 +22,10 @@ const AdminOrders = () => {
     'Recibida',
     'Cancelada',
   ]);
-  const [changeStatus, setChangeStatus] = useState('');
+  
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  
   const [searchText, setSearchText] = useState({
     client: '',
     orderId: '',
