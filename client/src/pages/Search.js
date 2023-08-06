@@ -2,23 +2,23 @@ import React from "react";
 import Layout from "./../components/Layout/Layout";
 import { useSearch } from "../context/search";
 import { useCart } from "../context/cart";
-import toast from "react-hot-toast";
+ 
 import { useNavigate } from "react-router-dom";
 
 const Search = () => {
   const navigate = useNavigate();
   const [values, setValues] = useSearch();
-  const [cart, setCart] = useCart();
+   
   return (
-    <Layout title={"Resultados de búsqueda"}>
+    <Layout title={"Resultados de búsqueda"}> 
       <div className="container">
-        <div className="text-center">
-          <h1>Resultados de búsqueda</h1>
-          <h3 className="resultPage">
+        <div className="text-center text-success mt-4">
+          <h3>Resultados de búsqueda</h3>
+          <h5 className="resultPage">
             {values?.results.length < 1
               ? "No se encontraron productos"
               : `Resultados ${values?.results.length}`}
-          </h3>
+          </h5>
           <div className="d-flex flex-wrap justify-content-center mt-4">
             {values?.results.map((p) => (
               <div className="card m-2" style={{ width: "18rem" }}>

@@ -10,21 +10,20 @@ const PasswordUpdate = () => {
   const [auth, setAuth] = useAuth();
   const [shown, setShown] = useState(false);
   //ESTADOS
-  const [name, setName] = useState("");
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  
   const [currentPassword, setCurrentPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [repeatPasswordError, setRepeatPasswordError] = useState("");
   //OBTENER USUARIO
   useEffect(() => {
-    const { email, name, phone, address } = auth?.user;
-    setName(name);
-    setPhone(phone);
+    const { email } = auth?.user;
+    
     setEmail(email);
-    setAddress(address);
+    
   }, [auth?.user]);
 
   // FUNCIÓN DE FORMULARIO 
@@ -32,20 +31,27 @@ const PasswordUpdate = () => {
     e.preventDefault();
     // Validar que la nueva contraseña y la repetición de la contraseña sean iguales
     if (password !== repeatPassword) {
-       toast.error("La nueva contraseña y la repetición de contraseña no coinciden");
-        return;
-      }
+      setPasswordError("La nueva contraseña y la repetición de contraseña no coinciden");
+       return;
+   }
 
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_@$!%*#?&.,¡¿])[A-Za-z\d\-_@$!%*#?&.,¡¿.]{8,}$/;
+   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_@$!%*#?&.,¡¿])[A-Za-z\d\-_@$!%*#?&.,¡¿.]{8,}$/;
 
-    if (!password || !passwordRegex.test(password)) {
-      setPasswordError(
-        "La clave debe tener al menos 8 caracteres y contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial (- _ @ $ ! % * # ? &)"
-      );
-      return;
-    } else {
-      setPasswordError("");
-    }
+   if (
+     !password ||
+     !passwordRegex.test(password) ||
+     !repeatPassword ||
+     !passwordRegex.test(repeatPassword) ||
+     !currentPassword ||
+     !passwordRegex.test(currentPassword)
+   ) {
+     setPasswordError(
+       "Las claves deben tener al menos 8 caracteres y contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial (- _ @ $ ! % * # ? &)"
+     );
+     return;
+   } else {
+     setPasswordError("");
+   }
 
     try {
       const { data } = await axios.put("/api/v1/auth/update-password", {
@@ -53,11 +59,16 @@ const PasswordUpdate = () => {
         password, 
         currentPassword
       });
-      if (data?.errro) {
+      if (data?.error) {
+       
         toast.error(data?.error);
+        
       } else {
         
         toast.success("Clave actualizada correctamente");
+        setPassword("");
+        setCurrentPassword("");
+        setRepeatPassword("");
       }
     } catch (error) {
       console.log(error);
@@ -67,18 +78,39 @@ const PasswordUpdate = () => {
 
   useEffect(() => {
     validatePassword();
-  }, [password]);
+  }, [password, repeatPassword, currentPassword]);
    // Validar password
    const validatePassword = () => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_@$!%*#?&.,¡¿])[A-Za-z\d\-_@$!%*#?&.,¡¿.]{8,}$/;
 
-    if (!password || !passwordRegex.test(password)) {
+    if (!password || !repeatPassword || !currentPassword || !passwordRegex.test(password, repeatPassword, currentPassword)) {
       setPasswordError(
-        "La clave debe tener al menos 8 caracteres y contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial (- _ @ $ ! % * # ? &)"
+        "Las claves debe tener al menos 8 caracteres y contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial (- _ @ $ ! % * # ? &)"
       );
     } else {
       setPasswordError("");
     } 
+  };
+
+  const validateRepeatPassword = () => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_@$!%*#?&.,¡¿])[A-Za-z\d\-_@$!%*#?&.,¡¿.]{8,}$/;
+
+    if (!repeatPassword || !passwordRegex.test(repeatPassword) || password !== repeatPassword) {
+      setRepeatPasswordError("Las contraseñas no coinciden o no cumplen con los requisitos");
+    } else {
+      setRepeatPasswordError("");
+    }
+  };
+
+  const isUpdateButtonDisabled = () => {
+    return (
+      !currentPassword ||
+      !password ||
+      !repeatPassword ||
+      password !== repeatPassword ||
+      passwordError ||
+      repeatPasswordError
+    );
   };
   return (
     <Layout title={"Perfil"}>
@@ -111,7 +143,7 @@ const PasswordUpdate = () => {
       marginRight: "8px",
       position: "absolute",
       right: "10px",
-      top: "50%",
+      top: "67%",
       transform: "translateY(-50%)",
     }}
     onClick={() => setShown({ ...shown, currentPassword: !shown.currentPassword })}
@@ -119,6 +151,7 @@ const PasswordUpdate = () => {
     {shown.currentPassword ? <FaEye /> : <FaEyeSlash />}
   </button>
 </div>
+ 
 
 <div className="mb-3" style={{ position: "relative" }}>
 <span> <strong>Nueva clave</strong> </span>
@@ -139,7 +172,7 @@ const PasswordUpdate = () => {
       marginRight: "8px",
       position: "absolute",
       right: "10px",
-      top: "50%",
+      top: "67%",
       transform: "translateY(-50%)",
     }}
     onClick={() => setShown({ ...shown, password: !shown.password })}
@@ -148,14 +181,7 @@ const PasswordUpdate = () => {
   </button>
  
 </div>
-{passwordError && (
-                      <small
-                        className="text-danger mb-4"
-                        style={{ display: "block", marginTop: "4px" }}
-                      >
-                        {passwordError}
-                      </small>
-                    )}
+ 
 
 <div className="mb-3" style={{ position: "relative" }}>
 <span> <strong>Confirmar clave</strong> </span>
@@ -176,7 +202,7 @@ const PasswordUpdate = () => {
       marginRight: "8px",
       position: "absolute",
       right: "10px",
-      top: "50%",
+      top: "67%",
       transform: "translateY(-50%)",
     }}
     onClick={() => setShown({ ...shown, repeatPassword: !shown.repeatPassword })}
@@ -185,10 +211,21 @@ const PasswordUpdate = () => {
   </button>
 </div>
 
- 
-                 
+{passwordError && (
+                      <small
+                        className="text-danger mb-4"
+                        style={{ display: "block", marginTop: "4px" }}
+                      >
+                        {passwordError}
+                      </small>
+                    )}
+                  {repeatPasswordError && (
+                  <small className="text-danger" style={{ position: "absolute", bottom: "-20px" }}>
+                    {repeatPasswordError}
+                  </small>
+                )}
 
-                <button type="submit" className="btn btn-primary ingresar">
+                <button type="submit" className="btn btn-success ingresar" disabled={isUpdateButtonDisabled()} >
                   Actualizar
                 </button>
               </form>

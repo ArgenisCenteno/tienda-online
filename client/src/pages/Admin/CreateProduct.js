@@ -96,6 +96,9 @@ const CreateProduct = () => {
         if (word === "shores") {
           return "short";
         }
+        if (word === "liquis") {
+          return "liqui liqui";
+        }
         return word.slice(0, -2);
       }else{
         return word.slice(0, -1);

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { sliderItems } from './data/data.js';
-import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
+ 
 import "./style/slider.css"
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';

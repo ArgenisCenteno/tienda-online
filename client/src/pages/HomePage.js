@@ -15,7 +15,7 @@ import Gallery from "../components/Layout/Gallery";
 const HomePage = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [cart, setCart] = useCart();
+   
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
@@ -24,7 +24,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [foundProducts, setFoundProducts] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [sliderPosition, setSliderPosition] = useState("0");
+  
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6; // Número de productos por página
 

@@ -4,20 +4,18 @@ import Layout from "./../../components/Layout/Layout";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+ 
 const Profile = () => {
   //CONTEXTO
   const [auth, setAuth] = useAuth();
-  const [shown, setShown] = useState(false);
+  
   //ESTADOS
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+ 
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+   
   //OBTENER USUARIO
   useEffect(() => {
     const { email, name, phone, address } = auth?.user;
@@ -30,20 +28,14 @@ const Profile = () => {
   // FUNCIÓN DE FORMULARIO 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validar que la nueva contraseña y la repetición de la contraseña sean iguales
-    if (password !== repeatPassword) {
-       toast.error("La nueva contraseña y la repetición de contraseña no coinciden");
-        return;
-      }
-
+     
+     
     try {
       const { data } = await axios.put("/api/v1/auth/profile", {
         name,
-        email,
-        password,
+        email, 
         phone,
-        address,
-        currentPassword
+        address, 
       });
       if (data?.errro) {
         toast.error(data?.error);
@@ -61,18 +53,7 @@ const Profile = () => {
     }
   };
 
-   // Validar password
-   const validatePassword = () => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_@$!%*#?&.,¡¿])[A-Za-z\d\-_@$!%*#?&.,¡¿.]{8,}$/;
-
-    if (!password || !passwordRegex.test(password)) {
-      setPasswordError(
-        "La clave debe tener al menos 8 caracteres y contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial (- _ @ $ ! % * # ? &)"
-      );
-    } else {
-      setPasswordError("");
-    } 
-  };
+    
   return (
     <Layout title={"Perfil"}>
       <div className="container-fluid-4 p-3 dashboard">

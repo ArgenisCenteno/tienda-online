@@ -310,7 +310,7 @@ body{
   }
 }
 
-@media screen and (max-width: 990px) {
+@media screen and (min-width: 821px) and (max-width: 991px){
   .logo-container {
     display: none
    }
@@ -555,7 +555,7 @@ body{
     
   }
 
-  @media screen and (min-width: 376px) and (max-width: 820px)  {
+  @media screen and (min-width: 300px) and (max-width: 1024px)  {
    
 
     .card-img-top-dashboard {
@@ -734,8 +734,9 @@ body{
   .iconHeaderPrincipal {
     position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
    
-    top: 0%; /* Centra verticalmente */
-    right: 40%; /* Centra horizontalmente */
+    top: 1%;  
+    right: 40%;
+    left: 40%;
    
     z-index: 999;
     list-style: none;
@@ -749,8 +750,9 @@ body{
   .iconHeaderPrincipal {
     position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
     
-    top: 0%; /* Centra verticalmente */
-    right: 30%; /* Centra horizontalmente */
+    top: 1%;  
+    left: 30%;
+    right: 30%;  
     
     z-index: 999;
     list-style: none;
@@ -766,8 +768,9 @@ body{
   .iconHeaderPrincipal {
     position: absolute; /* Cambia la posición a relativa para ajustar el centrado */
      
-    top: 0%; /* Centra verticalmente */
-    right: 50%; /* Centra horizontalmente */
+    top: 1%;  
+    right: 44%;  
+    left: 44%; 
    
     z-index: 999;
     list-style: none;
