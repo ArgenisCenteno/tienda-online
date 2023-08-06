@@ -365,10 +365,12 @@ export const createOrderController = async (req, res) => {
     cart.map((item) => {
       const itemTotal = item.price * item.quantity;
       total += itemTotal;
-      total += formData.tasaEnvio;
-      total = Number(total.toFixed(2));
+     
 
     });
+
+    total += formData.tasaEnvio;
+    total = Number(total.toFixed(2));
 
     let subTotal = 0;
     cart.map((item) => {

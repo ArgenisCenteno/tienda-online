@@ -106,6 +106,10 @@
     align-items: flex-start;
     justify-content: flex-end;
 }
+.col-4 {
+  flex: 0 0 auto;
+  width: 70.333333%;
+}
  
   } 
 
@@ -217,7 +221,7 @@
       @media screen and (max-width: 540px) {
         .cart-page .card{
           padding: 10px !important;
-          height: 380px !important;
+          height: 400px !important;
           display: flex;
           justify-content: center;
           align-items: flex-start;
