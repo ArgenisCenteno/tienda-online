@@ -75,15 +75,18 @@ const PasswordUpdate = () => {
       toast.error("Ha ocurrido un error");
     }
   };
-
+ 
   useEffect(() => {
     validatePassword();
   }, [password, repeatPassword, currentPassword]);
    // Validar password
    const validatePassword = () => {
+     
+
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_@$!%*#?&.,¡¿])[A-Za-z\d\-_@$!%*#?&.,¡¿.]{8,}$/;
 
-    if (!password || !repeatPassword || !currentPassword || !passwordRegex.test(password, repeatPassword, currentPassword)) {
+    if (!password || !repeatPassword || !currentPassword || !passwordRegex.test(password)) {
+
       setPasswordError(
         "Las claves debe tener al menos 8 caracteres y contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial (- _ @ $ ! % * # ? &)"
       );
@@ -94,7 +97,7 @@ const PasswordUpdate = () => {
 
   const validateRepeatPassword = () => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_@$!%*#?&.,¡¿])[A-Za-z\d\-_@$!%*#?&.,¡¿.]{8,}$/;
-
+  
     if (!repeatPassword || !passwordRegex.test(repeatPassword) || password !== repeatPassword) {
       setRepeatPasswordError("Las contraseñas no coinciden o no cumplen con los requisitos");
     } else {
@@ -108,8 +111,7 @@ const PasswordUpdate = () => {
       !password ||
       !repeatPassword ||
       password !== repeatPassword ||
-      passwordError ||
-      repeatPasswordError
+      passwordError 
     );
   };
   return (
@@ -213,19 +215,19 @@ const PasswordUpdate = () => {
 
 {passwordError && (
                       <small
-                        className="text-danger mb-4"
+                        className="text-danger mb-2"
                         style={{ display: "block", marginTop: "4px" }}
                       >
                         {passwordError}
                       </small>
                     )}
-                  {repeatPasswordError && (
-                  <small className="text-danger" style={{ position: "absolute", bottom: "-20px" }}>
-                    {repeatPasswordError}
+                  {password !== repeatPassword && (
+                  <small className="text-danger mb-2"  >
+                    Las contraseñas no coinciden  
                   </small>
                 )}
 
-                <button type="submit" className="btn btn-success ingresar" disabled={isUpdateButtonDisabled()} >
+                <button type="submit" className="btn btn-success mt-3 ingresar" disabled={isUpdateButtonDisabled()} >
                   Actualizar
                 </button>
               </form>

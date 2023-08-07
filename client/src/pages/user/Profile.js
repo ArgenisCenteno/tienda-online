@@ -12,7 +12,7 @@ const Profile = () => {
   //ESTADOS
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
- 
+  const [phoneError, setPhoneError] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
    
@@ -28,7 +28,12 @@ const Profile = () => {
   // FUNCIÓN DE FORMULARIO 
   const handleSubmit = async (e) => {
     e.preventDefault();
-     
+    if (phone.length !== 11) {
+      setPhoneError("El número de telefono debe tener 11 digitos");
+      return;
+    } else {
+      setPhoneError("");
+    }
      
     try {
       const { data } = await axios.put("/api/v1/auth/profile", {
@@ -99,7 +104,18 @@ const Profile = () => {
                     className="form-control"
                     id="exampleInputEmail13"
                     placeholder="Ingresa tu telefono"
+                    maxLength="11"
                   />
+                   {phoneError && (
+                    <small className="text-danger">
+                      {phoneError}
+                    </small>
+                  )}
+                  {phone.length !== 11 && (
+                    <small className="text-danger">
+                      El número de telefono debe tener 11 digitos
+                    </small>
+                  )}
                 </div>
                 <div className="mb-3">
                 <span> <strong>Dirección</strong> </span>
@@ -110,6 +126,7 @@ const Profile = () => {
                     className="form-control"
                     id="exampleInputEmail14"
                     placeholder="Ingresa tu dirección"
+
                   />
                 </div>
 

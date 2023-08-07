@@ -267,11 +267,17 @@ const Register = () => {
                       className="form-control"
                       id="exampleInputEmail4"
                       placeholder="Ingresa tu teléfono"
+                      maxLength="11"
                       required
                     />
                     {phoneError && (
                       <small className="text-danger">{phoneError}</small>
                     )}
+                     {phone.length !== 11 && (
+                    <small className="text-danger">
+                      El número de telefono debe tener 11 digitos
+                    </small>
+                  )}
                   </div>
                   <div className="mb-3">
                     <label style={{ fontSize: "12px", marginBottom: "6px" }}>
