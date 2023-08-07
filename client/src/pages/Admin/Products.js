@@ -13,7 +13,7 @@ const Products = () => {
     current: 1,
     pageSize: 10,
   });
-
+ 
   // Obtener todos los productos
   const getAllProducts = async () => {
     try {

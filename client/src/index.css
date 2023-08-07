@@ -752,7 +752,7 @@ body{
 
 
  
-@media screen and (min-width: 600px) and (max-width: 989px) {
+@media screen and (min-width: 600px) and (max-width: 991px) {
   .navbar {
     position: relative; /* Asegura que el navbar sea el marco de referencia */
   }
@@ -765,6 +765,10 @@ body{
    
     z-index: 999;
     list-style: none;
+  }
+
+  .logo-container{
+    display: none;
   }
 }
 @media screen and (min-width: 390px) and (max-width: 599px) {

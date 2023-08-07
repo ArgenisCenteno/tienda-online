@@ -57,6 +57,7 @@ const Profile = () => {
       toast.error("Ha ocurrido un error");
     }
   };
+  const isButtonDisabled = !name || !email || !phone || phone.length !== 11 || phoneError;
 
     
   return (
@@ -130,7 +131,7 @@ const Profile = () => {
                   />
                 </div>
 
-                <button type="submit" className="btn btn-primary ingresar">
+                <button type="submit" className="btn btn-success ingresar" disabled={isButtonDisabled} >
                   Actualizar
                 </button>
               </form>

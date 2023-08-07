@@ -156,8 +156,10 @@ const Order = () => {
       </h4>
            
       { orderData?.order?.isPaid  ? (
+        
     <p style={{color: "#059669"}} ><CreditScoreIcon/> <strong>Orden Pagada</strong> </p>
   ) : (
+    <>
     <div className="mt-2 botonPago">
                       <p style={{color: "red"}}><CreditCardOffIcon/> <strong>Orden Sin Pagar</strong> </p>
                       {orderData?.order?.total && (
@@ -185,10 +187,15 @@ const Order = () => {
               />)}
              
               </div>
-  )}
+
+            <span className="span text-black mt-2   "> <strong>Para pagar con pago móvil o transferencia bancaria, contactenos por Whatsapp</strong> </span>
   <a href="https://wa.link/5ye7qg" target="_blank" style={{textDecoration: "none"}}>
-              <button className="btn btn-success btn-lg btn-block" style={{width: "100%"}}> <WhatsAppIcon/> WhatsApp</button>
+              <button className="btn btn-success btn-lg btn-block mt-4" style={{width: "100%"}}> <WhatsAppIcon/> WhatsApp</button>
             </a>
+
+              </>
+  )}
+  
        
     </div>
           </div>

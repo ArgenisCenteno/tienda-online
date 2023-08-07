@@ -84,14 +84,16 @@ const Checkout = () => {
         formData, 
         userId
       });  
-      setLoading(false);
+      
       localStorage.removeItem("cart");
       setCart([]);
+      toast.success("Orden iniciada");
       
-      // Redireccionar a la ruta de la orden completada
+      setLoading(false);
+    // Redireccionar a la ruta de la orden completada
       navigate(`/dashboard/user/order/${data.order._id}`);
       
-      toast.success("Orden iniciada");
+      
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -109,7 +111,9 @@ const Checkout = () => {
       codigoPostal !== '' &&
       servicioEntrega !== '' &&
       telefono !== ''&&
-      tasaEnvio !== ''
+      tasaEnvio !== '' &&
+      telefono.length  == 11
+
     );
   }, [formData]);
 
@@ -175,8 +179,14 @@ const Checkout = () => {
                 </div>
               <div className="form-group">
                 <strong><label>Teléfono de contacto:</label></strong>
-                <input type="text" name="telefono" className="form-control" value={formData.telefono} onChange={handleChange} />
+                <input type="text" name="telefono" maxLength="11" className="form-control" value={formData.telefono} onChange={handleChange} />
+              
               </div>
+              {formData.telefono.length !== 11 && (
+                    <small className="text-danger">
+                      El número de telefono debe tener 11 digitos
+                    </small>
+                  )}
               <div className="form-group">
         <strong><label>Tasa de Envío:</label></strong>
         <input
@@ -192,9 +202,13 @@ const Checkout = () => {
                 <input type="checkbox" className="form-check-input" onChange={handleCheckboxChange} />
                 <strong><label className="form-check-label">Soy de Achaguas</label></strong>
               </div>
-              <button type="submit" className="btn btn-success mt-3" disabled={!isFormComplete}>
-                Continuar
-              </button>
+              <button
+        type="submit"
+        className="btn btn-success mt-3 mb-4"
+        disabled={!isFormComplete || loading}
+      >
+        {loading ? "Procesando..." : "Continuar"}
+      </button>
             </form>
           </div>
           <div className="col-6 col-md-6">
