@@ -20,8 +20,8 @@ const Search = () => {
               : `Resultados ${values?.results.length}`}
           </h5>
           <div className="d-flex flex-wrap justify-content-center mt-4">
-            {values?.results.map((p) => (
-              <div className="card m-2" style={{ width: "18rem" }}>
+            {values?.results.map((p, index) => (
+              <div className="card m-2" style={{ width: "18rem" }} key={index}>
                 <img
                   src={`/api/v1/product/product-photo/${p._id}`}
                   className="card-img-top"

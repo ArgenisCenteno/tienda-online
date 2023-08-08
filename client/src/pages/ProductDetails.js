@@ -131,19 +131,19 @@ const ProductDetails = () => {
           <h2 className="text-center text-success">{product.name}</h2>
           <hr />
           <h4> <strong> Detalles del producto </strong> </h4>
-          <h6>Nombre: {product.name}</h6>
-          <h6>Marca: {product.description}</h6>
+          <h6> <strong>Nombre:</strong> {product.name}</h6>
+          <h6><strong>Marca:</strong> {product.description}</h6>
           {product.quantity === 0 || product.quantity < 0  && <p className="unavailable-label">No disponible</p>}
-          <h6>Categoría: {product?.category?.name}</h6>
+          <h6><strong>Categoría:</strong> {product?.category?.name}</h6>
           <div className="size-quantity">
             <div className="row container d-flex justify-content-left pb-3">
               <div className="col-2 col-sm-2">
-                <h6>Talla</h6>
+                <h6><strong>Talla:</strong></h6>
               </div>
 
               <div className="col-6 col-sm-4">
                 <select className="form-select selectSize " value={selectedSize} onChange={handleSizeChange}>
-                  <option className="option" value="">Talla</option>
+                  <option className="option" value="">Talla:</option>
                   {product?.variations?.map((variation) => (
                     <option key={variation.size} value={variation.size}>
                       {variation.size}
@@ -160,11 +160,11 @@ const ProductDetails = () => {
                     const selectedVariation = variation;
                     return (
                       <React.Fragment key={variation.size}>
-                        <h6>Precio: {selectedVariation.price.toLocaleString("en-US", {
+                        <h6><strong>Precio:</strong> {selectedVariation.price.toLocaleString("en-US", {
                           style: "currency",
                           currency: "USD",
                         })}</h6>
-                        <h6>Disponible: {selectedVariation.quantity}</h6>
+                        <h6><strong>Disponible:</strong> {selectedVariation.quantity}</h6>
                       </React.Fragment>
                     );
                   }
@@ -175,7 +175,7 @@ const ProductDetails = () => {
        
 <div className="row container d-flex justify-content-left pb-3">
   <div className="col-4 col-sm-2">
-    <h6> Cantidad:</h6>
+    <h6> <strong>Cantidad:</strong></h6>
   </div>
   <div className="col-6 col-sm-5 d-flex align-items-center">
     <button

@@ -224,7 +224,7 @@
           height: 400px !important;
           display: flex;
           justify-content: center;
-          align-items: flex-start;
+          align-items: center;
           gap: 17px;
      
        }
@@ -242,14 +242,14 @@
             height: 300px !important;
             display: flex;
             justify-content: center;
-            align-items: stretch;
+            align-items: center;
            
        
          }
          
          .col-4 {
           flex: 0 0 auto;
-          width: 42.333333%;
+          width: 38.333333%;
       }
 
       .col-sm-2 {
@@ -278,3 +278,15 @@
   font-family: "roboto", sans-serif;
   font-weight: normal; 
 }    
+
+@media (min-width: 821px) and (max-width: 991px){
+.col-sm-4 {
+    flex: 0 0 auto;
+    width: 100%;
+}}
+
+@media (min-width: 415px) and (max-width: 468px){
+  .col-4 {
+    flex: 0 0 auto;
+    width: 42.333333%;
+}}

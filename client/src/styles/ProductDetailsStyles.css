@@ -98,7 +98,7 @@
   }
 
   .col-6 {
-    width: 60%;
+    width: 77%;
 }
 
 
@@ -118,7 +118,17 @@
 }
 
 
-@media (min-width: 768px) and (max-width: 918px) {
+@media (min-width: 768px) and (max-width: 1030px) {
+  .col-sm-5 {
+    flex: 0 0 auto;
+    width: 50%;
+}
+
+
+  .col-sm-2 {
+    flex: 0 0 auto;
+    width: 20.666667%;
+}
   .product-details .col-sm-4 {
     flex: 0 0 auto;
     width: 41.333333%;
@@ -126,3 +136,13 @@
 
 }
 
+@media screen and (max-width: 750px){
+.col-6 {
+    width: 77%;
+}
+}
+ 
+@media screen and (max-width: 660px){
+.col-6 {
+    width: 77%;
+}}
