@@ -13,7 +13,7 @@ const Search = () => {
     <Layout title={"Resultados de búsqueda"}> 
       <div className="container">
         <div className="text-center text-success mt-4">
-          <h3>Resultados de búsqueda</h3>
+          <h3>Resultados de {values?.keyword}</h3>
           <h5 className="resultPage">
             {values?.results.length < 1
               ? "No se encontraron productos"

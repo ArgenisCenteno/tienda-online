@@ -112,24 +112,25 @@ const ProductDetails = () => {
 
   return (
     <Layout>
-      <div className="row container product-details d-flex justify-content-center">
-        <div className="col-md-4">
+      <div className="row container  product-details d-flex justify-content-center align-items-center">
+        <div className="col-md-4 col-sm-4">
         {product._id ? (
             <img
               src={`/api/v1/product/product-photo/${product._id}`}
-               className="card-img-top"
+               className="card-img-top product-image"
                alt={product.name}
-               height="400"
-               width={"320px"}
+               
+               
             />
             ) : (
            <p>Imagen no disponible</p>
             )}
  
         </div>
-        <div className="col-md-6 product-details-info">
-          <h2 className="text-center">Detalles del producto</h2>
+        <div className="col-md-6 m-2  product-details-info">
+          <h2 className="text-center text-success">{product.name}</h2>
           <hr />
+          <h4> <strong> Detalles del producto </strong> </h4>
           <h6>Nombre: {product.name}</h6>
           <h6>Marca: {product.description}</h6>
           {product.quantity === 0 || product.quantity < 0  && <p className="unavailable-label">No disponible</p>}
@@ -171,7 +172,7 @@ const ProductDetails = () => {
                 })}
               </>
             )}
-
+       
 <div className="row container d-flex justify-content-left pb-3">
   <div className="col-4 col-sm-2">
     <h6> Cantidad:</h6>
